@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 
-export default function Home() {
+export default function App() {
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
