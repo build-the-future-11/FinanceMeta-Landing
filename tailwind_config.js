@@ -7,8 +7,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        primary: "#10b981",       // Tailwind emerald-500
-        primaryDark: "#059669",   // Tailwind emerald-600
+        primary: "#10b981",       /
+        primaryDark: "#059669",   /
       }
     },
   },
