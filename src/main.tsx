@@ -31,34 +31,29 @@ export default function App() {
   }, []);
 
   // Memoized particles options
-  const particlesOptions = useMemo(
-    () => ({
-      background: { color: "transparent" },
-      fpsLimit: 60,
-      interactivity: { events: { onHover: { enable: true, mode: "repulse" } } },
-      particles: {
-        color: { value: "#00b33c" },
-        links: { enable: true, color: "#00b33c" },
-        move: { enable: true, speed: 1 },
-        number: { value: 50 },
-        opacity: { value: 0.5 },
-        shape: { type: "circle" },
-        size: { value: { min: 2, max: 5 } },
-      },
-      detectRetina: true,
-    }),
-    []
-  );
+  const particlesOptions = useMemo(() => ({
+    background: { color: "transparent" },
+    fpsLimit: 60,
+    interactivity: {
+      events: { onHover: { enable: true, mode: "repulse" }, onClick: { enable: true, mode: "push" } },
+      modes: { repulse: { distance: 100 }, push: { quantity: 4 } },
+    },
+    particles: {
+      color: { value: "#00b33c" },
+      links: { enable: true, color: "#00b33c", distance: 150 },
+      move: { enable: true, speed: 1, outModes: { default: "bounce" } },
+      number: { value: 50, density: { enable: true, area: 800 } },
+      opacity: { value: 0.5 },
+      shape: { type: "circle" },
+      size: { value: { min: 2, max: 5 } },
+    },
+    detectRetina: true,
+  }), []);
 
   return (
     <div className="relative min-h-screen overflow-hidden bg-white dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-500">
       {/* Particle background */}
-      <Particles
-        id="tsparticles"
-        init={particlesInit}
-        options={particlesOptions}
-        className="absolute inset-0 -z-10"
-      />
+      <Particles id="tsparticles" init={particlesInit} options={particlesOptions} className="absolute inset-0 -z-10" />
 
       {/* Theme toggle button */}
       <button
