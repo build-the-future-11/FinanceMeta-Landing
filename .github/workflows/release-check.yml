@@ -1,0 +1,25 @@
+name: Release Check
+
+on:
+  pull_request:
+  push:
+    branches:
+      - "chatgpt/release-check-tailwind-cleanup-20260829"
+
+permissions:
+  contents: read
+
+jobs:
+  release-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+      - name: Install exact locked dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Run deterministic release gate
+        run: npm run release:check
