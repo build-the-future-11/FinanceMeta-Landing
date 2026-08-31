@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "release:check": "npm run build && node scripts/verify-release.mjs"
+    "release:check": "npm run accessibility:check && npm run build && node scripts/verify-release.mjs",
+    "accessibility:check": "node scripts/verify-accessibility.mjs"
   },
   "dependencies": {
     "framer-motion": "^10.12.16",
