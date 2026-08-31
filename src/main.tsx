@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import "./index.css";
 
 type Program = {
@@ -55,15 +55,34 @@ const PRINCIPLES = [
   "Finance as a tool for understanding the world",
 ];
 
+function initialDarkMode() {
+  try {
+    const savedTheme = window.localStorage.getItem("financemeta-theme");
+    if (savedTheme === "dark" || savedTheme === "light") {
+      return savedTheme === "dark";
+    }
+  } catch {
+    // Storage can be unavailable in private or restricted browser contexts.
+  }
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true;
+}
+
 function App() {
-  const [darkMode, setDarkMode] = useState(true);
+  const [darkMode, setDarkMode] = useState(initialDarkMode);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
+    try {
+      window.localStorage.setItem("financemeta-theme", darkMode ? "dark" : "light");
+    } catch {
+      // Theme selection remains functional for this session when storage is unavailable.
+    }
   }, [darkMode]);
 
   return (
     <div className="min-h-screen bg-[#f5f7f5] text-slate-950 transition-colors duration-300 dark:bg-[#08100d] dark:text-white">
+      <a className="skip-link" href="#main-content">Skip to main content</a>
       <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-[#f5f7f5]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#08100d]/85">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="FinanceMeta home">
@@ -76,7 +95,7 @@ function App() {
             </div>
           </a>
 
-          <nav className="hidden items-center gap-7 text-sm font-medium md:flex">
+          <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-sm font-medium md:flex">
             <a className="hover:text-emerald-500" href="#programs">Programs</a>
             <a className="hover:text-emerald-500" href="#why">Why FinanceMeta</a>
             <a className="hover:text-emerald-500" href="#join">Join</a>
@@ -87,7 +106,8 @@ function App() {
               type="button"
               onClick={() => setDarkMode((value) => !value)}
               className="rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:border-emerald-500 hover:text-emerald-500 dark:border-white/15 dark:text-slate-300"
-              aria-label="Toggle color theme"
+              aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
+              aria-pressed={darkMode}
             >
               {darkMode ? "Light" : "Dark"}
             </button>
@@ -99,16 +119,21 @@ function App() {
             </a>
           </div>
         </div>
+        <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-slate-200/70 px-6 py-3 text-sm font-semibold dark:border-white/10 md:hidden">
+          <a className="hover:text-emerald-500" href="#programs">Programs</a>
+          <a className="hover:text-emerald-500" href="#why">Why</a>
+          <a className="hover:text-emerald-500" href="#join">Join</a>
+        </nav>
       </header>
 
-      <main id="top">
+      <main id="main-content" tabIndex={-1}>
         <section className="relative overflow-hidden border-b border-slate-200/70 dark:border-white/10">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_34%),radial-gradient(circle_at_80%_25%,rgba(52,211,153,0.12),transparent_30%)]" />
           <div className="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.3fr_0.7fr] lg:px-8 lg:py-32">
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.55 }}
             >
               <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
                 A student finance ecosystem, not another course library
@@ -137,9 +162,9 @@ function App() {
             </motion.div>
 
             <motion.aside
-              initial={{ opacity: 0, scale: 0.97 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.55, delay: 0.08 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.55, delay: prefersReducedMotion ? 0 : 0.08 }}
               className="self-end rounded-3xl border border-slate-200 bg-white/80 p-7 shadow-2xl shadow-emerald-950/5 backdrop-blur dark:border-white/10 dark:bg-white/[0.045]"
             >
               <div className="text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">The FinanceMeta loop</div>
@@ -177,10 +202,10 @@ function App() {
             {PROGRAMS.map((program, index) => (
               <motion.article
                 key={program.title}
-                initial={{ opacity: 0, y: 14 }}
+                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.4, delay: index * 0.04 }}
+                transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: prefersReducedMotion ? 0 : index * 0.04 }}
                 className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-950/5 dark:border-white/10 dark:bg-white/[0.035]"
               >
                 <div className="text-xs font-black tracking-[0.2em] text-emerald-500">{program.eyebrow}</div>
