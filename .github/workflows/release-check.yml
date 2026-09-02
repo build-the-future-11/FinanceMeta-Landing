@@ -27,5 +27,7 @@ jobs:
           cache: npm
       - name: Install exact locked dependencies
         run: npm ci --legacy-peer-deps
+      - name: Production dependency audit
+        run: npm audit --omit=dev --audit-level=high
       - name: Run deterministic release gate
         run: npm run release:check
