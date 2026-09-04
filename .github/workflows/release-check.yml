@@ -110,7 +110,10 @@ jobs:
 
               echo "npm audit attempt ${attempt} did not return a valid vulnerability report" >&2
               if [ "$attempt" -ge 2 ]; then
-                exit "${status:-2}"
+                if [ "$status" -ne 0 ]; then
+                  exit "$status"
+                fi
+                exit 2
               fi
             fi
           done
