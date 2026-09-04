@@ -50,7 +50,7 @@ jobs:
           set -euo pipefail
           mkdir -p release-evidence
           set +e
-          npm audit --omit=dev --audit-level=high --json > release-evidence/npm-audit-prod.json
+          timeout 90s npm audit --omit=dev --audit-level=high --json > release-evidence/npm-audit-prod.json
           status=$?
           set -e
           test -s release-evidence/npm-audit-prod.json
