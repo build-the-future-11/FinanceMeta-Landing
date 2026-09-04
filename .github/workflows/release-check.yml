@@ -19,7 +19,7 @@ env:
 jobs:
   release-check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - name: Checkout exact source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -50,15 +50,18 @@ jobs:
           set -euo pipefail
           mkdir -p release-evidence
           status=1
-          for attempt in 1 2 3; do
+          for attempt in 1 2; do
             log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
             status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
-            echo "[audit] attempt ${attempt}/3"
+            echo "[audit] attempt ${attempt}/2"
             set +e
-            timeout 60s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
+            timeout 120s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
             status=$?
             set -e
             printf '%s\n' "$status" > "$status_file"
+            if [ "$status" -eq 124 ]; then
+              printf '%s\n' "npm audit timed out after 120 seconds" >> "$log"
+            fi
             cat "$log" || true
             if [ "$status" -eq 0 ] && [ -s "$log" ]; then
               exit 0
@@ -66,7 +69,7 @@ jobs:
             if [ "$status" -eq 0 ]; then
               status=1
             fi
-            if [ "$attempt" -lt 3 ]; then
+            if [ "$attempt" -lt 2 ]; then
               sleep 10
             fi
           done
