@@ -44,67 +44,84 @@ jobs:
           git diff --exit-code -- package-lock.json
       - name: Verify installed production dependency tree
         run: npm ls --omit=dev
-      - name: Production dependency audit with one evidence-backed network window
+      - name: Production dependency audit with bounded transport retry
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p release-evidence
-          log="release-evidence/npm-audit-prod.json"
-          status_file="release-evidence/npm-audit-prod.status"
+          selected=""
 
-          set +e
-          timeout 360s npm audit \
-            --omit=dev \
-            --audit-level=high \
-            --json \
-            --fetch-timeout=300000 \
-            --fetch-retries=1 \
-            > "$log" 2>&1
-          status=$?
-          set -e
+          for attempt in 1 2; do
+            log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
+            status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
 
-          printf '%s\n' "$status" > "$status_file"
-          if [ "$status" -eq 124 ]; then
-            printf '%s\n' "npm audit timed out after 360 seconds" >> "$log"
-          fi
-          cat "$log" || true
+            set +e
+            timeout 180s npm audit \
+              --omit=dev \
+              --audit-level=high \
+              --json \
+              --fetch-timeout=150000 \
+              --fetch-retries=0 \
+              > "$log" 2>&1
+            status=$?
+            set -e
 
-          if [ "$status" -ne 0 ]; then
-            exit "$status"
-          fi
+            printf '%s\n' "$status" > "$status_file"
+            if [ "$status" -eq 124 ]; then
+              printf '%s\n' "npm audit timed out after 180 seconds on attempt ${attempt}" >> "$log"
+              cat "$log" || true
+              if [ "$attempt" -lt 2 ]; then
+                continue
+              fi
+              exit 124
+            fi
 
-          test -s "$log"
-          node --input-type=module <<'NODE'
+            cat "$log" || true
+
+            if node --input-type=module - "$log" <<'NODE'
           import { readFileSync } from 'node:fs';
 
-          const auditPath = 'release-evidence/npm-audit-prod.json';
+          const auditPath = process.argv[2];
           let report;
           try {
             report = JSON.parse(readFileSync(auditPath, 'utf8'));
-          } catch (error) {
-            console.error(`npm audit returned invalid JSON: ${error.message}`);
-            process.exit(1);
+          } catch {
+            process.exit(2);
           }
 
           const vulnerabilities = report?.metadata?.vulnerabilities;
-          if (!vulnerabilities || typeof vulnerabilities !== 'object') {
-            console.error('npm audit report is missing metadata.vulnerabilities');
-            process.exit(1);
-          }
+          if (!vulnerabilities || typeof vulnerabilities !== 'object') process.exit(2);
 
           for (const severity of ['high', 'critical']) {
             const count = Number(vulnerabilities[severity]);
-            if (!Number.isInteger(count) || count < 0) {
-              console.error(`npm audit report has invalid ${severity} vulnerability count`);
-              process.exit(1);
-            }
-            if (count !== 0) {
-              console.error(`npm audit reports ${count} ${severity} production vulnerabilities`);
-              process.exit(1);
-            }
+            if (!Number.isInteger(count) || count < 0) process.exit(2);
+            if (count !== 0) process.exit(1);
           }
           NODE
-          sha256sum "$log" > release-evidence/npm-audit-prod.sha256
+            then
+              selected="$log"
+              break
+            else
+              validation_status=$?
+              if [ "$validation_status" -eq 1 ]; then
+                echo "npm audit returned a valid report with high or critical production vulnerabilities" >&2
+                exit 1
+              fi
+
+              echo "npm audit attempt ${attempt} did not return a valid vulnerability report" >&2
+              if [ "$attempt" -ge 2 ]; then
+                if [ "$status" -ne 0 ]; then
+                  exit "$status"
+                fi
+                exit 2
+              fi
+            fi
+          done
+
+          test -n "$selected"
+          cp "$selected" release-evidence/npm-audit-prod.json
+          test -s release-evidence/npm-audit-prod.json
+          sha256sum release-evidence/npm-audit-prod.json > release-evidence/npm-audit-prod.sha256
       - name: Upload audit failure evidence
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
