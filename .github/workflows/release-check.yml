@@ -35,8 +35,8 @@ jobs:
         with:
           node-version: "22"
           cache: npm
-      - name: Install exact locked dependencies
-        run: npm ci --legacy-peer-deps
+      - name: Install exact locked dependencies without duplicate advisory fetch
+        run: npm ci --legacy-peer-deps --no-audit --fund=false
       - name: Verify lockfile was not rewritten
         shell: bash
         run: |
@@ -44,36 +44,67 @@ jobs:
           git diff --exit-code -- package-lock.json
       - name: Verify installed production dependency tree
         run: npm ls --omit=dev
-      - name: Production dependency audit with bounded retries
+      - name: Production dependency audit with one evidence-backed network window
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p release-evidence
-          status=1
-          for attempt in 1 2; do
-            log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
-            status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
-            echo "[audit] attempt ${attempt}/2"
-            set +e
-            timeout 120s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
-            status=$?
-            set -e
-            printf '%s\n' "$status" > "$status_file"
-            if [ "$status" -eq 124 ]; then
-              printf '%s\n' "npm audit timed out after 120 seconds" >> "$log"
-            fi
-            cat "$log" || true
-            if [ "$status" -eq 0 ] && [ -s "$log" ]; then
-              exit 0
-            fi
-            if [ "$status" -eq 0 ]; then
-              status=1
-            fi
-            if [ "$attempt" -lt 2 ]; then
-              sleep 10
-            fi
-          done
-          exit "$status"
+          log="release-evidence/npm-audit-prod.json"
+          status_file="release-evidence/npm-audit-prod.status"
+
+          set +e
+          timeout 360s npm audit \
+            --omit=dev \
+            --audit-level=high \
+            --json \
+            --fetch-timeout=300000 \
+            --fetch-retries=1 \
+            > "$log" 2>&1
+          status=$?
+          set -e
+
+          printf '%s\n' "$status" > "$status_file"
+          if [ "$status" -eq 124 ]; then
+            printf '%s\n' "npm audit timed out after 360 seconds" >> "$log"
+          fi
+          cat "$log" || true
+
+          if [ "$status" -ne 0 ]; then
+            exit "$status"
+          fi
+
+          test -s "$log"
+          node --input-type=module <<'NODE'
+          import { readFileSync } from 'node:fs';
+
+          const auditPath = 'release-evidence/npm-audit-prod.json';
+          let report;
+          try {
+            report = JSON.parse(readFileSync(auditPath, 'utf8'));
+          } catch (error) {
+            console.error(`npm audit returned invalid JSON: ${error.message}`);
+            process.exit(1);
+          }
+
+          const vulnerabilities = report?.metadata?.vulnerabilities;
+          if (!vulnerabilities || typeof vulnerabilities !== 'object') {
+            console.error('npm audit report is missing metadata.vulnerabilities');
+            process.exit(1);
+          }
+
+          for (const severity of ['high', 'critical']) {
+            const count = Number(vulnerabilities[severity]);
+            if (!Number.isInteger(count) || count < 0) {
+              console.error(`npm audit report has invalid ${severity} vulnerability count`);
+              process.exit(1);
+            }
+            if (count !== 0) {
+              console.error(`npm audit reports ${count} ${severity} production vulnerabilities`);
+              process.exit(1);
+            }
+          }
+          NODE
+          sha256sum "$log" > release-evidence/npm-audit-prod.sha256
       - name: Upload audit failure evidence
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
@@ -120,6 +151,7 @@ jobs:
           sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs > release-evidence/verifier-inputs.sha256
           cp release-evidence/dist-second.sha256 release-evidence/dist-sha256.txt
           test -s release-evidence/dist-sha256.txt
+          test -s release-evidence/npm-audit-prod.sha256
       - name: Upload release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
         with:
