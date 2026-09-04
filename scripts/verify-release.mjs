@@ -177,6 +177,10 @@ try {
 } catch (error) {
   fail(`vercel.json must contain valid JSON: ${error.message}`);
 }
+const expectedVercelSchema = 'https://openapi.vercel.sh/vercel.json';
+if (vercelConfig.$schema !== expectedVercelSchema) {
+  fail(`vercel.json schema must be ${expectedVercelSchema}`);
+}
 const catchAllHeaders = vercelConfig.headers?.find((entry) => entry.source === '/(.*)')?.headers;
 if (!Array.isArray(catchAllHeaders)) {
   fail('vercel.json must define catch-all response headers');
@@ -193,7 +197,10 @@ for (const header of catchAllHeaders) {
   }
   headerMap.set(key, value);
 }
+const expectedCsp = "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; upgrade-insecure-requests";
 const requiredHeaders = new Map([
+  ['strict-transport-security', 'max-age=31536000; includeSubDomains'],
+  ['content-security-policy', expectedCsp],
   ['x-content-type-options', 'nosniff'],
   ['referrer-policy', 'strict-origin-when-cross-origin'],
   ['permissions-policy', 'camera=(), microphone=(), geolocation=()'],
@@ -207,5 +214,5 @@ for (const [key, expectedValue] of requiredHeaders) {
 }
 
 console.log(
-  'FinanceMeta release check passed: build output, social metadata/assets, favicon integrity, and baseline response headers are valid.',
+  'FinanceMeta release check passed: build output, social metadata/assets, favicon integrity, and hardened response headers are valid.',
 );
