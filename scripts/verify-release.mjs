@@ -199,7 +199,7 @@ for (const header of catchAllHeaders) {
 }
 const expectedCsp = "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; upgrade-insecure-requests";
 const requiredHeaders = new Map([
-  ['strict-transport-security', 'max-age=31536000; includeSubDomains'],
+  ['strict-transport-security', 'max-age=63072000; includeSubDomains'],
   ['content-security-policy', expectedCsp],
   ['x-content-type-options', 'nosniff'],
   ['referrer-policy', 'strict-origin-when-cross-origin'],
