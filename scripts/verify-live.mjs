@@ -2,8 +2,11 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
 
+import { resolveReleaseRevision, validateReleaseRevision } from './release-revision.mjs';
+
 export const EXPECTED_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.svg`;
+export const EXPECTED_REVISION_URL = `${EXPECTED_ORIGIN}release-revision.json`;
 export const EXPECTED_SOCIAL_ALT = 'FinanceMeta — Understand finance. Build with it.';
 
 const EXPECTED_HEADERS = new Map([
@@ -156,11 +159,46 @@ export const verifySocialAsset = ({ headers, bytes, expectedBytes }) => {
   }
 };
 
+export const verifyReleaseRevision = ({ headers, body, expectedRevision }) => {
+  const contentType = headers.get('content-type')?.split(';', 1)[0]?.trim().toLowerCase();
+  if (contentType !== 'application/json') {
+    fail(`release revision content-type must be application/json, found ${contentType ?? 'missing'}`);
+  }
+
+  let payload;
+  try {
+    payload = JSON.parse(body);
+  } catch {
+    fail('release revision response must contain valid JSON');
+  }
+  if (!payload || typeof payload !== 'object' || Array.isArray(payload)) {
+    fail('release revision response must contain one JSON object');
+  }
+  const keys = Object.keys(payload).sort();
+  if (keys.join(',') !== 'revision,service') {
+    fail(`release revision response must contain only revision and service; found ${keys.join(',')}`);
+  }
+  if (payload.service !== 'finance-meta-landing') {
+    fail(`release revision service must be finance-meta-landing, found ${payload.service ?? 'missing'}`);
+  }
+
+  let revision;
+  try {
+    revision = validateReleaseRevision(payload.revision, 'deployed release revision');
+    expectedRevision = validateReleaseRevision(expectedRevision, 'expected release revision');
+  } catch (error) {
+    fail(error.message);
+  }
+  if (revision !== expectedRevision) {
+    fail(`deployed release revision ${revision} does not match expected source ${expectedRevision}`);
+  }
+};
+
 const fetchWithoutRedirect = async (url) => {
   const response = await fetch(url, {
     redirect: 'manual',
     signal: AbortSignal.timeout(15_000),
-    headers: { 'user-agent': 'FinanceMeta-release-verifier/1.0' },
+    headers: { 'user-agent': 'FinanceMeta-release-verifier/1.1' },
   });
   if (response.status >= 300 && response.status < 400) {
     fail(`unexpected redirect ${response.status} from ${url}`);
@@ -168,14 +206,29 @@ const fetchWithoutRedirect = async (url) => {
   return response;
 };
 
-export const runLiveVerification = async (rawUrl = EXPECTED_ORIGIN) => {
+export const runLiveVerification = async (
+  rawUrl = EXPECTED_ORIGIN,
+  expectedRevision = resolveReleaseRevision(),
+) => {
   const target = validateTargetUrl(rawUrl);
+  expectedRevision = validateReleaseRevision(expectedRevision, 'expected release revision');
+
   const rootResponse = await fetchWithoutRedirect(target.href);
   if (rootResponse.status !== 200) {
     fail(`root must return HTTP 200, found ${rootResponse.status}`);
   }
   verifyHeaders(rootResponse.headers);
   verifyHtml(await rootResponse.text());
+
+  const revisionResponse = await fetchWithoutRedirect(EXPECTED_REVISION_URL);
+  if (revisionResponse.status !== 200) {
+    fail(`release revision must return HTTP 200, found ${revisionResponse.status}`);
+  }
+  verifyReleaseRevision({
+    headers: revisionResponse.headers,
+    body: await revisionResponse.text(),
+    expectedRevision,
+  });
 
   const socialResponse = await fetchWithoutRedirect(EXPECTED_SOCIAL_URL);
   if (socialResponse.status !== 200) {
@@ -185,9 +238,9 @@ export const runLiveVerification = async (rawUrl = EXPECTED_ORIGIN) => {
   const expectedBytes = readFileSync('public/social-preview.svg');
   verifySocialAsset({ headers: socialResponse.headers, bytes: deployedBytes, expectedBytes });
 
-  console.log(`FinanceMeta live release check passed for ${target.href}`);
+  console.log(`FinanceMeta live release check passed for ${target.href} at ${expectedRevision}`);
 };
 
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
-  await runLiveVerification(process.argv[2] ?? EXPECTED_ORIGIN);
+  await runLiveVerification(process.argv[2] ?? EXPECTED_ORIGIN, process.argv[3] ?? resolveReleaseRevision());
 }

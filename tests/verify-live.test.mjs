@@ -3,13 +3,17 @@ import test from 'node:test';
 
 import {
   EXPECTED_ORIGIN,
+  EXPECTED_REVISION_URL,
   EXPECTED_SOCIAL_ALT,
   EXPECTED_SOCIAL_URL,
   validateTargetUrl,
   verifyHeaders,
   verifyHtml,
+  verifyReleaseRevision,
   verifySocialAsset,
 } from '../scripts/verify-live.mjs';
+
+const REVISION = '0123456789abcdef0123456789abcdef01234567';
 
 const validHeaders = () =>
   new Headers({
@@ -41,6 +45,7 @@ const validHtml = () => `<!doctype html>
 
 test('canonical target accepts only the exact clean production origin', () => {
   assert.equal(validateTargetUrl(EXPECTED_ORIGIN).href, EXPECTED_ORIGIN);
+  assert.equal(EXPECTED_REVISION_URL, `${EXPECTED_ORIGIN}release-revision.json`);
   for (const bad of [
     'http://finance-meta-landing.vercel.app/',
     'https://finance-meta-landing.vercel.app/preview',
@@ -78,6 +83,49 @@ test('deployed HTML must retain canonical, social and mobile metadata', () => {
   assert.throws(
     () => verifyHtml(validHtml().replace('summary_large_image', 'summary')),
     /Twitter card/,
+  );
+});
+
+test('release revision response must identify the exact immutable source', () => {
+  const headers = new Headers({ 'content-type': 'application/json; charset=utf-8' });
+  const body = JSON.stringify({ service: 'finance-meta-landing', revision: REVISION });
+  assert.doesNotThrow(() => verifyReleaseRevision({ headers, body, expectedRevision: REVISION }));
+
+  assert.throws(
+    () =>
+      verifyReleaseRevision({
+        headers,
+        body: JSON.stringify({ service: 'finance-meta-landing', revision: '89abcdef0123456789abcdef0123456789abcdef' }),
+        expectedRevision: REVISION,
+      }),
+    /does not match expected source/,
+  );
+  assert.throws(
+    () =>
+      verifyReleaseRevision({
+        headers,
+        body: JSON.stringify({ service: 'other', revision: REVISION }),
+        expectedRevision: REVISION,
+      }),
+    /service must be finance-meta-landing/,
+  );
+  assert.throws(
+    () =>
+      verifyReleaseRevision({
+        headers: new Headers({ 'content-type': 'text/plain' }),
+        body,
+        expectedRevision: REVISION,
+      }),
+    /content-type must be application\/json/,
+  );
+  assert.throws(
+    () =>
+      verifyReleaseRevision({
+        headers,
+        body: JSON.stringify({ service: 'finance-meta-landing', revision: REVISION, branch: 'main' }),
+        expectedRevision: REVISION,
+      }),
+    /must contain only revision and service/,
   );
 });
 

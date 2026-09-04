@@ -4,11 +4,11 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vite build && node scripts/write-release-revision.mjs",
     "preview": "vite preview",
     "release:check": "npm run accessibility:check && npm run live:contract:test && npm run build && node scripts/verify-release.mjs",
     "accessibility:check": "node scripts/verify-accessibility.mjs",
-    "live:contract:test": "node --test tests/verify-live.test.mjs",
+    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs",
     "live:verify": "node scripts/verify-live.mjs"
   },
   "dependencies": {
