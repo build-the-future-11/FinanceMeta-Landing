@@ -19,7 +19,7 @@ env:
 jobs:
   release-check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout exact source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -44,17 +44,37 @@ jobs:
           git diff --exit-code -- package-lock.json
       - name: Verify installed production dependency tree
         run: npm ls --omit=dev
-      - name: Production dependency audit
+      - name: Production dependency audit with bounded retries
         shell: bash
         run: |
           set -euo pipefail
           mkdir -p release-evidence
-          set +e
-          timeout 90s npm audit --omit=dev --audit-level=high --json > release-evidence/npm-audit-prod.json
-          status=$?
-          set -e
-          test -s release-evidence/npm-audit-prod.json
+          status=1
+          for attempt in 1 2 3; do
+            log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
+            echo "[audit] attempt ${attempt}/3"
+            set +e
+            timeout 60s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
+            status=$?
+            set -e
+            cat "$log"
+            test -s "$log"
+            if [ "$status" -eq 0 ]; then
+              exit 0
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              sleep 10
+            fi
+          done
           exit "$status"
+      - name: Upload audit failure evidence
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: finance-meta-audit-failure-${{ env.SOURCE_SHA }}
+          path: release-evidence
+          if-no-files-found: error
+          retention-days: 30
       - name: Run deterministic release gate
         run: npm run release:check
       - name: Verify release output exists and is regular-file only
