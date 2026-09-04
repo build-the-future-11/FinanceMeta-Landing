@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
+  <title id="title">FinanceMeta</title>
+  <desc id="desc">FinanceMeta — understand finance, build with it.</desc>
+  <rect width="1200" height="630" fill="#08100d"/>
+  <circle cx="1050" cy="92" r="180" fill="#153b2f" opacity="0.72"/>
+  <circle cx="1110" cy="540" r="260" fill="#10271f" opacity="0.88"/>
+  <path d="M86 454 C250 350 350 420 494 300 C615 200 772 250 924 138" fill="none" stroke="#8fe3bd" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="494" cy="300" r="14" fill="#d8ffe9"/>
+  <circle cx="924" cy="138" r="14" fill="#d8ffe9"/>
+  <text x="88" y="154" fill="#8fe3bd" font-family="Inter, Arial, sans-serif" font-size="38" font-weight="700" letter-spacing="4">FINANCEMETA</text>
+  <text x="88" y="258" fill="#f4fff9" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="750">Understand finance.</text>
+  <text x="88" y="342" fill="#f4fff9" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="750">Build with it.</text>
+  <text x="88" y="535" fill="#c1d9cc" font-family="Inter, Arial, sans-serif" font-size="30">Learn · Research · Publish · Compete · Lead</text>
+</svg>
