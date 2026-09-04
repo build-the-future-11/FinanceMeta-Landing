@@ -19,7 +19,7 @@ env:
 jobs:
   release-check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout exact source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
@@ -37,21 +37,74 @@ jobs:
           cache: npm
       - name: Install exact locked dependencies
         run: npm ci --legacy-peer-deps
-      - name: Production dependency audit
-        run: npm audit --omit=dev --audit-level=high
+      - name: Verify lockfile was not rewritten
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- package-lock.json
+      - name: Verify installed production dependency tree
+        run: npm ls --omit=dev
+      - name: Production dependency audit with bounded retries
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-evidence
+          status=1
+          for attempt in 1 2 3; do
+            log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
+            status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
+            echo "[audit] attempt ${attempt}/3"
+            set +e
+            timeout 60s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
+            status=$?
+            set -e
+            printf '%s\n' "$status" > "$status_file"
+            cat "$log" || true
+            if [ "$status" -eq 0 ] && [ -s "$log" ]; then
+              exit 0
+            fi
+            if [ "$status" -eq 0 ]; then
+              status=1
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              sleep 10
+            fi
+          done
+          exit "$status"
+      - name: Upload audit failure evidence
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: finance-meta-audit-failure-${{ env.SOURCE_SHA }}
+          path: release-evidence
+          if-no-files-found: error
+          retention-days: 30
       - name: Run deterministic release gate
         run: npm run release:check
-      - name: Verify release output exists
+      - name: Verify release output exists and is regular-file only
         shell: bash
         run: |
           set -euo pipefail
           test -d dist
           test -n "$(find dist -type f -print -quit)"
+          test -z "$(find dist -type l -print -quit)"
+      - name: Verify deterministic rebuild
+        shell: bash
+        run: |
+          set -euo pipefail
+          find dist -type f -print0 \
+            | LC_ALL=C sort -z \
+            | xargs -0 sha256sum > release-evidence/dist-first.sha256
+          npm run build
+          node scripts/verify-release.mjs
+          find dist -type f -print0 \
+            | LC_ALL=C sort -z \
+            | xargs -0 sha256sum > release-evidence/dist-second.sha256
+          cmp release-evidence/dist-first.sha256 release-evidence/dist-second.sha256
       - name: Record release provenance
         shell: bash
         run: |
           set -euo pipefail
-          mkdir -p release-evidence
           {
             printf 'source_commit=%s\n' "${SOURCE_SHA}"
             printf 'workflow_commit=%s\n' "${GITHUB_SHA}"
@@ -60,10 +113,9 @@ jobs:
             printf 'node=%s\n' "$(node --version)"
             printf 'npm=%s\n' "$(npm --version)"
           } > release-evidence/provenance.txt
-          sha256sum package-lock.json > release-evidence/package-lock.sha256
-          find dist -type f -print0 \
-            | LC_ALL=C sort -z \
-            | xargs -0 sha256sum > release-evidence/dist-sha256.txt
+          sha256sum package.json package-lock.json > release-evidence/package-inputs.sha256
+          sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs > release-evidence/verifier-inputs.sha256
+          cp release-evidence/dist-second.sha256 release-evidence/dist-sha256.txt
           test -s release-evidence/dist-sha256.txt
       - name: Upload release evidence
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
