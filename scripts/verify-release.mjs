@@ -7,7 +7,9 @@ const fail = (message) => {
 const requiredFiles = [
   'dist/index.html',
   'dist/favicon.ico',
+  'dist/social-preview.svg',
   'public/favicon.ico',
+  'public/social-preview.svg',
   'tailwind.config.js',
   'vercel.json',
 ];
@@ -36,6 +38,8 @@ const singleMatch = (regex, label) => {
 };
 
 const expectedOrigin = 'https://finance-meta-landing.vercel.app/';
+const expectedSocialUrl = `${expectedOrigin}social-preview.svg`;
+const expectedSocialAlt = 'FinanceMeta — Understand finance. Build with it.';
 const title = singleMatch(/<title>([^<]+)<\/title>/gi, 'title');
 if (!title.includes('FinanceMeta')) {
   fail('built HTML title must identify FinanceMeta');
@@ -75,13 +79,38 @@ const ogUrl = singleMatch(
 if (ogUrl !== canonical) {
   fail(`Open Graph URL must match canonical URL; found ${ogUrl}`);
 }
+const ogImage = singleMatch(
+  /<meta\s+property=["']og:image["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Open Graph image',
+);
+if (ogImage !== expectedSocialUrl) {
+  fail(`Open Graph image must be ${expectedSocialUrl}, found ${ogImage}`);
+}
+const ogImageWidth = singleMatch(
+  /<meta\s+property=["']og:image:width["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Open Graph image width',
+);
+const ogImageHeight = singleMatch(
+  /<meta\s+property=["']og:image:height["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Open Graph image height',
+);
+if (ogImageWidth !== '1200' || ogImageHeight !== '630') {
+  fail(`Open Graph image dimensions must be 1200x630, found ${ogImageWidth}x${ogImageHeight}`);
+}
+const ogImageAlt = singleMatch(
+  /<meta\s+property=["']og:image:alt["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Open Graph image alt',
+);
+if (ogImageAlt !== expectedSocialAlt) {
+  fail('Open Graph image alt text must match the approved social-card description');
+}
 
 const twitterCard = singleMatch(
   /<meta\s+name=["']twitter:card["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
   'Twitter card',
 );
-if (twitterCard !== 'summary') {
-  fail(`Twitter card must be summary, found ${twitterCard}`);
+if (twitterCard !== 'summary_large_image') {
+  fail(`Twitter card must be summary_large_image, found ${twitterCard}`);
 }
 const twitterTitle = singleMatch(
   /<meta\s+name=["']twitter:title["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
@@ -96,6 +125,31 @@ const twitterDescription = singleMatch(
 );
 if (twitterDescription !== ogDescription) {
   fail('Twitter description must match Open Graph description');
+}
+const twitterImage = singleMatch(
+  /<meta\s+name=["']twitter:image["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Twitter image',
+);
+if (twitterImage !== ogImage) {
+  fail('Twitter image must match Open Graph image');
+}
+const twitterImageAlt = singleMatch(
+  /<meta\s+name=["']twitter:image:alt["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
+  'Twitter image alt',
+);
+if (twitterImageAlt !== ogImageAlt) {
+  fail('Twitter image alt must match Open Graph image alt');
+}
+
+if (!readFileSync('public/social-preview.svg').equals(readFileSync('dist/social-preview.svg'))) {
+  fail('built social preview bytes do not match the committed source asset');
+}
+const socialSvg = readFileSync('public/social-preview.svg', 'utf8');
+if (!/<svg\b[^>]*\bwidth=["']1200["'][^>]*\bheight=["']630["']/i.test(socialSvg)) {
+  fail('social preview SVG must declare 1200x630 dimensions');
+}
+if (!/<title\b[^>]*>[^<]*FinanceMeta[^<]*<\/title>/i.test(socialSvg)) {
+  fail('social preview SVG must include an accessible FinanceMeta title');
 }
 
 const iconHref = singleMatch(
@@ -153,5 +207,5 @@ for (const [key, expectedValue] of requiredHeaders) {
 }
 
 console.log(
-  'FinanceMeta release check passed: build output, public metadata, favicon integrity, and baseline response headers are valid.',
+  'FinanceMeta release check passed: build output, social metadata/assets, favicon integrity, and baseline response headers are valid.',
 );
