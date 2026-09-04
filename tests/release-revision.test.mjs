@@ -20,10 +20,20 @@ test('release revision accepts only immutable lowercase 40-character Git SHAs', 
   }
 });
 
-test('declared source environments must agree exactly', () => {
+test('exact source binding wins over the synthetic GitHub pull-request merge SHA', () => {
   assert.equal(
     resolveReleaseRevision({
-      env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_A, GITHUB_SHA: SHA_A },
+      env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B },
+      gitHead: () => SHA_B,
+    }),
+    SHA_A,
+  );
+});
+
+test('source and Vercel deployment identities must agree when both are declared', () => {
+  assert.equal(
+    resolveReleaseRevision({
+      env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_A, GITHUB_SHA: SHA_B },
       gitHead: () => SHA_B,
     }),
     SHA_A,
@@ -39,7 +49,8 @@ test('declared source environments must agree exactly', () => {
   );
 });
 
-test('git HEAD is used only when no immutable revision environment is declared', () => {
+test('GitHub SHA and then git HEAD are bounded fallbacks only when stronger identities are absent', () => {
+  assert.equal(resolveReleaseRevision({ env: { GITHUB_SHA: SHA_A }, gitHead: () => SHA_B }), SHA_A);
   assert.equal(resolveReleaseRevision({ env: {}, gitHead: () => SHA_B }), SHA_B);
   assert.throws(
     () => resolveReleaseRevision({ env: {}, gitHead: () => 'main' }),
