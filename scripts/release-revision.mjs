@@ -1,7 +1,6 @@
 import { execFileSync } from 'node:child_process';
 
 const REVISION_PATTERN = /^[0-9a-f]{40}$/;
-const ENV_REVISION_KEYS = ['SOURCE_SHA', 'VERCEL_GIT_COMMIT_SHA', 'GITHUB_SHA'];
 
 export const validateReleaseRevision = (value, label = 'release revision') => {
   const revision = String(value ?? '').trim();
@@ -17,21 +16,26 @@ const readGitHead = () =>
     stdio: ['ignore', 'pipe', 'pipe'],
   }).trim();
 
-export const resolveReleaseRevision = ({ env = process.env, gitHead = readGitHead } = {}) => {
-  const declared = ENV_REVISION_KEYS.flatMap((key) => {
-    const raw = env[key];
-    if (raw == null || String(raw).trim() === '') return [];
-    return [[key, validateReleaseRevision(raw, key)]];
-  });
+const readDeclaredRevision = (env, key) => {
+  const raw = env[key];
+  if (raw == null || String(raw).trim() === '') return null;
+  return validateReleaseRevision(raw, key);
+};
 
-  if (declared.length > 0) {
-    const distinct = new Set(declared.map(([, revision]) => revision));
-    if (distinct.size !== 1) {
-      const detail = declared.map(([key, revision]) => `${key}=${revision}`).join(', ');
-      throw new Error(`release revision environment disagrees: ${detail}`);
-    }
-    return declared[0][1];
+export const resolveReleaseRevision = ({ env = process.env, gitHead = readGitHead } = {}) => {
+  const sourceSha = readDeclaredRevision(env, 'SOURCE_SHA');
+  const vercelSha = readDeclaredRevision(env, 'VERCEL_GIT_COMMIT_SHA');
+
+  if (sourceSha && vercelSha && sourceSha !== vercelSha) {
+    throw new Error(
+      `release revision environment disagrees: SOURCE_SHA=${sourceSha}, VERCEL_GIT_COMMIT_SHA=${vercelSha}`,
+    );
   }
+  if (sourceSha) return sourceSha;
+  if (vercelSha) return vercelSha;
+
+  const githubSha = readDeclaredRevision(env, 'GITHUB_SHA');
+  if (githubSha) return githubSha;
 
   return validateReleaseRevision(gitHead(), 'git HEAD');
 };
