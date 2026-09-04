@@ -1,5 +1,7 @@
 import { existsSync, readFileSync } from 'node:fs';
 
+import { resolveReleaseRevision, validateReleaseRevision } from './release-revision.mjs';
+
 const fail = (message) => {
   throw new Error(`release check failed: ${message}`);
 };
@@ -8,6 +10,7 @@ const requiredFiles = [
   'dist/index.html',
   'dist/favicon.ico',
   'dist/social-preview.svg',
+  'dist/release-revision.json',
   'public/favicon.ico',
   'public/social-preview.svg',
   'tailwind.config.js',
@@ -21,6 +24,33 @@ for (const file of requiredFiles) {
 
 if (existsSync('tailwind_config.js')) {
   fail('duplicate tailwind_config.js must not coexist with tailwind.config.js');
+}
+
+const expectedRevision = resolveReleaseRevision();
+let revisionPayload;
+try {
+  revisionPayload = JSON.parse(readFileSync('dist/release-revision.json', 'utf8'));
+} catch (error) {
+  fail(`dist/release-revision.json must contain valid JSON: ${error.message}`);
+}
+if (!revisionPayload || typeof revisionPayload !== 'object' || Array.isArray(revisionPayload)) {
+  fail('dist/release-revision.json must contain one JSON object');
+}
+const revisionKeys = Object.keys(revisionPayload).sort();
+if (revisionKeys.join(',') !== 'revision,service') {
+  fail(`dist/release-revision.json must contain only revision and service; found ${revisionKeys.join(',')}`);
+}
+if (revisionPayload.service !== 'finance-meta-landing') {
+  fail(`release service must be finance-meta-landing, found ${revisionPayload.service ?? 'missing'}`);
+}
+let builtRevision;
+try {
+  builtRevision = validateReleaseRevision(revisionPayload.revision, 'built release revision');
+} catch (error) {
+  fail(error.message);
+}
+if (builtRevision !== expectedRevision) {
+  fail(`built release revision ${builtRevision} does not match expected source ${expectedRevision}`);
 }
 
 const html = readFileSync('dist/index.html', 'utf8');
@@ -214,5 +244,5 @@ for (const [key, expectedValue] of requiredHeaders) {
 }
 
 console.log(
-  'FinanceMeta release check passed: build output, social metadata/assets, favicon integrity, and hardened response headers are valid.',
+  `FinanceMeta release check passed for source ${expectedRevision}: build output, immutable revision identity, social metadata/assets, favicon integrity, and hardened response headers are valid.`,
 );
