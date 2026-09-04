@@ -13,14 +13,24 @@ concurrency:
   group: release-check-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
 jobs:
   release-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
+          ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: "22"
@@ -31,3 +41,34 @@ jobs:
         run: npm audit --omit=dev --audit-level=high
       - name: Run deterministic release gate
         run: npm run release:check
+      - name: Verify release output exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d dist
+          test -n "$(find dist -type f -print -quit)"
+      - name: Record release provenance
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-evidence
+          {
+            printf 'source_commit=%s\n' "${SOURCE_SHA}"
+            printf 'workflow_commit=%s\n' "${GITHUB_SHA}"
+            printf 'workflow_ref=%s\n' "${GITHUB_REF}"
+            printf 'runner_image=%s\n' "${ImageOS:-ubuntu24}"
+            printf 'node=%s\n' "$(node --version)"
+            printf 'npm=%s\n' "$(npm --version)"
+          } > release-evidence/provenance.txt
+          sha256sum package-lock.json > release-evidence/package-lock.sha256
+          find dist -type f -print0 \
+            | LC_ALL=C sort -z \
+            | xargs -0 sha256sum > release-evidence/dist-sha256.txt
+          test -s release-evidence/dist-sha256.txt
+      - name: Upload release evidence
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: finance-meta-release-${{ env.SOURCE_SHA }}
+          path: release-evidence
+          if-no-files-found: error
+          retention-days: 30
