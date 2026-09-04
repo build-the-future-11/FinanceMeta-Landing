@@ -52,15 +52,19 @@ jobs:
           status=1
           for attempt in 1 2 3; do
             log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
+            status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
             echo "[audit] attempt ${attempt}/3"
             set +e
             timeout 60s npm audit --omit=dev --audit-level=high --json > "$log" 2>&1
             status=$?
             set -e
-            cat "$log"
-            test -s "$log"
-            if [ "$status" -eq 0 ]; then
+            printf '%s\n' "$status" > "$status_file"
+            cat "$log" || true
+            if [ "$status" -eq 0 ] && [ -s "$log" ]; then
               exit 0
+            fi
+            if [ "$status" -eq 0 ]; then
+              status=1
             fi
             if [ "$attempt" -lt 3 ]; then
               sleep 10
