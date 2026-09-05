@@ -5,6 +5,8 @@ import { pathToFileURL } from 'node:url';
 import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 
 export const LANDING_ORIGIN = 'https://finance-meta-landing.vercel.app/';
+export const MAX_LANDING_HTML_BYTES = 2 * 1024 * 1024;
+export const MAX_SCRIPT_BUNDLE_BYTES = 16 * 1024 * 1024;
 const EXPECTED_MEMBER_APP_ENV = 'FINANCEMETA_EXPECTED_MEMBER_APP_URL';
 const REQUIRED_HANDOFF_MARKERS = [
   'utm_source',
@@ -271,6 +273,50 @@ const fetchWithoutRedirect = async (url) => {
   return response;
 };
 
+export const readResponseTextBounded = async (response, maxBytes, label) => {
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    throw new TypeError('maxBytes must be a positive safe integer');
+  }
+
+  const rawLength = response.headers.get('content-length');
+  if (rawLength && /^\d+$/.test(rawLength)) {
+    const declaredLength = Number(rawLength);
+    if (Number.isSafeInteger(declaredLength) && declaredLength > maxBytes) {
+      fail(`${label} exceeds ${maxBytes} byte verification limit`);
+    }
+  }
+
+  if (!response.body) {
+    const text = await response.text();
+    if (new TextEncoder().encode(text).byteLength > maxBytes) {
+      fail(`${label} exceeds ${maxBytes} byte verification limit`);
+    }
+    return text;
+  }
+
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let totalBytes = 0;
+  let text = '';
+
+  try {
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      totalBytes += value.byteLength;
+      if (totalBytes > maxBytes) {
+        await reader.cancel();
+        fail(`${label} exceeds ${maxBytes} byte verification limit`);
+      }
+      text += decoder.decode(value, { stream: true });
+    }
+    text += decoder.decode();
+    return text;
+  } finally {
+    reader.releaseLock();
+  }
+};
+
 export const runMemberHandoffVerification = async (
   expectedMemberAppUrl = process.env[EXPECTED_MEMBER_APP_ENV],
 ) => {
@@ -281,7 +327,11 @@ export const runMemberHandoffVerification = async (
   if (rootResponse.status !== 200) {
     fail(`landing root must return HTTP 200, found ${rootResponse.status}`);
   }
-  const html = await rootResponse.text();
+  const html = await readResponseTextBounded(
+    rootResponse,
+    MAX_LANDING_HTML_BYTES,
+    'landing HTML',
+  );
   const scriptUrls = extractModuleScriptUrls(html);
 
   const bundles = [];
@@ -294,7 +344,13 @@ export const runMemberHandoffVerification = async (
     if (!['application/javascript', 'text/javascript'].includes(contentType ?? '')) {
       fail(`production script ${scriptUrl} must be JavaScript, found ${contentType ?? 'missing'}`);
     }
-    bundles.push(await response.text());
+    bundles.push(
+      await readResponseTextBounded(
+        response,
+        MAX_SCRIPT_BUNDLE_BYTES,
+        `production script ${scriptUrl}`,
+      ),
+    );
   }
 
   verifyMemberHandoffBundles({
