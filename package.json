@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "release:check": "npm run accessibility:check && npm run live:contract:test && npm run build && node scripts/verify-release.mjs",
     "accessibility:check": "node scripts/verify-accessibility.mjs",
-    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/verify-member-handoff.test.mjs",
+    "live:contract:test": "node --test tests/*.test.mjs",
     "live:verify": "node scripts/verify-live.mjs",
     "member-handoff:verify": "node scripts/verify-member-handoff.mjs"
   },
