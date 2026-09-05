@@ -7,6 +7,7 @@ import {
   validateExpectedMemberAppUrl,
   verifyMemberHandoffBundle,
 } from '../scripts/verify-member-handoff.mjs';
+import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 
 const MEMBER_APP = 'https://finance4all.example.app/';
 const VALID_BUNDLE = `
@@ -19,26 +20,30 @@ const VALID_BUNDLE = `
   const campaignValue = "member_handoff";
 `;
 
-test('expected member app must be public DNS HTTPS and immutable enough for certification', () => {
+const INVALID_MEMBER_APPS = [
+  '',
+  'http://finance4all.example.app/',
+  'https://localhost:5173/',
+  'https://app.localhost/',
+  'https://member.local/',
+  'https://intranet/',
+  'https://127.0.0.1/',
+  'https://10.0.0.1/',
+  'https://169.254.169.254/',
+  'https://8.8.8.8/',
+  'https://[::1]/',
+  'https://[2001:4860:4860::8888]/',
+  'https://user:pass@finance4all.example.app/',
+  'https://finance4all.example.app/#preview',
+  'not-a-url',
+];
+
+test('runtime and production verifier share the same public member-app URL policy', () => {
+  assert.equal(parsePublicMemberAppUrl(MEMBER_APP)?.href, MEMBER_APP);
   assert.equal(validateExpectedMemberAppUrl(MEMBER_APP).href, MEMBER_APP);
 
-  for (const bad of [
-    '',
-    'http://finance4all.example.app/',
-    'https://localhost:5173/',
-    'https://app.localhost/',
-    'https://member.local/',
-    'https://intranet/',
-    'https://127.0.0.1/',
-    'https://10.0.0.1/',
-    'https://169.254.169.254/',
-    'https://8.8.8.8/',
-    'https://[::1]/',
-    'https://[2001:4860:4860::8888]/',
-    'https://user:pass@finance4all.example.app/',
-    'https://finance4all.example.app/#preview',
-    'not-a-url',
-  ]) {
+  for (const bad of INVALID_MEMBER_APPS) {
+    assert.equal(parsePublicMemberAppUrl(bad), null);
     assert.throws(() => validateExpectedMemberAppUrl(bad), /member handoff check failed/);
   }
 });
