@@ -1,3 +1,5 @@
+import { lookup } from 'node:dns/promises';
+import { isIP } from 'node:net';
 import { pathToFileURL } from 'node:url';
 
 import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
@@ -31,6 +33,79 @@ export const validateExpectedMemberAppUrl = (rawValue) => {
   }
 
   return url;
+};
+
+const isNonPublicIpv4 = (address) => {
+  const octets = address.split('.').map(Number);
+  if (octets.length !== 4 || octets.some((octet) => !Number.isInteger(octet))) return true;
+  const [a, b, c] = octets;
+  return (
+    a === 0 ||
+    a === 10 ||
+    a === 127 ||
+    (a === 100 && b >= 64 && b <= 127) ||
+    (a === 169 && b === 254) ||
+    (a === 172 && b >= 16 && b <= 31) ||
+    (a === 192 && b === 0 && c === 0) ||
+    (a === 192 && b === 0 && c === 2) ||
+    (a === 192 && b === 168) ||
+    (a === 198 && (b === 18 || b === 19)) ||
+    (a === 198 && b === 51 && c === 100) ||
+    (a === 203 && b === 0 && c === 113) ||
+    a >= 224
+  );
+};
+
+const isNonPublicIpv6 = (address) => {
+  const normalized = address.toLowerCase();
+  if (normalized === '::' || normalized === '::1') return true;
+
+  const mappedIpv4 = normalized.match(/::ffff:(\d+\.\d+\.\d+\.\d+)$/)?.[1];
+  if (mappedIpv4) return isNonPublicIpv4(mappedIpv4);
+
+  const firstHextet = Number.parseInt(normalized.split(':', 1)[0] || '0', 16);
+  if (!Number.isFinite(firstHextet)) return true;
+
+  return (
+    (firstHextet & 0xfe00) === 0xfc00 ||
+    (firstHextet & 0xffc0) === 0xfe80 ||
+    (firstHextet & 0xff00) === 0xff00 ||
+    normalized === '2001:db8::' ||
+    normalized.startsWith('2001:db8:')
+  );
+};
+
+export const isPublicResolvedAddress = (address) => {
+  const value = String(address ?? '').trim();
+  const family = isIP(value);
+  if (family === 4) return !isNonPublicIpv4(value);
+  if (family === 6) return !isNonPublicIpv6(value);
+  return false;
+};
+
+export const verifyPublicMemberDns = async (
+  expectedMemberAppUrl,
+  resolver = lookup,
+) => {
+  const expected = validateExpectedMemberAppUrl(expectedMemberAppUrl);
+  let records;
+  try {
+    records = await resolver(expected.hostname, { all: true, verbatim: true });
+  } catch (error) {
+    const detail = error instanceof Error && error.code ? ` (${error.code})` : '';
+    fail(`member application DNS lookup failed${detail}`);
+  }
+
+  if (!Array.isArray(records) || records.length === 0) {
+    fail('member application DNS lookup returned no addresses');
+  }
+
+  const invalid = records.filter((record) => !isPublicResolvedAddress(record?.address));
+  if (invalid.length > 0) {
+    fail('member application DNS must resolve only to public unicast addresses');
+  }
+
+  return records.map((record) => ({ address: record.address, family: record.family }));
 };
 
 export const extractModuleScriptUrls = (html, baseUrl = LANDING_ORIGIN) => {
@@ -107,6 +182,7 @@ export const runMemberHandoffVerification = async (
   expectedMemberAppUrl = process.env[EXPECTED_MEMBER_APP_ENV],
 ) => {
   const expected = validateExpectedMemberAppUrl(expectedMemberAppUrl);
+  await verifyPublicMemberDns(expected.href);
 
   const rootResponse = await fetchWithoutRedirect(LANDING_ORIGIN);
   if (rootResponse.status !== 200) {
