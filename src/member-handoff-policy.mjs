@@ -26,9 +26,11 @@ export const parsePublicMemberAppUrl = (rawValue) => {
 
   try {
     const url = new URL(value);
+    const canonicalHostname = normalizeHostname(url.hostname);
     if (
       url.protocol !== 'https:' ||
       isNonPublicMemberHostname(url.hostname) ||
+      url.hostname !== canonicalHostname ||
       url.username ||
       url.password ||
       url.port ||
