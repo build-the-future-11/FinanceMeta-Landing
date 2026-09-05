@@ -37,7 +37,12 @@ export const validateExpectedMemberAppUrl = (rawValue) => {
 
 const isNonPublicIpv4 = (address) => {
   const octets = address.split('.').map(Number);
-  if (octets.length !== 4 || octets.some((octet) => !Number.isInteger(octet))) return true;
+  if (
+    octets.length !== 4 ||
+    octets.some((octet) => !Number.isInteger(octet) || octet < 0 || octet > 255)
+  ) {
+    return true;
+  }
   const [a, b, c] = octets;
   return (
     a === 0 ||
@@ -56,29 +61,110 @@ const isNonPublicIpv4 = (address) => {
   );
 };
 
+const ipv6ToBigInt = (address) => {
+  const normalized = String(address).toLowerCase();
+  const halves = normalized.split('::');
+  if (halves.length > 2) return null;
+
+  const parseHalf = (half) => {
+    if (!half) return [];
+    const groups = [];
+    for (const token of half.split(':')) {
+      if (!token) return null;
+      if (token.includes('.')) {
+        const octets = token.split('.').map(Number);
+        if (
+          octets.length !== 4 ||
+          octets.some((octet) => !Number.isInteger(octet) || octet < 0 || octet > 255)
+        ) {
+          return null;
+        }
+        groups.push((octets[0] << 8) | octets[1]);
+        groups.push((octets[2] << 8) | octets[3]);
+        continue;
+      }
+      if (!/^[0-9a-f]{1,4}$/.test(token)) return null;
+      groups.push(Number.parseInt(token, 16));
+    }
+    return groups;
+  };
+
+  const left = parseHalf(halves[0]);
+  const right = parseHalf(halves[1] ?? '');
+  if (!left || !right) return null;
+
+  let groups;
+  if (halves.length === 1) {
+    if (left.length !== 8) return null;
+    groups = left;
+  } else {
+    const missing = 8 - left.length - right.length;
+    if (missing < 1) return null;
+    groups = [...left, ...Array(missing).fill(0), ...right];
+  }
+  if (groups.length !== 8) return null;
+
+  return groups.reduce((value, group) => (value << 16n) | BigInt(group), 0n);
+};
+
+const ipv6InPrefix = (addressValue, prefix, prefixLength) => {
+  const prefixValue = ipv6ToBigInt(prefix);
+  if (addressValue === null || prefixValue === null) return false;
+  const shift = BigInt(128 - prefixLength);
+  return (addressValue >> shift) === (prefixValue >> shift);
+};
+
+const ipv4FromLow32 = (addressValue) => {
+  const low = Number(addressValue & 0xffffffffn);
+  return [
+    (low >>> 24) & 0xff,
+    (low >>> 16) & 0xff,
+    (low >>> 8) & 0xff,
+    low & 0xff,
+  ].join('.');
+};
+
+const NON_PUBLIC_IPV6_PREFIXES = [
+  ['::', 96],
+  ['64:ff9b:1::', 48],
+  ['100::', 64],
+  ['100:0:0:1::', 64],
+  ['2001:2::', 48],
+  ['2001:10::', 28],
+  ['2001:db8::', 32],
+  ['3fff::', 20],
+  ['5f00::', 16],
+  ['fc00::', 7],
+  ['fe80::', 10],
+  ['fec0::', 10],
+  ['ff00::', 8],
+];
+
 const isNonPublicIpv6 = (address) => {
   const normalized = address.toLowerCase();
+  const addressValue = ipv6ToBigInt(normalized);
+  if (addressValue === null) return true;
   if (normalized === '::' || normalized === '::1') return true;
 
-  // IPv6 text can legally end in dotted IPv4 notation (mapped, compatible, or
-  // translation-prefix forms). Classify the embedded IPv4 tail as well so a
-  // private/loopback/link-local IPv4 target cannot bypass the public-unicast
-  // check merely by being represented as IPv6.
+  // IPv4-mapped IPv6 addresses are explicitly non-forwardable/non-global in
+  // the IANA special-purpose registry, even when the embedded IPv4 address is
+  // itself public. A DNS AAAA record must therefore never pass through them.
+  if (ipv6InPrefix(addressValue, '::ffff:0:0', 96)) return true;
+
+  // The well-known NAT64 prefix is globally reachable, but only when the
+  // embedded IPv4 destination is itself public. Inspect the low 32 bits so hex
+  // tail forms such as 64:ff9b::a00:1 cannot bypass the IPv4 safety policy.
+  if (ipv6InPrefix(addressValue, '64:ff9b::', 96)) {
+    return isNonPublicIpv4(ipv4FromLow32(addressValue));
+  }
+
+  // IPv6 text can also end in dotted IPv4 notation in compatible/translation
+  // forms. Classify that tail directly in addition to the binary prefix rules.
   const embeddedIpv4 = normalized.match(/(?:^|:)(\d{1,3}(?:\.\d{1,3}){3})$/)?.[1];
   if (embeddedIpv4 && isNonPublicIpv4(embeddedIpv4)) return true;
 
-  const firstHextet = Number.parseInt(normalized.split(':', 1)[0] || '0', 16);
-  if (!Number.isFinite(firstHextet)) return true;
-
-  return (
-    (firstHextet & 0xfe00) === 0xfc00 ||
-    (firstHextet & 0xffc0) === 0xfe80 ||
-    // Deprecated site-local fec0::/10 is not globally routable and must not be
-    // accepted as a production member-app resolution target.
-    (firstHextet & 0xffc0) === 0xfec0 ||
-    (firstHextet & 0xff00) === 0xff00 ||
-    normalized === '2001:db8::' ||
-    normalized.startsWith('2001:db8:')
+  return NON_PUBLIC_IPV6_PREFIXES.some(([prefix, prefixLength]) =>
+    ipv6InPrefix(addressValue, prefix, prefixLength),
   );
 };
 
