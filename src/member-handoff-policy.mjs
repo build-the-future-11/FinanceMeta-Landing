@@ -31,6 +31,7 @@ export const parsePublicMemberAppUrl = (rawValue) => {
       isNonPublicMemberHostname(url.hostname) ||
       url.username ||
       url.password ||
+      url.port ||
       url.hash
     ) {
       return null;
