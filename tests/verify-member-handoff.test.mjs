@@ -3,8 +3,11 @@ import test from 'node:test';
 
 import {
   LANDING_ORIGIN,
+  MAX_LANDING_HTML_BYTES,
+  MAX_SCRIPT_BUNDLE_BYTES,
   extractModuleScriptUrls,
   isPublicResolvedAddress,
+  readResponseTextBounded,
   validateExpectedMemberAppUrl,
   verifyMemberHandoffBundle,
   verifyMemberHandoffBundles,
@@ -170,6 +173,35 @@ test('production script discovery stays on the canonical landing origin', () => 
     /must stay on the landing origin/,
   );
   assert.throws(() => extractModuleScriptUrls('<main>No script</main>'), /no script bundle/);
+});
+
+test('production response bodies are byte-bounded before certification', async () => {
+  assert.ok(MAX_LANDING_HTML_BYTES > 0);
+  assert.ok(MAX_SCRIPT_BUNDLE_BYTES > MAX_LANDING_HTML_BYTES);
+
+  assert.equal(
+    await readResponseTextBounded(new Response('hello'), 5, 'fixture'),
+    'hello',
+  );
+
+  await assert.rejects(
+    readResponseTextBounded(
+      new Response('small', { headers: { 'content-length': '101' } }),
+      100,
+      'declared fixture',
+    ),
+    /declared fixture exceeds 100 byte verification limit/,
+  );
+
+  await assert.rejects(
+    readResponseTextBounded(new Response('123456'), 5, 'streamed fixture'),
+    /streamed fixture exceeds 5 byte verification limit/,
+  );
+
+  await assert.rejects(
+    readResponseTextBounded(new Response('ok'), 0, 'invalid limit'),
+    /maxBytes must be a positive safe integer/,
+  );
 });
 
 test('deployed bundle must bind the exact expected member app and attribution contract', () => {
