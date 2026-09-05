@@ -65,6 +65,7 @@ test('production DNS certification accepts only public unicast addresses', async
     '1.1.1.1',
     '2001:4860:4860::8888',
     '2606:4700:4700::1111',
+    '64:ff9b::8.8.8.8',
   ]) {
     assert.equal(isPublicResolvedAddress(address), true, address);
   }
@@ -89,9 +90,13 @@ test('production DNS certification accepts only public unicast addresses', async
     'fc00::1',
     'fd12:3456::1',
     'fe80::1',
+    'fec0::1',
     'ff02::1',
     '2001:db8::1',
     '::ffff:127.0.0.1',
+    '::ffff:10.0.0.1',
+    '::192.168.1.1',
+    '64:ff9b::192.168.1.1',
   ]) {
     assert.equal(isPublicResolvedAddress(address), false, address);
   }
@@ -113,6 +118,13 @@ test('production DNS certification accepts only public unicast addresses', async
     verifyPublicMemberDns(MEMBER_APP, async () => [
       { address: '8.8.8.8', family: 4 },
       { address: '10.0.0.5', family: 4 },
+    ]),
+    /must resolve only to public unicast addresses/,
+  );
+  await assert.rejects(
+    verifyPublicMemberDns(MEMBER_APP, async () => [
+      { address: '2606:4700:4700::1111', family: 6 },
+      { address: '::ffff:10.0.0.1', family: 6 },
     ]),
     /must resolve only to public unicast addresses/,
   );
