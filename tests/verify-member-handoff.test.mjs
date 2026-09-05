@@ -27,6 +27,8 @@ const INVALID_MEMBER_APPS = [
   '',
   'http://finance4all.example.app/',
   'https://finance4all.example.app:8443/',
+  'https://finance4all.example.app/app',
+  'https://finance4all.example.app/?next=/portal',
   'https://localhost:5173/',
   'https://localhost./',
   'https://app.localhost/',
