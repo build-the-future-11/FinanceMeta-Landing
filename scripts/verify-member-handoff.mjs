@@ -1,3 +1,4 @@
+import { isIP } from 'node:net';
 import { pathToFileURL } from 'node:url';
 
 export const LANDING_ORIGIN = 'https://finance-meta-landing.vercel.app/';
@@ -15,6 +16,20 @@ const fail = (message) => {
   throw new Error(`member handoff check failed: ${message}`);
 };
 
+const normalizeHostname = (hostname) =>
+  hostname.toLowerCase().replace(/^\[(.*)\]$/, '$1');
+
+const isNonPublicHostname = (hostname) => {
+  const normalized = normalizeHostname(hostname);
+  return (
+    isIP(normalized) !== 0 ||
+    normalized === 'localhost' ||
+    normalized.endsWith('.localhost') ||
+    normalized.endsWith('.local') ||
+    !normalized.includes('.')
+  );
+};
+
 export const validateExpectedMemberAppUrl = (rawValue) => {
   const value = String(rawValue ?? '').trim();
   if (!value) {
@@ -28,13 +43,16 @@ export const validateExpectedMemberAppUrl = (rawValue) => {
     fail(`expected member application URL is invalid: ${value}`);
   }
 
-  const isLoopback =
-    url.hostname === 'localhost' ||
-    url.hostname === '127.0.0.1' ||
-    url.hostname === '[::1]' ||
-    url.hostname === '::1';
-  if (url.protocol !== 'https:' || isLoopback || url.username || url.password || url.hash) {
-    fail('expected member application URL must be public HTTPS without credentials or fragments');
+  if (
+    url.protocol !== 'https:' ||
+    isNonPublicHostname(url.hostname) ||
+    url.username ||
+    url.password ||
+    url.hash
+  ) {
+    fail(
+      'expected member application URL must be public DNS HTTPS without credentials or fragments',
+    );
   }
 
   return url;
