@@ -26,6 +26,7 @@ const VALID_BUNDLE = `
 const INVALID_MEMBER_APPS = [
   '',
   'http://finance4all.example.app/',
+  'https://finance4all.example.app:8443/',
   'https://localhost:5173/',
   'https://localhost./',
   'https://app.localhost/',
