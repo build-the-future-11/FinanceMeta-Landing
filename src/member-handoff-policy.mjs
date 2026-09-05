@@ -1,5 +1,5 @@
 const normalizeHostname = (hostname) =>
-  hostname.toLowerCase().replace(/^\[(.*)\]$/, '$1');
+  hostname.toLowerCase().replace(/^\[(.*)\]$/, '$1').replace(/\.+$/, '');
 
 const isIpv4Literal = (hostname) => {
   const parts = hostname.split('.');
