@@ -165,7 +165,7 @@ jobs:
             printf 'npm=%s\n' "$(npm --version)"
           } > release-evidence/provenance.txt
           sha256sum package.json package-lock.json > release-evidence/package-inputs.sha256
-          sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs scripts/verify-live.mjs scripts/verify-member-handoff.mjs scripts/release-revision.mjs scripts/write-release-revision.mjs tests/verify-live.test.mjs tests/verify-member-handoff.test.mjs tests/release-revision.test.mjs > release-evidence/verifier-inputs.sha256
+          sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs scripts/verify-live.mjs scripts/verify-member-handoff.mjs scripts/release-revision.mjs scripts/write-release-revision.mjs src/member-handoff-policy.mjs src/member-handoff.ts src/member-handoff-bootstrap.ts src/main.tsx tests/verify-live.test.mjs tests/verify-member-handoff.test.mjs tests/release-revision.test.mjs > release-evidence/verifier-inputs.sha256
           sha256sum dist/release-revision.json > release-evidence/release-revision.sha256
           cp release-evidence/dist-second.sha256 release-evidence/dist-sha256.txt
           test -s release-evidence/dist-sha256.txt
