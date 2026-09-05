@@ -4,9 +4,11 @@ import test from 'node:test';
 import {
   LANDING_ORIGIN,
   extractModuleScriptUrls,
+  isPublicResolvedAddress,
   validateExpectedMemberAppUrl,
   verifyMemberHandoffBundle,
   verifyMemberHandoffBundles,
+  verifyPublicMemberDns,
 } from '../scripts/verify-member-handoff.mjs';
 import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 
@@ -51,6 +53,77 @@ test('runtime and production verifier share the same public member-app URL polic
     assert.equal(parsePublicMemberAppUrl(bad), null);
     assert.throws(() => validateExpectedMemberAppUrl(bad), /member handoff check failed/);
   }
+});
+
+test('production DNS certification accepts only public unicast addresses', async () => {
+  for (const address of [
+    '8.8.8.8',
+    '1.1.1.1',
+    '2001:4860:4860::8888',
+    '2606:4700:4700::1111',
+  ]) {
+    assert.equal(isPublicResolvedAddress(address), true, address);
+  }
+
+  for (const address of [
+    '',
+    'not-an-ip',
+    '0.0.0.0',
+    '10.0.0.5',
+    '100.64.0.1',
+    '127.0.0.1',
+    '169.254.169.254',
+    '172.16.0.1',
+    '192.168.1.1',
+    '192.0.2.1',
+    '198.18.0.1',
+    '198.51.100.1',
+    '203.0.113.1',
+    '224.0.0.1',
+    '::',
+    '::1',
+    'fc00::1',
+    'fd12:3456::1',
+    'fe80::1',
+    'ff02::1',
+    '2001:db8::1',
+    '::ffff:127.0.0.1',
+  ]) {
+    assert.equal(isPublicResolvedAddress(address), false, address);
+  }
+
+  const publicResolver = async (hostname, options) => {
+    assert.equal(hostname, 'finance4all.example.app');
+    assert.deepEqual(options, { all: true, verbatim: true });
+    return [
+      { address: '8.8.8.8', family: 4 },
+      { address: '2001:4860:4860::8888', family: 6 },
+    ];
+  };
+  assert.deepEqual(await verifyPublicMemberDns(MEMBER_APP, publicResolver), [
+    { address: '8.8.8.8', family: 4 },
+    { address: '2001:4860:4860::8888', family: 6 },
+  ]);
+
+  await assert.rejects(
+    verifyPublicMemberDns(MEMBER_APP, async () => [
+      { address: '8.8.8.8', family: 4 },
+      { address: '10.0.0.5', family: 4 },
+    ]),
+    /must resolve only to public unicast addresses/,
+  );
+  await assert.rejects(
+    verifyPublicMemberDns(MEMBER_APP, async () => []),
+    /DNS lookup returned no addresses/,
+  );
+  await assert.rejects(
+    verifyPublicMemberDns(MEMBER_APP, async () => {
+      const error = new Error('temporary resolution failure');
+      error.code = 'EAI_AGAIN';
+      throw error;
+    }),
+    /DNS lookup failed \(EAI_AGAIN\)/,
+  );
 });
 
 test('production script discovery stays on the canonical landing origin', () => {
