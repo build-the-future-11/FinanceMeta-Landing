@@ -66,6 +66,31 @@ export const verifyMemberHandoffBundle = ({ bundleText, expectedMemberAppUrl }) 
   }
 };
 
+export const verifyMemberHandoffBundles = ({ bundles, expectedMemberAppUrl }) => {
+  const expected = validateExpectedMemberAppUrl(expectedMemberAppUrl);
+  if (!Array.isArray(bundles) || bundles.length === 0) {
+    fail('no production script bundles were supplied for member-handoff certification');
+  }
+
+  for (const bundleText of bundles) {
+    try {
+      verifyMemberHandoffBundle({
+        bundleText: String(bundleText ?? ''),
+        expectedMemberAppUrl: expected.href,
+      });
+      return;
+    } catch (error) {
+      if (!(error instanceof Error) || !error.message.startsWith('member handoff check failed:')) {
+        throw error;
+      }
+    }
+  }
+
+  fail(
+    `no individual production script bundle contains the complete member-handoff contract for ${expected.href}`,
+  );
+};
+
 const fetchWithoutRedirect = async (url) => {
   const response = await fetch(url, {
     redirect: 'manual',
@@ -90,7 +115,7 @@ export const runMemberHandoffVerification = async (
   const html = await rootResponse.text();
   const scriptUrls = extractModuleScriptUrls(html);
 
-  const bundleParts = [];
+  const bundles = [];
   for (const scriptUrl of scriptUrls) {
     const response = await fetchWithoutRedirect(scriptUrl);
     if (response.status !== 200) {
@@ -100,11 +125,11 @@ export const runMemberHandoffVerification = async (
     if (!['application/javascript', 'text/javascript'].includes(contentType ?? '')) {
       fail(`production script ${scriptUrl} must be JavaScript, found ${contentType ?? 'missing'}`);
     }
-    bundleParts.push(await response.text());
+    bundles.push(await response.text());
   }
 
-  verifyMemberHandoffBundle({
-    bundleText: bundleParts.join('\n'),
+  verifyMemberHandoffBundles({
+    bundles,
     expectedMemberAppUrl: expected.href,
   });
 
