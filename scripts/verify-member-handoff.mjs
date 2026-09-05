@@ -7,6 +7,8 @@ import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 export const LANDING_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 export const MAX_LANDING_HTML_BYTES = 2 * 1024 * 1024;
 export const MAX_SCRIPT_BUNDLE_BYTES = 16 * 1024 * 1024;
+export const MAX_SCRIPT_BUNDLES = 64;
+export const MAX_TOTAL_SCRIPT_BUNDLE_BYTES = 64 * 1024 * 1024;
 const EXPECTED_MEMBER_APP_ENV = 'FINANCEMETA_EXPECTED_MEMBER_APP_URL';
 const REQUIRED_HANDOFF_MARKERS = [
   'utm_source',
@@ -216,7 +218,37 @@ export const extractModuleScriptUrls = (html, baseUrl = LANDING_ORIGIN) => {
   if (scripts.length === 0) {
     fail('production HTML exposes no script bundle to inspect');
   }
-  return [...new Set(scripts)];
+
+  const uniqueScripts = [...new Set(scripts)];
+  if (uniqueScripts.length > MAX_SCRIPT_BUNDLES) {
+    fail(`production HTML exposes more than ${MAX_SCRIPT_BUNDLES} script bundles`);
+  }
+  return uniqueScripts;
+};
+
+export const assertBundleCollectionBounds = (
+  bundles,
+  maxBytes = MAX_TOTAL_SCRIPT_BUNDLE_BYTES,
+) => {
+  if (!Array.isArray(bundles)) {
+    throw new TypeError('bundles must be an array');
+  }
+  if (!Number.isSafeInteger(maxBytes) || maxBytes < 1) {
+    throw new TypeError('maxBytes must be a positive safe integer');
+  }
+  if (bundles.length > MAX_SCRIPT_BUNDLES) {
+    fail(`more than ${MAX_SCRIPT_BUNDLES} production script bundles were supplied`);
+  }
+
+  const encoder = new TextEncoder();
+  let totalBytes = 0;
+  for (const bundle of bundles) {
+    totalBytes += encoder.encode(String(bundle ?? '')).byteLength;
+    if (totalBytes > maxBytes) {
+      fail(`production script bundles exceed ${maxBytes} byte aggregate verification limit`);
+    }
+  }
+  return totalBytes;
 };
 
 export const verifyMemberHandoffBundle = ({ bundleText, expectedMemberAppUrl }) => {
@@ -241,6 +273,7 @@ export const verifyMemberHandoffBundles = ({ bundles, expectedMemberAppUrl }) =>
   if (!Array.isArray(bundles) || bundles.length === 0) {
     fail('no production script bundles were supplied for member-handoff certification');
   }
+  assertBundleCollectionBounds(bundles);
 
   for (const bundleText of bundles) {
     try {
@@ -351,6 +384,7 @@ export const runMemberHandoffVerification = async (
         `production script ${scriptUrl}`,
       ),
     );
+    assertBundleCollectionBounds(bundles);
   }
 
   verifyMemberHandoffBundles({
