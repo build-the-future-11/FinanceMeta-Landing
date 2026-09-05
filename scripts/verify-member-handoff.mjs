@@ -60,8 +60,12 @@ const isNonPublicIpv6 = (address) => {
   const normalized = address.toLowerCase();
   if (normalized === '::' || normalized === '::1') return true;
 
-  const mappedIpv4 = normalized.match(/::ffff:(\d+\.\d+\.\d+\.\d+)$/)?.[1];
-  if (mappedIpv4) return isNonPublicIpv4(mappedIpv4);
+  // IPv6 text can legally end in dotted IPv4 notation (mapped, compatible, or
+  // translation-prefix forms). Classify the embedded IPv4 tail as well so a
+  // private/loopback/link-local IPv4 target cannot bypass the public-unicast
+  // check merely by being represented as IPv6.
+  const embeddedIpv4 = normalized.match(/(?:^|:)(\d{1,3}(?:\.\d{1,3}){3})$/)?.[1];
+  if (embeddedIpv4 && isNonPublicIpv4(embeddedIpv4)) return true;
 
   const firstHextet = Number.parseInt(normalized.split(':', 1)[0] || '0', 16);
   if (!Number.isFinite(firstHextet)) return true;
@@ -69,6 +73,9 @@ const isNonPublicIpv6 = (address) => {
   return (
     (firstHextet & 0xfe00) === 0xfc00 ||
     (firstHextet & 0xffc0) === 0xfe80 ||
+    // Deprecated site-local fec0::/10 is not globally routable and must not be
+    // accepted as a production member-app resolution target.
+    (firstHextet & 0xffc0) === 0xfec0 ||
     (firstHextet & 0xff00) === 0xff00 ||
     normalized === '2001:db8::' ||
     normalized.startsWith('2001:db8:')
