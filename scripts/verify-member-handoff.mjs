@@ -1,5 +1,6 @@
-import { isIP } from 'node:net';
 import { pathToFileURL } from 'node:url';
+
+import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 
 export const LANDING_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 const EXPECTED_MEMBER_APP_ENV = 'FINANCEMETA_EXPECTED_MEMBER_APP_URL';
@@ -16,40 +17,14 @@ const fail = (message) => {
   throw new Error(`member handoff check failed: ${message}`);
 };
 
-const normalizeHostname = (hostname) =>
-  hostname.toLowerCase().replace(/^\[(.*)\]$/, '$1');
-
-const isNonPublicHostname = (hostname) => {
-  const normalized = normalizeHostname(hostname);
-  return (
-    isIP(normalized) !== 0 ||
-    normalized === 'localhost' ||
-    normalized.endsWith('.localhost') ||
-    normalized.endsWith('.local') ||
-    !normalized.includes('.')
-  );
-};
-
 export const validateExpectedMemberAppUrl = (rawValue) => {
   const value = String(rawValue ?? '').trim();
   if (!value) {
     fail(`${EXPECTED_MEMBER_APP_ENV} must name the canonical member application URL`);
   }
 
-  let url;
-  try {
-    url = new URL(value);
-  } catch {
-    fail(`expected member application URL is invalid: ${value}`);
-  }
-
-  if (
-    url.protocol !== 'https:' ||
-    isNonPublicHostname(url.hostname) ||
-    url.username ||
-    url.password ||
-    url.hash
-  ) {
+  const url = parsePublicMemberAppUrl(value);
+  if (!url) {
     fail(
       'expected member application URL must be public DNS HTTPS without credentials or fragments',
     );
