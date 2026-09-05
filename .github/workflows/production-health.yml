@@ -5,10 +5,16 @@ on:
     paths:
       - '.github/workflows/production-health.yml'
       - 'scripts/verify-live.mjs'
+      - 'scripts/verify-member-handoff.mjs'
       - 'scripts/release-revision.mjs'
+      - 'src/member-handoff-policy.mjs'
+      - 'src/member-handoff.ts'
+      - 'src/member-handoff-bootstrap.ts'
       - 'tests/verify-live.test.mjs'
+      - 'tests/verify-member-handoff.test.mjs'
       - 'tests/release-revision.test.mjs'
       - 'public/social-preview.svg'
+      - 'package.json'
   push:
     branches:
       - main
@@ -25,6 +31,7 @@ concurrency:
 
 env:
   SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  EXPECTED_MEMBER_APP_URL: ${{ vars.FINANCEMETA_MEMBER_APP_URL }}
 
 jobs:
   production-health:
@@ -78,11 +85,20 @@ jobs:
             echo "workflow_commit=${GITHUB_SHA}"
             echo "expected_source=${SOURCE_SHA}"
             echo 'target=https://finance-meta-landing.vercel.app/'
+            echo "expected_member_app=${EXPECTED_MEMBER_APP_URL:-MISSING}"
           } | tee "$log"
+
+          if [ -z "${EXPECTED_MEMBER_APP_URL:-}" ]; then
+            echo 'FINANCEMETA_MEMBER_APP_URL repository variable is required for production handoff certification.' | tee -a "$log"
+            exit 1
+          fi
 
           for attempt in 1 2 3; do
             echo "[production-health] Attempt ${attempt}/3" | tee -a "$log"
-            if SOURCE_SHA="${SOURCE_SHA}" npm run live:verify 2>&1 | tee -a "$log"; then
+            if {
+              SOURCE_SHA="${SOURCE_SHA}" npm run live:verify &&
+              FINANCEMETA_EXPECTED_MEMBER_APP_URL="${EXPECTED_MEMBER_APP_URL}" npm run member-handoff:verify
+            } 2>&1 | tee -a "$log"; then
               passed=1
               break
             fi
@@ -97,7 +113,8 @@ jobs:
             echo "- Checked at: ${checked_at}"
             echo "- Exact source: ${SOURCE_SHA}"
             echo '- Origin: https://finance-meta-landing.vercel.app/'
-            echo '- Contract: HTTP 200, no redirects, exact security headers, canonical/social/mobile metadata, byte-identical social asset, and exact immutable release revision'
+            echo "- Expected member app: ${EXPECTED_MEMBER_APP_URL}"
+            echo '- Contract: HTTP 200, no redirects, exact security headers, canonical/social/mobile metadata, byte-identical social asset, exact immutable release revision, and deployed bundle binding to the expected HTTPS member app with the frozen attribution markers'
             echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
           } >> "$GITHUB_STEP_SUMMARY"
 
