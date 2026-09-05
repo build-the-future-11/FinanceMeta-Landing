@@ -6,6 +6,7 @@ import {
   extractModuleScriptUrls,
   validateExpectedMemberAppUrl,
   verifyMemberHandoffBundle,
+  verifyMemberHandoffBundles,
 } from '../scripts/verify-member-handoff.mjs';
 import { parsePublicMemberAppUrl } from '../src/member-handoff-policy.mjs';
 
@@ -86,5 +87,30 @@ test('deployed bundle must bind the exact expected member app and attribution co
         expectedMemberAppUrl: MEMBER_APP,
       }),
     /missing member-handoff marker member_handoff/,
+  );
+});
+
+test('production certification requires one individual bundle to contain the full contract', () => {
+  assert.doesNotThrow(() =>
+    verifyMemberHandoffBundles({
+      bundles: ['const unrelated = true;', VALID_BUNDLE],
+      expectedMemberAppUrl: MEMBER_APP,
+    }),
+  );
+
+  const urlOnlyBundle = `const memberApp = "${MEMBER_APP}";`;
+  const markersOnlyBundle = VALID_BUNDLE.replace(MEMBER_APP, '');
+  assert.throws(
+    () =>
+      verifyMemberHandoffBundles({
+        bundles: [urlOnlyBundle, markersOnlyBundle],
+        expectedMemberAppUrl: MEMBER_APP,
+      }),
+    /no individual production script bundle contains the complete member-handoff contract/,
+  );
+
+  assert.throws(
+    () => verifyMemberHandoffBundles({ bundles: [], expectedMemberAppUrl: MEMBER_APP }),
+    /no production script bundles were supplied/,
   );
 });
