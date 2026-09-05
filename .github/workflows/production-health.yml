@@ -1,0 +1,115 @@
+name: Production Health
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/production-health.yml'
+      - 'scripts/verify-live.mjs'
+      - 'scripts/release-revision.mjs'
+      - 'tests/verify-live.test.mjs'
+      - 'tests/release-revision.test.mjs'
+      - 'public/social-preview.svg'
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '37 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: finance-meta-production-health-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'production' }}
+  cancel-in-progress: true
+
+env:
+  SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+
+jobs:
+  production-health:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+
+    steps:
+      - name: Checkout exact source
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: ${{ env.SOURCE_SHA }}
+          persist-credentials: false
+
+      - name: Verify exact source binding
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: '22'
+          cache: npm
+
+      - name: Install exact locked dependencies
+        run: npm ci --legacy-peer-deps --no-audit --fund=false
+
+      - name: Verify lockfile was not rewritten
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- package-lock.json
+
+      - name: Verify deterministic live contract
+        run: npm run live:contract:test
+
+      - name: Probe canonical production
+        if: github.event_name != 'pull_request'
+        id: probe
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p live-evidence
+          log='live-evidence/live-verify.log'
+          checked_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          passed=0
+
+          {
+            echo "checked_at=${checked_at}"
+            echo "workflow_commit=${GITHUB_SHA}"
+            echo "expected_source=${SOURCE_SHA}"
+            echo 'target=https://finance-meta-landing.vercel.app/'
+          } | tee "$log"
+
+          for attempt in 1 2 3; do
+            echo "[production-health] Attempt ${attempt}/3" | tee -a "$log"
+            if SOURCE_SHA="${SOURCE_SHA}" npm run live:verify 2>&1 | tee -a "$log"; then
+              passed=1
+              break
+            fi
+            if [ "$attempt" -lt 3 ]; then
+              sleep $((attempt * 5))
+            fi
+          done
+
+          {
+            echo '# FinanceMeta production health'
+            echo
+            echo "- Checked at: ${checked_at}"
+            echo "- Exact source: ${SOURCE_SHA}"
+            echo '- Origin: https://finance-meta-landing.vercel.app/'
+            echo '- Contract: HTTP 200, no redirects, exact security headers, canonical/social/mobile metadata, byte-identical social asset, and exact immutable release revision'
+            echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$passed" -ne 1 ]; then
+            exit 1
+          fi
+
+      - name: Upload live evidence
+        if: always() && github.event_name != 'pull_request'
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: finance-meta-production-health-${{ github.run_id }}
+          path: live-evidence/live-verify.log
+          if-no-files-found: error
+          retention-days: 14
