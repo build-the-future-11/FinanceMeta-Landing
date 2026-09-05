@@ -5,6 +5,9 @@ import {
   LANDING_ORIGIN,
   MAX_LANDING_HTML_BYTES,
   MAX_SCRIPT_BUNDLE_BYTES,
+  MAX_SCRIPT_BUNDLES,
+  MAX_TOTAL_SCRIPT_BUNDLE_BYTES,
+  assertBundleCollectionBounds,
   extractModuleScriptUrls,
   isPublicResolvedAddress,
   readResponseTextBounded,
@@ -175,6 +178,18 @@ test('production script discovery stays on the canonical landing origin', () => 
   assert.throws(() => extractModuleScriptUrls('<main>No script</main>'), /no script bundle/);
 });
 
+test('production script discovery caps same-origin bundle fanout', () => {
+  const html = Array.from(
+    { length: MAX_SCRIPT_BUNDLES + 1 },
+    (_, index) => `<script src="/assets/chunk-${index}.js"></script>`,
+  ).join('');
+
+  assert.throws(
+    () => extractModuleScriptUrls(html),
+    new RegExp(`more than ${MAX_SCRIPT_BUNDLES} script bundles`),
+  );
+});
+
 test('production response bodies are byte-bounded before certification', async () => {
   assert.ok(MAX_LANDING_HTML_BYTES > 0);
   assert.ok(MAX_SCRIPT_BUNDLE_BYTES > MAX_LANDING_HTML_BYTES);
@@ -200,6 +215,24 @@ test('production response bodies are byte-bounded before certification', async (
 
   await assert.rejects(
     readResponseTextBounded(new Response('ok'), 0, 'invalid limit'),
+    /maxBytes must be a positive safe integer/,
+  );
+});
+
+test('production bundle collection is aggregate-byte and count bounded', () => {
+  assert.ok(MAX_TOTAL_SCRIPT_BUNDLE_BYTES > MAX_SCRIPT_BUNDLE_BYTES);
+  assert.equal(assertBundleCollectionBounds(['abc', 'de'], 5), 5);
+
+  assert.throws(
+    () => assertBundleCollectionBounds(['abc', 'def'], 5),
+    /exceed 5 byte aggregate verification limit/,
+  );
+  assert.throws(
+    () => assertBundleCollectionBounds(Array(MAX_SCRIPT_BUNDLES + 1).fill('x')),
+    new RegExp(`more than ${MAX_SCRIPT_BUNDLES} production script bundles`),
+  );
+  assert.throws(
+    () => assertBundleCollectionBounds(['ok'], 0),
     /maxBytes must be a positive safe integer/,
   );
 });
