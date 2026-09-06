@@ -9,18 +9,18 @@ afterEach(() => {
 
 describe("member handoff", () => {
   it("renders the configured member portal link directly", () => {
-    vi.stubEnv("VITE_MEMBER_APP_URL", "https://finance4all-global-reach.vercel.app/signup");
+    vi.stubEnv("VITE_MEMBER_APP_URL", "https://finance4all-global-reach.vercel.app/login");
     render(<App />);
 
     const link = screen.getByRole("link", { name: "Open FinanceMeta member portal" });
     expect(link.getAttribute("data-member-handoff")).toBe("configured");
     expect(link.getAttribute("href")).toBe(
-      "https://finance4all-global-reach.vercel.app/signup?utm_source=financemeta_landing&utm_medium=cta&utm_campaign=member_handoff",
+      "https://finance4all-global-reach.vercel.app/login?utm_source=financemeta_landing&utm_medium=cta&utm_campaign=member_handoff",
     );
   });
 
   it("keeps the email fallback when no trusted portal origin is configured", () => {
-    vi.stubEnv("VITE_MEMBER_APP_URL", "http://localhost:8080/signup");
+    vi.stubEnv("VITE_MEMBER_APP_URL", "http://localhost:8080/login");
     render(<App />);
 
     const link = screen.getByRole("link", { name: "Email FinanceMeta to get involved" });
