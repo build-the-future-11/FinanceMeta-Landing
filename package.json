@@ -4,27 +4,31 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && node scripts/write-release-revision.mjs",
+    "build": "npm run typecheck && vite build && node scripts/write-release-revision.mjs",
     "preview": "vite preview",
-    "release:check": "npm run accessibility:check && npm run live:contract:test && npm run build && node scripts/verify-release.mjs",
+    "release:check": "npm run accessibility:check && npm run test && npm run build && node scripts/verify-release.mjs",
     "accessibility:check": "node scripts/verify-accessibility.mjs",
     "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs",
+    "test": "npm run live:contract:test && vitest run",
+    "typecheck": "tsc --noEmit",
     "live:verify": "node scripts/verify-live.mjs"
   },
   "dependencies": {
     "framer-motion": "^13.1.1",
     "react": "18.3.0",
-    "react-dom": "18.3.0",
-    "react-tsparticles": "^2.11.1",
-    "tsparticles": "^2.11.1"
+    "react-dom": "18.3.0"
   },
   "devDependencies": {
     "@types/node": "26.4.0",
     "@types/react": "18.2.15",
+    "@types/react-dom": "18.2.7",
+    "@testing-library/react": "16.3.0",
     "autoprefixer": "^10.5.4",
     "postcss": "^8.5.26",
     "tailwindcss": "^3.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.2.2"
+    "vite": "^8.2.2",
+    "vitest": "^3.2.4",
+    "jsdom": "^26.1.0"
   }
 }

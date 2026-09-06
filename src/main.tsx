@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { motion, useReducedMotion } from "framer-motion";
 import "./index.css";
+import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from "./member-handoff";
 
 type Program = {
   eyebrow: string;
@@ -67,9 +68,11 @@ function initialDarkMode() {
   return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true;
 }
 
-function App() {
+export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
   const prefersReducedMotion = useReducedMotion();
+  const memberHandoffConfigured = hasConfiguredMemberHandoff();
+  const memberHandoffUrl = getMemberHandoffUrl();
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -136,14 +139,14 @@ function App() {
               transition={{ duration: prefersReducedMotion ? 0 : 0.55 }}
             >
               <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-                A student finance ecosystem, not another course library
+                Building an evidence-first student finance ecosystem
               </div>
               <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
                 Understand finance.
                 <span className="block text-emerald-500">Build with it.</span>
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                FinanceMeta brings learning, research, publishing, competitions, chapters, and real projects into one student-led platform for people who want to do more than memorize terminology.
+                FinanceMeta is building one student-led platform for learning, research, publishing, competitions, chapters, and practical projects. Programs launch only after their evidence requirements are met.
               </p>
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
@@ -191,10 +194,10 @@ function App() {
 
         <section id="programs" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
           <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Programs</div>
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">One platform. Multiple ways to grow.</h2>
+            <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Planned programs</div>
+            <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">A roadmap with evidence gates.</h2>
             <p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
-              Choose the lane that matches how you learn best, then move between them as your skills, ambition, and projects get deeper.
+              These program families are in development. A program is described as active only after a named lead, operating record, and reviewable output exist.
             </p>
           </div>
 
@@ -251,10 +254,12 @@ function App() {
               </div>
               <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
                 <a
-                  href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20-%20Get%20Involved"
+                  href={memberHandoffUrl}
+                  data-member-handoff={memberHandoffConfigured ? "configured" : "fallback"}
+                  aria-label={memberHandoffConfigured ? "Open FinanceMeta member portal" : "Email FinanceMeta to get involved"}
                   className="rounded-xl bg-emerald-400 px-6 py-3.5 text-center font-black text-[#07110d] transition hover:bg-emerald-300"
                 >
-                  Get involved
+                  {memberHandoffConfigured ? "Open member portal" : "Get involved"}
                 </a>
                 <a
                   href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20Partnership"
@@ -279,13 +284,10 @@ function App() {
 }
 
 const rootElement = document.getElementById("root");
-
-if (!rootElement) {
-  throw new Error("Root element not found");
+if (rootElement) {
+  createRoot(rootElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>,
+  );
 }
-
-createRoot(rootElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
