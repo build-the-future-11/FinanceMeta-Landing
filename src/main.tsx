@@ -256,10 +256,10 @@ export function App() {
                 <a
                   href={memberHandoffUrl}
                   data-member-handoff={memberHandoffConfigured ? "configured" : "fallback"}
-                  aria-label={memberHandoffConfigured ? "Open FinanceMeta member portal" : "Email FinanceMeta to get involved"}
+                  aria-label={memberHandoffConfigured ? "Open FinanceMeta member portal" : "Apply to FinanceMeta"}
                   className="rounded-xl bg-emerald-400 px-6 py-3.5 text-center font-black text-[#07110d] transition hover:bg-emerald-300"
                 >
-                  {memberHandoffConfigured ? "Open member portal" : "Get involved"}
+                  {memberHandoffConfigured ? "Open member portal" : "Apply to FinanceMeta"}
                 </a>
                 <a
                   href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20Partnership"
