@@ -19,12 +19,12 @@ describe("member handoff", () => {
     );
   });
 
-  it("keeps the email fallback when no trusted portal origin is configured", () => {
+  it("uses the live FinanceMeta application when no trusted portal origin is configured", () => {
     vi.stubEnv("VITE_MEMBER_APP_URL", "http://localhost:8080/login");
     render(<App />);
 
-    const link = screen.getByRole("link", { name: "Email FinanceMeta to get involved" });
+    const link = screen.getByRole("link", { name: "Apply to FinanceMeta" });
     expect(link.getAttribute("data-member-handoff")).toBe("fallback");
-    expect(link.getAttribute("href")).toMatch(/^mailto:/);
+    expect(link.getAttribute("href")).toBe("https://tally.so/r/5B7blP");
   });
 });
