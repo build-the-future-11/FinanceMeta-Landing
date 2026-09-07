@@ -1,5 +1,4 @@
-const FALLBACK_JOIN_URL =
-  "mailto:financeforalledu@gmail.com?subject=FinanceMeta%20-%20Get%20Involved";
+const FINANCEMETA_APPLICATION_URL = "https://tally.so/r/5B7blP";
 
 function safeHttpsUrl(value: string | undefined) {
   if (!value) return null;
@@ -16,7 +15,7 @@ function safeHttpsUrl(value: string | undefined) {
 
 export function getMemberHandoffUrl() {
   const configuredUrl = safeHttpsUrl(import.meta.env.VITE_MEMBER_APP_URL?.trim());
-  if (!configuredUrl) return FALLBACK_JOIN_URL;
+  if (!configuredUrl) return FINANCEMETA_APPLICATION_URL;
 
   configuredUrl.searchParams.set("utm_source", "financemeta_landing");
   configuredUrl.searchParams.set("utm_medium", "cta");
