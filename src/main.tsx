@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { createRoot } from "react-dom/client";
+import { motion, useReducedMotion } from "framer-motion";
 import "./index.css";
 import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from "./member-handoff";
 
@@ -69,6 +70,7 @@ function initialDarkMode() {
 
 export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
+  const prefersReducedMotion = useReducedMotion();
   const memberHandoffConfigured = hasConfiguredMemberHandoff();
   const memberHandoffUrl = getMemberHandoffUrl();
 
@@ -123,12 +125,26 @@ export function App() {
             </a>
           </div>
         </div>
+
+        <nav
+          aria-label="Mobile navigation"
+          className="flex items-center justify-center gap-2 border-t border-slate-200 px-4 py-2 dark:border-white/10 md:hidden"
+        >
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#programs">Programs</a>
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#why">Principles</a>
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#join">Join</a>
+        </nav>
       </header>
 
       <main id="main-content" tabIndex={-1}>
         <section id="top" className="border-b border-slate-200 dark:border-white/10">
           <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] lg:items-end lg:px-8 lg:py-28">
-            <div className="max-w-4xl">
+            <motion.div
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
+              className="max-w-4xl"
+            >
               <div className="mb-6 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
                 <span className="h-px w-8 bg-emerald-500" aria-hidden="true" />
                 Student-led finance and economics platform
@@ -157,7 +173,7 @@ export function App() {
                   Partner with FinanceMeta
                 </a>
               </div>
-            </div>
+            </motion.div>
 
             <aside className="border-t border-slate-200 pt-6 dark:border-white/10 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0" aria-label="FinanceMeta operating model">
               <div className="text-sm font-bold">A platform built around output.</div>
