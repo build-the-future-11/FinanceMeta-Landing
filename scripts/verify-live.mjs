@@ -7,7 +7,7 @@ import { resolveReleaseRevision, validateReleaseRevision } from './release-revis
 export const EXPECTED_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.svg`;
 export const EXPECTED_REVISION_URL = `${EXPECTED_ORIGIN}release-revision.json`;
-export const EXPECTED_SOCIAL_ALT = 'FinanceMeta: Understand finance. Build with it.';
+export const EXPECTED_SOCIAL_ALT = 'FinanceMeta: Study the system. Build the evidence.';
 export const EXPECTED_MEMBER_LOGIN_URL = 'https://finance4all-global-reach.vercel.app/login';
 
 const EXPECTED_HEADERS = new Map([

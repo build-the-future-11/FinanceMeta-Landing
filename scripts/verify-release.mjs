@@ -69,7 +69,7 @@ const singleMatch = (regex, label) => {
 
 const expectedOrigin = 'https://finance-meta-landing.vercel.app/';
 const expectedSocialUrl = `${expectedOrigin}social-preview.svg`;
-const expectedSocialAlt = 'FinanceMeta: Understand finance. Build with it.';
+const expectedSocialAlt = 'FinanceMeta: Study the system. Build the evidence.';
 const title = singleMatch(/<title>([^<]+)<\/title>/gi, 'title');
 if (!title.includes('FinanceMeta')) {
   fail('built HTML title must identify FinanceMeta');
@@ -91,6 +91,9 @@ const ogTitle = singleMatch(
   /<meta\s+property=["']og:title["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
   'Open Graph title',
 );
+if (ogTitle !== expectedSocialAlt) {
+  fail('Open Graph title must match the approved FinanceMeta headline');
+}
 const ogDescription = singleMatch(
   /<meta\s+property=["']og:description["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
   'Open Graph description',

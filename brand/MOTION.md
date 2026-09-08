@@ -9,6 +9,8 @@ Motion explains circulation. Ideas move through learning, application, publicati
 - Draw a bounded set of paths across a ledger grid.
 - Move small signals along those paths at different but stable rates.
 - Let pointer position create a restrained local pull without changing the layout.
+- Smooth pointer input before applying the pull and draw only a short deterministic trace of that input.
+- Couple the selected operating stage to route weight and node emphasis.
 - Keep labels and calls to action independent from the canvas so motion never harms readability.
 - Stop continuous motion when the document is hidden.
 
@@ -18,6 +20,13 @@ Motion explains circulation. Ideas move through learning, application, publicati
 - Section entrance: `320ms` to `480ms`.
 - Flow signals: `7s` to `14s` per route.
 - Do not use spring bounce for institutional actions.
+
+## Scroll behavior
+
+- Use native scrolling with proximity snap points so section thresholds have gentle resistance.
+- Never intercept the wheel, synthesize scroll distance, or trap the user inside a section.
+- Sticky introductions may hold context while the related records continue through normal document flow.
+- Text may translate into place, but its opacity must stay high enough to preserve AA contrast before intersection.
 
 ## Reduced motion
 

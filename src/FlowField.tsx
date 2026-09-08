@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 type FlowFieldProps = {
   darkMode: boolean;
   reducedMotion: boolean;
+  activeRoute: number;
 };
 
 type Point = { x: number; y: number };
@@ -39,7 +40,7 @@ function cubicPoint(route: Route, position: number): Point {
   };
 }
 
-export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
+export function FlowField({ darkMode, reducedMotion, activeRoute }: FlowFieldProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -52,7 +53,14 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
     let height = 0;
     let animationFrame = 0;
     let pageVisible = !document.hidden;
-    const pointer = { x: 0.68, y: 0.42, active: false };
+    const pointer = {
+      x: 0.68,
+      y: 0.42,
+      targetX: 0.68,
+      targetY: 0.42,
+      active: false,
+      trail: [] as Point[],
+    };
 
     const resize = () => {
       const bounds = canvas.getBoundingClientRect();
@@ -72,11 +80,15 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
       return { x: (point.x + (dx / distance) * influence) * width, y: (point.y + (dy / distance) * influence) * height };
     };
 
-    const drawRoute = (route: Route) => {
+    const drawRoute = (route: Route, index: number) => {
       const start = project(route.start);
       const controlA = project(route.controlA);
       const controlB = project(route.controlB);
       const end = project(route.end);
+      context.lineWidth = index === activeRoute ? (width < 640 ? 2.1 : 2.7) : (width < 640 ? 1.05 : 1.35);
+      context.strokeStyle = index === activeRoute
+        ? (darkMode ? "rgba(134, 239, 172, 0.78)" : "rgba(21, 128, 61, 0.74)")
+        : (darkMode ? "rgba(74, 222, 128, 0.28)" : "rgba(22, 163, 74, 0.3)");
       context.beginPath();
       context.moveTo(start.x, start.y);
       context.bezierCurveTo(controlA.x, controlA.y, controlB.x, controlB.y, end.x, end.y);
@@ -85,6 +97,8 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
 
     const draw = (time: number) => {
       context.clearRect(0, 0, width, height);
+      pointer.x += (pointer.targetX - pointer.x) * (reducedMotion ? 1 : 0.11);
+      pointer.y += (pointer.targetY - pointer.y) * (reducedMotion ? 1 : 0.11);
       context.lineWidth = 1;
       context.strokeStyle = darkMode ? "rgba(74, 222, 128, 0.09)" : "rgba(7, 19, 12, 0.075)";
       const grid = width < 640 ? 44 : 64;
@@ -101,20 +115,43 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
         context.stroke();
       }
 
-      context.lineWidth = width < 640 ? 1.25 : 1.6;
-      context.strokeStyle = darkMode ? "rgba(74, 222, 128, 0.46)" : "rgba(22, 163, 74, 0.42)";
+      if (pointer.active && pointer.trail.length > 1) {
+        context.lineCap = "round";
+        for (let index = 1; index < pointer.trail.length; index += 1) {
+          const start = pointer.trail[index - 1];
+          const end = pointer.trail[index];
+          context.beginPath();
+          context.moveTo(start.x * width, start.y * height);
+          context.lineTo(end.x * width, end.y * height);
+          context.lineWidth = Math.max(0.5, (index / pointer.trail.length) * 2.25);
+          context.strokeStyle = darkMode
+            ? `rgba(134, 239, 172, ${0.03 + (index / pointer.trail.length) * 0.16})`
+            : `rgba(21, 128, 61, ${0.025 + (index / pointer.trail.length) * 0.13})`;
+          context.stroke();
+        }
+        context.lineCap = "butt";
+      }
+
       ROUTES.forEach(drawRoute);
 
-      for (const { point, label } of NODES) {
+      NODES.forEach(({ point, label }, index) => {
         const projected = project(point);
         context.fillStyle = darkMode ? "#4ade80" : "#15803d";
         context.beginPath();
-        context.arc(projected.x, projected.y, width < 640 ? 3.5 : 4.5, 0, Math.PI * 2);
+        const baseRadius = width < 640 ? 3.5 : 4.5;
+        context.arc(projected.x, projected.y, index === activeRoute ? baseRadius * 1.75 : baseRadius, 0, Math.PI * 2);
         context.fill();
+        if (index === activeRoute) {
+          context.strokeStyle = darkMode ? "rgba(240, 253, 244, 0.72)" : "rgba(7, 19, 12, 0.55)";
+          context.lineWidth = 1;
+          context.beginPath();
+          context.arc(projected.x, projected.y, baseRadius * 3.1, 0, Math.PI * 2);
+          context.stroke();
+        }
         context.fillStyle = darkMode ? "rgba(240, 253, 244, 0.62)" : "rgba(7, 19, 12, 0.57)";
         context.font = `${width < 640 ? 9 : 10}px ui-monospace, monospace`;
         context.fillText(label, projected.x + 10, projected.y - 9);
-      }
+      });
 
       ROUTES.forEach((route) => {
         const position = reducedMotion ? route.phase : (route.phase + time * route.speed) % 1;
@@ -126,18 +163,22 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
       });
 
       canvas.dataset.rendered = "true";
+      canvas.dataset.activeRoute = String(activeRoute + 1);
       if (!reducedMotion && pageVisible) animationFrame = window.requestAnimationFrame(draw);
     };
 
     const handlePointerMove = (event: PointerEvent) => {
       const bounds = canvas.getBoundingClientRect();
-      pointer.x = (event.clientX - bounds.left) / Math.max(1, bounds.width);
-      pointer.y = (event.clientY - bounds.top) / Math.max(1, bounds.height);
+      pointer.targetX = (event.clientX - bounds.left) / Math.max(1, bounds.width);
+      pointer.targetY = (event.clientY - bounds.top) / Math.max(1, bounds.height);
       pointer.active = true;
+      pointer.trail.push({ x: pointer.targetX, y: pointer.targetY });
+      if (pointer.trail.length > 18) pointer.trail.shift();
       if (reducedMotion) draw(0);
     };
     const handlePointerLeave = () => {
       pointer.active = false;
+      pointer.trail.length = 0;
       if (reducedMotion) draw(0);
     };
     const handleVisibility = () => {
@@ -165,7 +206,7 @@ export function FlowField({ darkMode, reducedMotion }: FlowFieldProps) {
       document.removeEventListener("visibilitychange", handleVisibility);
       window.cancelAnimationFrame(animationFrame);
     };
-  }, [darkMode, reducedMotion]);
+  }, [activeRoute, darkMode, reducedMotion]);
 
-  return <canvas ref={canvasRef} className="flow-field" aria-hidden="true" />;
+  return <canvas ref={canvasRef} className="flow-field" data-active-route={activeRoute + 1} aria-hidden="true" />;
 }

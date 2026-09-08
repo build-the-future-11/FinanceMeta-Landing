@@ -17,17 +17,19 @@ The signature visual is a flowing field of connected paths. It represents ideas 
 - Fine rules, coordinates, sequence numbers, and monospaced annotations create a financial-ledger rhythm.
 - The five-stage operating loop appears as a continuous route, not a stack of feature cards.
 - Program families are presented as an indexed field with honest development states.
+- A compact section rail reports position on wide screens; mobile uses the primary section links without a floating overlay.
+- The evidence threshold is a working range control. It explains the activation rule without presenting simulated data.
 
 ## Palette
 
-- `signal`: `#15803d`, for primary actions, active routes, and flow signals.
-- `signal-bright`: `#4ade80`, for dark-surface highlights.
-- `signal-deep`: `#0b3d24`, for full-width institutional bands.
-- `paper`: `#f7faf7`, the warm-neutral white canvas.
+- `signal`: `#0b7a35`, for primary actions, active routes, and flow signals.
+- `signal-bright`: `#55e884`, for selected states and dark-surface highlights.
+- `signal-deep`: `#06351b`, for full-width institutional bands.
+- `paper`: `#f3f7f3`, the cool-neutral white canvas.
 - `white`: `#ffffff`, for high-clarity surfaces and reversed copy.
-- `ink`: `#07130c`, for primary type and the dark theme.
-- `graphite`: `#405047`, for supporting copy.
-- `rule`: `#cfd8d1`, for the ledger grid.
+- `ink`: `#06140b`, for primary type and the dark theme.
+- `graphite`: `#435248`, for supporting copy.
+- `rule`: `#c7d3c9`, for the ledger grid.
 
 Green and white dominate. Ink and graphite are neutral structure, never a competing palette. Do not use gradients, glow blobs, purple, blue, beige, or ornamental color.
 
@@ -41,11 +43,12 @@ Green and white dominate. Ink and graphite are neutral structure, never a compet
 
 ## Layout
 
-- Maximum reading width: `80rem`.
+- Maximum interface width: `84rem`.
 - First viewport: full-bleed flow field behind the brand, with the next section visible on common desktop and mobile screens.
 - Sections are unframed full-width bands or constrained layouts. Do not place page sections inside floating cards.
 - Repeated program records may use rows with rules. Corners stay square or use a maximum `8px` radius.
 - Controls maintain stable dimensions and at least `44px` touch height.
+- Program detail may use a pointer-driven tilt of less than `5deg`; the information remains flat and unchanged for touch and reduced-motion users.
 
 ## Accessibility
 

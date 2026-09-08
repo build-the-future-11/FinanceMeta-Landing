@@ -48,3 +48,19 @@ Useful properties:
 - Motion should respect reduced-motion preferences and retain a stable resting state.
 
 Transfer to FinanceMeta: keep entrance motion minimal and invest custom motion in the operating loop itself.
+
+## Inspira UI interaction references
+
+Sources:
+
+- https://inspira-ui.com/docs/en/components/cursors/fluid-cursor
+- https://inspira-ui.com/docs/en/components/backgrounds/interactive-grid-pattern
+- https://inspira-ui.com/docs/en/components/text-animations/text-reveal
+
+Useful properties:
+
+- Pointer input can visibly deform a field without moving interface content.
+- A grid becomes meaningful when it holds routes, indices, and current state.
+- Text entrances work best when grouped by editorial line, not applied to every word.
+
+Transfer to FinanceMeta: implement these ideas in the existing React canvas and motion stack. Do not import the source library's Vue components or its visual styling.

@@ -7,13 +7,14 @@ test.beforeEach(async ({ page }) => {
 });
 
 test("renders the evidence-bounded landing without horizontal overflow", async ({ page }) => {
-  await expect(page.locator("#programs").getByRole("heading", { name: "Six routes into the same system." })).toBeVisible();
+  await expect(page.locator("#programs").getByRole("heading", { name: "Six routes. One standard." })).toBeVisible();
   await expect(page.getByText(/program families are in development/i)).toBeVisible();
 
-  const hasHorizontalOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
-  );
-  expect(hasHorizontalOverflow).toBe(false);
+  const widths = await page.evaluate(() => ({
+    client: document.documentElement.clientWidth,
+    scroll: document.documentElement.scrollWidth,
+  }));
+  expect(widths.scroll).toBeLessThanOrEqual(widths.client);
 });
 
 test("keeps the member handoff on the canonical FinanceMeta portal", async ({ page }) => {
@@ -43,6 +44,30 @@ test("renders the operating field and exposes program details by keyboard", asyn
   await labs.focus();
   await expect(page.locator(".program-detail").getByRole("heading", { name: "FinanceMeta Labs" })).toBeVisible();
   await expect(page.locator(".program-detail")).toContainText("A reproducible investigation");
+
+  await page.keyboard.press("ArrowDown");
+  await expect(page.getByRole("button", { name: /04\/chapters.*global chapters/i })).toBeFocused();
+  await expect(page.locator(".program-detail").getByRole("heading", { name: "Global Chapters" })).toBeVisible();
+});
+
+test("couples the operating route and canvas state", async ({ page }) => {
+  const field = page.locator("canvas.flow-field");
+  await expect(field).toHaveAttribute("data-active-route", "1");
+
+  await page.locator(".flow-index").getByRole("button", { name: /02\s*apply/i }).click();
+  await expect(field).toHaveAttribute("data-active-route", "2");
+  await expect(page.locator(".flow-index").getByText("Put a model against data, a decision, or a real constraint.")).toBeVisible();
+});
+
+test("makes the evidence threshold keyboard operable", async ({ page }) => {
+  const threshold = page.getByRole("slider", { name: "Evidence threshold" });
+  await threshold.scrollIntoViewIfNeeded();
+  await threshold.focus();
+  await page.keyboard.press("End");
+
+  await expect(threshold).toHaveValue("3");
+  await expect(page.getByText("ELIGIBLE FOR ACTIVATION")).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Output reviewed" })).toBeVisible();
 });
 
 test("supports keyboard entry and persists the selected theme", async ({ page }) => {
@@ -66,11 +91,12 @@ test("remains usable with enlarged root text", async ({ page }) => {
     document.documentElement.style.fontSize = "200%";
   });
   await expect(page.getByRole("heading", { level: 1, name: "FinanceMeta" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Explore programs" })).toBeVisible();
-  const hasHorizontalOverflow = await page.evaluate(
-    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
-  );
-  expect(hasHorizontalOverflow).toBe(false);
+  await expect(page.getByRole("link", { name: "Explore the field" })).toBeVisible();
+  const widths = await page.evaluate(() => ({
+    client: document.documentElement.clientWidth,
+    scroll: document.documentElement.scrollWidth,
+  }));
+  expect(widths.scroll).toBeLessThanOrEqual(widths.client);
 });
 
 test("has no automatically detectable accessibility violations", async ({ page }) => {
