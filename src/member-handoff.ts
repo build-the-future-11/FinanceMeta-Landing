@@ -1,12 +1,21 @@
 const FINANCEMETA_APPLICATION_URL = "https://tally.so/r/5B7blP";
+const FINANCEMETA_MEMBER_ORIGIN = "https://finance4all-global-reach.vercel.app";
+const FINANCEMETA_MEMBER_PATH = "/login";
 
-function safeHttpsUrl(value: string | undefined) {
+function safeMemberUrl(value: string | undefined) {
   if (!value) return null;
 
   try {
     const url = new URL(value);
-    const isLocal = url.hostname === "localhost" || url.hostname === "127.0.0.1";
-    if (url.protocol !== "https:" || isLocal) return null;
+    if (
+      url.origin !== FINANCEMETA_MEMBER_ORIGIN ||
+      url.pathname !== FINANCEMETA_MEMBER_PATH ||
+      url.username ||
+      url.password ||
+      url.hash
+    ) {
+      return null;
+    }
     return url;
   } catch {
     return null;
@@ -14,7 +23,7 @@ function safeHttpsUrl(value: string | undefined) {
 }
 
 export function getMemberHandoffUrl() {
-  const configuredUrl = safeHttpsUrl(import.meta.env.VITE_MEMBER_APP_URL?.trim());
+  const configuredUrl = safeMemberUrl(import.meta.env.VITE_MEMBER_APP_URL?.trim());
   if (!configuredUrl) return FINANCEMETA_APPLICATION_URL;
 
   configuredUrl.searchParams.set("utm_source", "financemeta_landing");
@@ -24,5 +33,5 @@ export function getMemberHandoffUrl() {
 }
 
 export function hasConfiguredMemberHandoff() {
-  return Boolean(safeHttpsUrl(import.meta.env.VITE_MEMBER_APP_URL?.trim()));
+  return Boolean(safeMemberUrl(import.meta.env.VITE_MEMBER_APP_URL?.trim()));
 }

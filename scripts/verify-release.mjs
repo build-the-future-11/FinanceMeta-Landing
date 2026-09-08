@@ -1,4 +1,4 @@
-import { existsSync, readFileSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync } from 'node:fs';
 
 import { resolveReleaseRevision, validateReleaseRevision } from './release-revision.mjs';
 
@@ -69,7 +69,7 @@ const singleMatch = (regex, label) => {
 
 const expectedOrigin = 'https://finance-meta-landing.vercel.app/';
 const expectedSocialUrl = `${expectedOrigin}social-preview.svg`;
-const expectedSocialAlt = 'FinanceMeta — Understand finance. Build with it.';
+const expectedSocialAlt = 'FinanceMeta: Understand finance. Build with it.';
 const title = singleMatch(/<title>([^<]+)<\/title>/gi, 'title');
 if (!title.includes('FinanceMeta')) {
   fail('built HTML title must identify FinanceMeta');
@@ -201,6 +201,20 @@ if (/localhost|127\.0\.0\.1/i.test(html)) {
   fail('built HTML contains a local-only URL');
 }
 
+const compiledJavaScript = readdirSync('dist/assets')
+  .filter((name) => name.endsWith('.js'))
+  .map((name) => readFileSync(`dist/assets/${name}`, 'utf8'))
+  .join('\n');
+const expectedMemberLoginUrl = 'https://finance4all-global-reach.vercel.app/login';
+if (!compiledJavaScript.includes(expectedMemberLoginUrl)) {
+  fail(`compiled member handoff must contain ${expectedMemberLoginUrl}`);
+}
+for (const forbidden of ['vertexed.app', 'xwlrzgfuhfbckgvcmyoq']) {
+  if (compiledJavaScript.toLowerCase().includes(forbidden)) {
+    fail(`compiled assets contain forbidden foreign product marker ${forbidden}`);
+  }
+}
+
 let vercelConfig;
 try {
   vercelConfig = JSON.parse(readFileSync('vercel.json', 'utf8'));
@@ -244,5 +258,5 @@ for (const [key, expectedValue] of requiredHeaders) {
 }
 
 console.log(
-  `FinanceMeta release check passed for source ${expectedRevision}: build output, immutable revision identity, social metadata/assets, favicon integrity, and hardened response headers are valid.`,
+  `FinanceMeta release check passed for source ${expectedRevision}: build output, immutable revision identity, canonical member handoff, social metadata/assets, favicon integrity, and hardened response headers are valid.`,
 );

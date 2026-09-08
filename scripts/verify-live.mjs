@@ -7,7 +7,8 @@ import { resolveReleaseRevision, validateReleaseRevision } from './release-revis
 export const EXPECTED_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.svg`;
 export const EXPECTED_REVISION_URL = `${EXPECTED_ORIGIN}release-revision.json`;
-export const EXPECTED_SOCIAL_ALT = 'FinanceMeta — Understand finance. Build with it.';
+export const EXPECTED_SOCIAL_ALT = 'FinanceMeta: Understand finance. Build with it.';
+export const EXPECTED_MEMBER_LOGIN_URL = 'https://finance4all-global-reach.vercel.app/login';
 
 const EXPECTED_HEADERS = new Map([
   ['strict-transport-security', 'max-age=63072000; includeSubDomains'],
@@ -147,6 +148,29 @@ export const verifyHtml = (html) => {
   }
 };
 
+export const extractLocalScriptUrls = (html, baseUrl = EXPECTED_ORIGIN) => {
+  const sources = [...html.matchAll(/<script\b[^>]*\bsrc=["']([^"']+)["'][^>]*>/gi)]
+    .map((match) => new URL(match[1], baseUrl));
+  if (sources.length === 0) fail('HTML must load at least one script asset');
+  for (const source of sources) {
+    if (source.origin !== new URL(baseUrl).origin) {
+      fail(`script assets must stay on the landing origin, found ${source.href}`);
+    }
+  }
+  return sources;
+};
+
+export const verifyMemberHandoffBundle = (bundleSource) => {
+  if (!bundleSource.includes(EXPECTED_MEMBER_LOGIN_URL)) {
+    fail(`compiled member handoff must contain ${EXPECTED_MEMBER_LOGIN_URL}`);
+  }
+  for (const forbidden of ['vertexed.app', 'xwlrzgfuhfbckgvcmyoq']) {
+    if (bundleSource.toLowerCase().includes(forbidden)) {
+      fail(`compiled assets contain forbidden foreign product marker ${forbidden}`);
+    }
+  }
+};
+
 export const verifySocialAsset = ({ headers, bytes, expectedBytes }) => {
   const contentType = headers.get('content-type')?.split(';', 1)[0]?.trim().toLowerCase();
   if (contentType !== 'image/svg+xml') {
@@ -218,7 +242,18 @@ export const runLiveVerification = async (
     fail(`root must return HTTP 200, found ${rootResponse.status}`);
   }
   verifyHeaders(rootResponse.headers);
-  verifyHtml(await rootResponse.text());
+  const rootHtml = await rootResponse.text();
+  verifyHtml(rootHtml);
+
+  const bundleSources = [];
+  for (const scriptUrl of extractLocalScriptUrls(rootHtml, target.href)) {
+    const scriptResponse = await fetchWithoutRedirect(scriptUrl.href);
+    if (scriptResponse.status !== 200) {
+      fail(`script asset must return HTTP 200, found ${scriptResponse.status} from ${scriptUrl.href}`);
+    }
+    bundleSources.push(await scriptResponse.text());
+  }
+  verifyMemberHandoffBundle(bundleSources.join('\n'));
 
   const revisionResponse = await fetchWithoutRedirect(EXPECTED_REVISION_URL);
   if (revisionResponse.status !== 200) {

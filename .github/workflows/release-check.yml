@@ -15,6 +15,7 @@ concurrency:
 
 env:
   SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+  VITE_MEMBER_APP_URL: https://finance4all-global-reach.vercel.app/login
 
 jobs:
   release-check:
@@ -36,7 +37,7 @@ jobs:
           node-version: "22"
           cache: npm
       - name: Install exact locked dependencies without duplicate advisory fetch
-        run: npm ci --legacy-peer-deps --no-audit --fund=false
+        run: npm ci --no-audit --fund=false
       - name: Verify lockfile was not rewritten
         shell: bash
         run: |
@@ -165,7 +166,7 @@ jobs:
             printf 'npm=%s\n' "$(npm --version)"
           } > release-evidence/provenance.txt
           sha256sum package.json package-lock.json > release-evidence/package-inputs.sha256
-          sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs scripts/verify-live.mjs scripts/release-revision.mjs scripts/write-release-revision.mjs tests/verify-live.test.mjs tests/release-revision.test.mjs > release-evidence/verifier-inputs.sha256
+          sha256sum playwright.config.ts e2e/landing.spec.ts scripts/verify-release.mjs scripts/verify-accessibility.mjs scripts/verify-live.mjs scripts/release-revision.mjs scripts/write-release-revision.mjs tests/verify-live.test.mjs tests/release-revision.test.mjs > release-evidence/verifier-inputs.sha256
           sha256sum dist/release-revision.json > release-evidence/release-revision.sha256
           cp release-evidence/dist-second.sha256 release-evidence/dist-sha256.txt
           test -s release-evidence/dist-sha256.txt

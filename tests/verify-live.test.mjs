@@ -3,12 +3,15 @@ import test from 'node:test';
 
 import {
   EXPECTED_ORIGIN,
+  EXPECTED_MEMBER_LOGIN_URL,
   EXPECTED_REVISION_URL,
   EXPECTED_SOCIAL_ALT,
   EXPECTED_SOCIAL_URL,
+  extractLocalScriptUrls,
   validateTargetUrl,
   verifyHeaders,
   verifyHtml,
+  verifyMemberHandoffBundle,
   verifyReleaseRevision,
   verifySocialAsset,
 } from '../scripts/verify-live.mjs';
@@ -39,7 +42,7 @@ const validHtml = () => `<!doctype html>
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="${EXPECTED_SOCIAL_URL}" />
     <meta name="twitter:image:alt" content="${EXPECTED_SOCIAL_ALT}" />
-    <title>FinanceMeta — Release Fixture</title>
+    <title>FinanceMeta: Release Fixture</title>
   </head>
 </html>`;
 
@@ -83,6 +86,27 @@ test('deployed HTML must retain canonical, social and mobile metadata', () => {
   assert.throws(
     () => verifyHtml(validHtml().replace('summary_large_image', 'summary')),
     /Twitter card/,
+  );
+});
+
+test('compiled scripts must preserve the canonical member handoff and reject Vertex', () => {
+  const html = `${validHtml()}<script type="module" src="/assets/index.js"></script>`;
+  assert.deepEqual(
+    extractLocalScriptUrls(html).map((url) => url.href),
+    [`${EXPECTED_ORIGIN}assets/index.js`],
+  );
+  assert.throws(
+    () => extractLocalScriptUrls(`${validHtml()}<script src="https://example.com/app.js"></script>`),
+    /script assets must stay on the landing origin/,
+  );
+  assert.doesNotThrow(() => verifyMemberHandoffBundle(`const portal = '${EXPECTED_MEMBER_LOGIN_URL}'`));
+  assert.throws(
+    () => verifyMemberHandoffBundle("const portal = 'https://www.vertexed.app/login'"),
+    /compiled member handoff/,
+  );
+  assert.throws(
+    () => verifyMemberHandoffBundle(`${EXPECTED_MEMBER_LOGIN_URL} vertexed.app`),
+    /forbidden foreign product marker/,
   );
 });
 

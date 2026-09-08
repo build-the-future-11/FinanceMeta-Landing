@@ -27,4 +27,13 @@ describe("member handoff", () => {
     expect(link.getAttribute("data-member-handoff")).toBe("fallback");
     expect(link.getAttribute("href")).toBe("https://tally.so/r/5B7blP");
   });
+
+  it("rejects a different HTTPS product instead of redirecting members there", () => {
+    vi.stubEnv("VITE_MEMBER_APP_URL", "https://www.vertexed.app/login");
+    render(<App />);
+
+    const link = screen.getByRole("link", { name: "Apply to FinanceMeta" });
+    expect(link.getAttribute("data-member-handoff")).toBe("fallback");
+    expect(link.getAttribute("href")).toBe("https://tally.so/r/5B7blP");
+  });
 });

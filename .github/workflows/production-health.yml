@@ -51,7 +51,7 @@ jobs:
           cache: npm
 
       - name: Install exact locked dependencies
-        run: npm ci --legacy-peer-deps --no-audit --fund=false
+        run: npm ci --no-audit --fund=false
 
       - name: Verify lockfile was not rewritten
         shell: bash
@@ -97,7 +97,7 @@ jobs:
             echo "- Checked at: ${checked_at}"
             echo "- Exact source: ${SOURCE_SHA}"
             echo '- Origin: https://finance-meta-landing.vercel.app/'
-            echo '- Contract: HTTP 200, no redirects, exact security headers, canonical/social/mobile metadata, byte-identical social asset, and exact immutable release revision'
+            echo '- Contract: HTTP 200, no redirects, exact security headers, canonical/social/mobile metadata, canonical member handoff, no foreign product marker, byte-identical social asset, and exact immutable release revision'
             echo "- Result: $([ "$passed" -eq 1 ] && echo PASS || echo FAIL)"
           } >> "$GITHUB_STEP_SUMMARY"
 

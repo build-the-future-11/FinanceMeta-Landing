@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">FinanceMeta</title>
-  <desc id="desc">FinanceMeta — understand finance, build with it.</desc>
+  <desc id="desc">FinanceMeta: understand finance, build with it.</desc>
   <rect width="1200" height="630" fill="#08100d"/>
   <circle cx="1050" cy="92" r="180" fill="#153b2f" opacity="0.72"/>
   <circle cx="1110" cy="540" r="260" fill="#10271f" opacity="0.88"/>

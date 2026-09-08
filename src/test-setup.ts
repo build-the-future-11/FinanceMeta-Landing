@@ -27,3 +27,8 @@ Object.defineProperty(globalThis, "IntersectionObserver", {
   writable: true,
   value: IntersectionObserverMock,
 });
+
+Object.defineProperty(HTMLCanvasElement.prototype, "getContext", {
+  writable: true,
+  value: () => null,
+});
