@@ -50,11 +50,11 @@ const PROGRAMS: Program[] = [
 ];
 
 const PRINCIPLES = [
-  "Build before you badge",
-  "Evidence over hype",
-  "Student-led, globally connected",
-  "Finance as a tool for understanding the world",
-];
+  ["01", "Build before you badge", "Work should leave behind something inspectable: an analysis, model, article, project, or event."],
+  ["02", "Evidence over hype", "Claims about impact or outcomes should be backed by records, outputs, and people who can verify them."],
+  ["03", "Student-led, globally connected", "Students lead the work while mentors, educators, and partners raise the quality bar."],
+  ["04", "Finance explains the world", "Markets, incentives, policy, behavior, and technology are treated as connected systems."],
+] as const;
 
 function initialDarkMode() {
   try {
@@ -84,31 +84,34 @@ export function App() {
   }, [darkMode]);
 
   return (
-    <div className="min-h-screen bg-[#f5f7f5] text-slate-950 transition-colors duration-300 dark:bg-[#08100d] dark:text-white">
+    <div className="min-h-screen bg-[#f6f7f4] text-slate-950 transition-colors duration-200 dark:bg-[#0a0f0d] dark:text-slate-50">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-[#f5f7f5]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#08100d]/85">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
+
+      <header className="sticky top-0 z-50 border-b border-slate-200 bg-[#f6f7f4]/95 dark:border-white/10 dark:bg-[#0a0f0d]/95">
+        <div className="mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-5 px-6 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="FinanceMeta home">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 font-black text-[#07110d]">
+            <div className="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-500 text-sm font-black text-[#07110d]">
               FM
             </div>
             <div>
-              <div className="text-sm font-semibold tracking-[0.22em] text-emerald-500">FINANCEMETA</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">Learn · Build · Research · Compete</div>
+              <div className="text-sm font-bold tracking-[0.08em]">FinanceMeta</div>
+              <div className="hidden text-xs text-slate-500 dark:text-slate-400 sm:block">
+                Finance · economics · building · research
+              </div>
             </div>
           </a>
 
-          <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-sm font-medium md:flex">
-            <a className="hover:text-emerald-500" href="#programs">Programs</a>
-            <a className="hover:text-emerald-500" href="#why">Why FinanceMeta</a>
-            <a className="hover:text-emerald-500" href="#join">Join</a>
+          <nav aria-label="Primary navigation" className="hidden items-center gap-1 md:flex">
+            <a className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200/60 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white" href="#programs">Programs</a>
+            <a className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200/60 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white" href="#why">Principles</a>
+            <a className="rounded-md px-3 py-2 text-sm font-medium text-slate-600 hover:bg-slate-200/60 hover:text-slate-950 dark:text-slate-300 dark:hover:bg-white/5 dark:hover:text-white" href="#join">Join</a>
           </nav>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
               onClick={() => setDarkMode((value) => !value)}
-              className="rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:border-emerald-500 hover:text-emerald-500 dark:border-white/15 dark:text-slate-300"
+              className="inline-flex min-h-10 items-center rounded-md border border-slate-300 px-3 text-xs font-semibold text-slate-600 transition-colors hover:border-slate-400 hover:text-slate-950 dark:border-white/15 dark:text-slate-300 dark:hover:border-white/30 dark:hover:text-white"
               aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
               aria-pressed={darkMode}
             >
@@ -116,154 +119,163 @@ export function App() {
             </button>
             <a
               href="#join"
-              className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-[#07110d] transition hover:bg-emerald-400"
+              className="inline-flex min-h-10 items-center rounded-md bg-emerald-500 px-4 text-sm font-bold text-[#07110d] transition-colors hover:bg-emerald-400"
             >
               Get involved
             </a>
           </div>
         </div>
-        <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-slate-200/70 px-6 py-3 text-sm font-semibold dark:border-white/10 md:hidden">
-          <a className="hover:text-emerald-500" href="#programs">Programs</a>
-          <a className="hover:text-emerald-500" href="#why">Why</a>
-          <a className="hover:text-emerald-500" href="#join">Join</a>
+
+        <nav
+          aria-label="Mobile navigation"
+          className="flex items-center justify-center gap-2 border-t border-slate-200 px-4 py-2 dark:border-white/10 md:hidden"
+        >
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#programs">Programs</a>
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#why">Principles</a>
+          <a className="rounded-md px-3 py-2 text-sm font-semibold" href="#join">Join</a>
         </nav>
       </header>
 
       <main id="main-content" tabIndex={-1}>
-        <section className="relative overflow-hidden border-b border-slate-200/70 dark:border-white/10">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_34%),radial-gradient(circle_at_80%_25%,rgba(52,211,153,0.12),transparent_30%)]" />
-          <div className="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.3fr_0.7fr] lg:px-8 lg:py-32">
+        <section id="top" className="border-b border-slate-200 dark:border-white/10">
+          <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[minmax(0,1.2fr)_minmax(300px,0.8fr)] lg:items-end lg:px-8 lg:py-28">
             <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
+              initial={prefersReducedMotion ? false : { opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.55 }}
+              transition={{ duration: prefersReducedMotion ? 0 : 0.35 }}
+              className="max-w-4xl"
             >
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-                Building an evidence-first student finance ecosystem
+              <div className="mb-6 flex items-center gap-3 text-xs font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">
+                <span className="h-px w-8 bg-emerald-500" aria-hidden="true" />
+                Student-led finance and economics platform
               </div>
-              <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
+
+              <h1 className="max-w-4xl text-5xl font-black leading-[0.96] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
                 Understand finance.
-                <span className="block text-emerald-500">Build with it.</span>
+                <span className="block text-slate-500 dark:text-slate-300">Then use it to build.</span>
               </h1>
+
               <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                FinanceMeta is building one student-led platform for learning, research, publishing, competitions, chapters, and practical projects. Programs launch only after their evidence requirements are met.
+                FinanceMeta brings learning, research, publishing, competitions, chapters, and practical projects into one operating system for students who want more than passive financial literacy.
               </p>
+
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="#programs"
-                  className="rounded-xl bg-emerald-500 px-6 py-3.5 text-center font-bold text-[#07110d] shadow-[0_14px_35px_rgba(16,185,129,0.22)] transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                  className="inline-flex min-h-11 items-center justify-center rounded-md bg-emerald-500 px-5 text-sm font-bold text-[#07110d] transition-colors hover:bg-emerald-400"
                 >
-                  Explore the ecosystem
+                  Explore programs
                 </a>
                 <a
-                  href="mailto:financeforalledu@gmail.com"
-                  className="rounded-xl border border-slate-300 px-6 py-3.5 text-center font-bold transition hover:border-emerald-500 hover:text-emerald-500 dark:border-white/15"
+                  href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20Partnership"
+                  className="inline-flex min-h-11 items-center justify-center rounded-md border border-slate-300 px-5 text-sm font-semibold transition-colors hover:bg-slate-200/60 dark:border-white/15 dark:hover:bg-white/5"
                 >
                   Partner with FinanceMeta
                 </a>
               </div>
             </motion.div>
 
-            <motion.aside
-              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.55, delay: prefersReducedMotion ? 0 : 0.08 }}
-              className="self-end rounded-3xl border border-slate-200 bg-white/80 p-7 shadow-2xl shadow-emerald-950/5 backdrop-blur dark:border-white/10 dark:bg-white/[0.045]"
-            >
-              <div className="text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">The FinanceMeta loop</div>
-              <div className="mt-6 space-y-5">
+            <aside className="border-t border-slate-200 pt-6 dark:border-white/10 lg:border-l lg:border-t-0 lg:pl-8 lg:pt-0" aria-label="FinanceMeta operating model">
+              <div className="text-sm font-bold">A platform built around output.</div>
+              <p className="mt-2 text-sm leading-6 text-slate-600 dark:text-slate-400">
+                Programs are expected to produce visible work, not just attendance. The operating loop is deliberately simple.
+              </p>
+              <ol className="mt-6 divide-y divide-slate-200 border-y border-slate-200 dark:divide-white/10 dark:border-white/10">
                 {[
                   ["01", "Learn", "Build strong mental models."],
-                  ["02", "Apply", "Turn concepts into projects and analysis."],
-                  ["03", "Publish", "Explain what you learned with evidence."],
-                  ["04", "Compete", "Test your thinking under pressure."],
-                  ["05", "Lead", "Bring the ecosystem to your own community."],
+                  ["02", "Apply", "Use them on real questions and projects."],
+                  ["03", "Publish", "Make the reasoning reviewable."],
+                  ["04", "Compete", "Test judgment under constraints."],
+                  ["05", "Lead", "Bring the work into a community."],
                 ].map(([number, title, copy]) => (
-                  <div key={number} className="grid grid-cols-[44px_1fr] gap-4">
-                    <div className="text-sm font-black text-emerald-500">{number}</div>
-                    <div>
-                      <div className="font-bold">{title}</div>
-                      <div className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{copy}</div>
-                    </div>
-                  </div>
+                  <li key={number} className="grid grid-cols-[42px_90px_1fr] gap-3 py-3 text-sm">
+                    <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{number}</span>
+                    <span className="font-bold">{title}</span>
+                    <span className="text-slate-500 dark:text-slate-400">{copy}</span>
+                  </li>
                 ))}
-              </div>
-            </motion.aside>
+              </ol>
+            </aside>
           </div>
         </section>
 
-        <section id="programs" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Planned programs</div>
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">A roadmap with evidence gates.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
-              These program families are in development. A program is described as active only after a named lead, operating record, and reviewable output exist.
-            </p>
-          </div>
-
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {PROGRAMS.map((program, index) => (
-              <motion.article
-                key={program.title}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: prefersReducedMotion ? 0 : index * 0.04 }}
-                className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-950/5 dark:border-white/10 dark:bg-white/[0.035]"
-              >
-                <div className="text-xs font-black tracking-[0.2em] text-emerald-500">{program.eyebrow}</div>
-                <h3 className="mt-4 text-2xl font-black tracking-tight">{program.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{program.description}</p>
-              </motion.article>
-            ))}
-          </div>
-        </section>
-
-        <section id="why" className="border-y border-slate-200 bg-white py-24 dark:border-white/10 dark:bg-white/[0.025]">
-          <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:px-8">
-            <div>
-              <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Why FinanceMeta</div>
-              <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Finance education should produce capability.</h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                The goal is not to collect another certificate. It is to leave with sharper judgment, stronger technical skills, better questions, and work you can actually show.
+        <section id="programs" className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-24">
+          <div className="grid gap-8 lg:grid-cols-[0.7fr_1.3fr]">
+            <div className="max-w-xl">
+              <div className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">Programs</div>
+              <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-5xl">Six ways to turn interest into capability.</h2>
+              <p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
+                These program families are in development. A program is described as active only after a named lead, operating record, and reviewable output exist.
               </p>
             </div>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              {PRINCIPLES.map((principle, index) => (
-                <div key={principle} className="rounded-2xl border border-slate-200 p-6 dark:border-white/10">
-                  <div className="text-sm font-black text-emerald-500">0{index + 1}</div>
-                  <div className="mt-8 text-xl font-black leading-snug">{principle}</div>
-                </div>
+            <div className="border-y border-slate-200 dark:border-white/10">
+              {PROGRAMS.map((program, index) => (
+                <article
+                  key={program.title}
+                  className="grid gap-3 border-b border-slate-200 py-6 last:border-b-0 dark:border-white/10 sm:grid-cols-[58px_180px_1fr] sm:gap-5"
+                >
+                  <div className="font-mono text-xs text-slate-400">0{index + 1}</div>
+                  <div>
+                    <div className="text-xs font-bold uppercase tracking-[0.12em] text-emerald-600 dark:text-emerald-400">{program.eyebrow}</div>
+                    <h3 className="mt-1 text-xl font-black tracking-tight">{program.title}</h3>
+                  </div>
+                  <p className="leading-7 text-slate-600 dark:text-slate-400">{program.description}</p>
+                </article>
               ))}
             </div>
           </div>
         </section>
 
-        <section id="join" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="overflow-hidden rounded-3xl bg-[#0d1c16] p-8 text-white shadow-2xl shadow-emerald-950/15 sm:p-12 lg:p-14">
-            <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
-              <div>
-                <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-400">Join the network</div>
-                <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] sm:text-5xl">
-                  Come to learn. Stay to build something worth sharing.
-                </h2>
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-                  Students, chapter leads, mentors, educators, universities, and ecosystem partners can all plug into FinanceMeta in different ways.
+        <section id="why" className="border-y border-slate-200 bg-white py-20 dark:border-white/10 dark:bg-white/[0.02] lg:py-24">
+          <div className="mx-auto max-w-7xl px-6 lg:px-8">
+            <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr]">
+              <div className="max-w-xl">
+                <div className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-600 dark:text-emerald-400">Operating principles</div>
+                <h2 className="mt-4 text-4xl font-black tracking-[-0.04em] sm:text-5xl">Finance education should produce capability.</h2>
+                <p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
+                  The goal is not another certificate. It is sharper judgment, stronger technical skills, better questions, and work you can actually show.
                 </p>
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+
+              <div className="divide-y divide-slate-200 border-y border-slate-200 dark:divide-white/10 dark:border-white/10">
+                {PRINCIPLES.map(([number, title, description]) => (
+                  <div key={title} className="grid gap-3 py-5 sm:grid-cols-[52px_220px_1fr] sm:gap-5">
+                    <div className="font-mono text-xs text-emerald-600 dark:text-emerald-400">{number}</div>
+                    <div className="font-bold">{title}</div>
+                    <div className="text-sm leading-6 text-slate-600 dark:text-slate-400">{description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="join" className="mx-auto max-w-7xl px-6 py-20 lg:px-8 lg:py-24">
+          <div className="border border-slate-300 bg-[#102019] p-8 text-white dark:border-white/10 sm:p-10 lg:p-12">
+            <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
+              <div>
+                <div className="text-xs font-bold uppercase tracking-[0.14em] text-emerald-400">Join FinanceMeta</div>
+                <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] sm:text-5xl">
+                  Come to learn. Stay because you are building something worth sharing.
+                </h2>
+                <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
+                  Students, chapter leads, mentors, educators, universities, and ecosystem partners can plug into FinanceMeta in different ways.
+                </p>
+              </div>
+
+              <div className="flex min-w-[220px] flex-col gap-3">
                 <a
                   href={memberHandoffUrl}
                   data-member-handoff={memberHandoffConfigured ? "configured" : "fallback"}
                   aria-label={memberHandoffConfigured ? "Open FinanceMeta member portal" : "Apply to FinanceMeta"}
-                  className="rounded-xl bg-emerald-400 px-6 py-3.5 text-center font-black text-[#07110d] transition hover:bg-emerald-300"
+                  className="inline-flex min-h-11 items-center justify-center rounded-md bg-emerald-400 px-5 text-center text-sm font-black text-[#07110d] transition-colors hover:bg-emerald-300"
                 >
                   {memberHandoffConfigured ? "Open member portal" : "Apply to FinanceMeta"}
                 </a>
                 <a
                   href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20Partnership"
-                  className="rounded-xl border border-white/20 px-6 py-3.5 text-center font-black transition hover:border-emerald-400 hover:text-emerald-300"
+                  className="inline-flex min-h-11 items-center justify-center rounded-md border border-white/20 px-5 text-center text-sm font-bold transition-colors hover:border-emerald-400 hover:text-emerald-300"
                 >
                   Explore a partnership
                 </a>
@@ -276,7 +288,7 @@ export function App() {
       <footer className="border-t border-slate-200 px-6 py-8 text-sm text-slate-500 dark:border-white/10 dark:text-slate-400">
         <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div>FinanceMeta · Student-led finance, economics, research, and building.</div>
-          <div>Built for people who want to understand by doing.</div>
+          <div>Understand by doing.</div>
         </div>
       </footer>
     </div>
