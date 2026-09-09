@@ -1,4 +1,5 @@
-const FINANCEMETA_APPLICATION_URL = "https://tally.so/r/5B7blP";
+const FINANCEMETA_APPLICATION_URL =
+  "https://tally.so/r/5B7YlP?utm_source=financemeta_landing&utm_medium=website&utm_campaign=fall_2026_research_cohorts&ref=join";
 
 function safeHttpsUrl(value: string | undefined) {
   if (!value) return null;
