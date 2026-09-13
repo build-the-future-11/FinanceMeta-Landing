@@ -58,6 +58,23 @@ a {
   outline: none;
 }
 
+.landing-shell { isolation: isolate; }
+.landing-cursor { position: fixed; z-index: 80; width: 20px; height: 20px; border: 1px solid rgb(52 211 153 / .72); border-radius: 999px; background: rgb(16 185 129 / .12); box-shadow: 0 0 24px rgb(16 185 129 / .38); pointer-events: none; transition: transform 120ms ease-out; mix-blend-mode: multiply; }
+.dark .landing-cursor { mix-blend-mode: screen; }
+.glass-header { box-shadow: 0 10px 35px rgb(15 23 42 / .04); }
+.hero-stage::after { content: ""; position: absolute; inset: auto 6% 0; height: 120px; background: linear-gradient(transparent, rgb(245 247 245 / .86)); pointer-events: none; }
+.dark .hero-stage::after { background: linear-gradient(transparent, rgb(8 16 13 / .86)); }
+.neural-field { opacity: .32; background-image: linear-gradient(rgb(16 185 129 / .16) 1px, transparent 1px), linear-gradient(90deg, rgb(16 185 129 / .16) 1px, transparent 1px); background-size: 54px 54px; mask-image: radial-gradient(ellipse at 65% 35%, black, transparent 70%); }
+.tetris-field i { position: absolute; width: 34px; height: 34px; border: 1px solid rgb(52 211 153 / .26); background: linear-gradient(135deg, rgb(52 211 153 / .16), rgb(96 165 250 / .08)); box-shadow: 0 0 28px rgb(16 185 129 / .1); animation: drift-block 12s ease-in-out infinite; }
+.tetris-field i:nth-child(1) { left: 7%; top: 18%; }.tetris-field i:nth-child(2) { left: 11%; top: 18%; animation-delay: -2s; }.tetris-field i:nth-child(3) { right: 16%; top: 24%; animation-delay: -4s; }.tetris-field i:nth-child(4) { right: 12%; top: 24%; animation-delay: -6s; }.tetris-field i:nth-child(5) { right: 12%; top: 29%; animation-delay: -8s; }.tetris-field i:nth-child(6) { left: 27%; bottom: 16%; animation-delay: -10s; }
+.blur-reveal { animation: blur-reveal .7s cubic-bezier(.16, 1, .3, 1) both; }.box-reveal { animation: box-reveal .75s .1s cubic-bezier(.16, 1, .3, 1) both; }.float-card { animation: float-card 7s ease-in-out infinite; }
+.glow-border { position: relative; }.glow-border::before { content: ""; position: absolute; inset: -1px; z-index: -1; border-radius: inherit; background: linear-gradient(120deg, transparent 15%, rgb(52 211 153 / .8), transparent 55%, rgb(96 165 250 / .55)); filter: blur(5px); opacity: .45; }
+.shimmer-button { position: relative; overflow: hidden; isolation: isolate; }.shimmer-button::after { content: ""; position: absolute; inset: 0; background: linear-gradient(110deg, transparent 28%, rgb(255 255 255 / .45) 46%, transparent 62%); transform: translateX(-130%); animation: shimmer 4.5s infinite; pointer-events: none; }
+.lens-card { position: relative; overflow: hidden; }.lens-card::after { content: ""; position: absolute; width: 190px; height: 190px; right: -110px; bottom: -110px; border-radius: 999px; border: 1px solid rgb(16 185 129 / .35); background: radial-gradient(circle, rgb(52 211 153 / .18), transparent 66%); transition: transform .5s cubic-bezier(.16, 1, .3, 1); }.lens-card:hover::after { transform: translate(-42px, -42px) scale(1.2); }
+.marquee-track { display: flex; width: max-content; gap: 2.75rem; animation: marquee 28s linear infinite; }.marquee-track span { font-size: .75rem; font-weight: 900; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap; color: #059669; }.marquee-track:hover { animation-play-state: paused; }
+.media-split { background: rgb(255 255 255 / .6); box-shadow: 0 30px 80px rgb(6 78 59 / .08); }.dark .media-split { background: rgb(255 255 255 / .025); }.morph-tabs { background: rgb(15 23 42 / .035); }.dark .morph-tabs { background: rgb(255 255 255 / .045); }.morph-tab { border-radius: 999px; padding: .58rem .9rem; color: rgb(100 116 139); font-size: .78rem; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; transition: color .25s ease, transform .25s ease; }.dark .morph-tab { color: rgb(148 163 184); }.morph-tab.is-active { color: #052e22; transform: translateY(-1px); background: linear-gradient(135deg, #6ee7b7, #34d399); box-shadow: 0 6px 18px rgb(16 185 129 / .22); }.morph-tab:not(.is-active):hover { color: #059669; }
+@keyframes float-card { 50% { transform: translateY(-10px) rotate(.35deg); } } @keyframes drift-block { 50% { transform: translate3d(15px, -26px, 0) rotate(18deg); opacity: .5; } } @keyframes blur-reveal { from { opacity: 0; filter: blur(12px); transform: translateY(12px); } to { opacity: 1; filter: blur(0); transform: none; } } @keyframes box-reveal { from { opacity: 0; clip-path: inset(0 100% 0 0); } to { opacity: 1; clip-path: inset(0); } } @keyframes shimmer { 45%, 100% { transform: translateX(130%); } } @keyframes marquee { to { transform: translateX(-50%); } }
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -69,4 +86,5 @@ a {
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
   }
+  .landing-cursor { display: none; }.float-card, .tetris-field i, .blur-reveal, .box-reveal, .marquee-track, .shimmer-button::after { animation: none !important; }
 }

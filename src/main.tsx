@@ -56,6 +56,12 @@ const PRINCIPLES = [
   "Finance as a tool for understanding the world",
 ];
 
+const JOURNEY_LANES = [
+  { label: "Learn", title: "Build a durable base", copy: "Start with explanations that make financial and economic systems feel navigable." },
+  { label: "Research", title: "Interrogate the claim", copy: "Turn curiosity into a question with a baseline, method, limits, and evidence." },
+  { label: "Build", title: "Make the work visible", copy: "Ship a model, project, or analysis that can be reviewed and improved." },
+];
+
 function initialDarkMode() {
   try {
     const savedTheme = window.localStorage.getItem("financemeta-theme");
@@ -70,6 +76,8 @@ function initialDarkMode() {
 
 export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
+  const [activeLane, setActiveLane] = useState(0);
+  const [pointer, setPointer] = useState({ x: -100, y: -100 });
   const prefersReducedMotion = useReducedMotion();
   const memberHandoffConfigured = hasConfiguredMemberHandoff();
   const memberHandoffUrl = getMemberHandoffUrl();
@@ -84,9 +92,10 @@ export function App() {
   }, [darkMode]);
 
   return (
-    <div className="min-h-screen bg-[#f5f7f5] text-slate-950 transition-colors duration-300 dark:bg-[#08100d] dark:text-white">
+    <div className="landing-shell min-h-screen bg-[#f5f7f5] text-slate-950 transition-colors duration-300 dark:bg-[#08100d] dark:text-white" onPointerMove={(event) => setPointer({ x: event.clientX, y: event.clientY })}>
+      {!prefersReducedMotion && <span className="landing-cursor" style={{ transform: `translate3d(${pointer.x - 10}px, ${pointer.y - 10}px, 0)` }} aria-hidden="true" />}
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <header className="sticky top-0 z-50 border-b border-slate-200/70 bg-[#f5f7f5]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#08100d]/85">
+      <header className="glass-header sticky top-0 z-50 border-b border-slate-200/70 bg-[#f5f7f5]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#08100d]/85">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
           <a href="#top" className="flex items-center gap-3" aria-label="FinanceMeta home">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 font-black text-[#07110d]">
@@ -130,8 +139,10 @@ export function App() {
       </header>
 
       <main id="main-content" tabIndex={-1}>
-        <section className="relative overflow-hidden border-b border-slate-200/70 dark:border-white/10">
+        <section className="hero-stage relative overflow-hidden border-b border-slate-200/70 dark:border-white/10">
           <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_34%),radial-gradient(circle_at_80%_25%,rgba(52,211,153,0.12),transparent_30%)]" />
+          <div className="neural-field absolute inset-0 -z-10" aria-hidden="true" />
+          <div className="tetris-field absolute inset-0 -z-10" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
           <div className="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.3fr_0.7fr] lg:px-8 lg:py-32">
             <motion.div
               initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
@@ -142,8 +153,8 @@ export function App() {
                 Building an evidence-first student finance ecosystem
               </div>
               <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
-                Understand finance.
-                <span className="block text-emerald-500">Build with it.</span>
+                <span className="blur-reveal">Understand finance.</span>
+                <span className="box-reveal block text-emerald-500">Build with it.</span>
               </h1>
               <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
                 FinanceMeta is building one student-led platform for learning, research, publishing, competitions, chapters, and practical projects. Programs launch only after their evidence requirements are met.
@@ -151,7 +162,7 @@ export function App() {
               <div className="mt-9 flex flex-col gap-3 sm:flex-row">
                 <a
                   href="#programs"
-                  className="rounded-xl bg-emerald-500 px-6 py-3.5 text-center font-bold text-[#07110d] shadow-[0_14px_35px_rgba(16,185,129,0.22)] transition hover:-translate-y-0.5 hover:bg-emerald-400"
+                  className="shimmer-button rounded-xl bg-emerald-500 px-6 py-3.5 text-center font-bold text-[#07110d] shadow-[0_14px_35px_rgba(16,185,129,0.22)] transition hover:-translate-y-0.5 hover:bg-emerald-400"
                 >
                   Explore the ecosystem
                 </a>
@@ -168,7 +179,7 @@ export function App() {
               initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: prefersReducedMotion ? 0 : 0.55, delay: prefersReducedMotion ? 0 : 0.08 }}
-              className="self-end rounded-3xl border border-slate-200 bg-white/80 p-7 shadow-2xl shadow-emerald-950/5 backdrop-blur dark:border-white/10 dark:bg-white/[0.045]"
+              className="float-card glow-border self-end rounded-3xl border border-slate-200 bg-white/80 p-7 shadow-2xl shadow-emerald-950/5 backdrop-blur dark:border-white/10 dark:bg-white/[0.045]"
             >
               <div className="text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">The FinanceMeta loop</div>
               <div className="mt-6 space-y-5">
@@ -209,7 +220,7 @@ export function App() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.2 }}
                 transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: prefersReducedMotion ? 0 : index * 0.04 }}
-                className="group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-950/5 dark:border-white/10 dark:bg-white/[0.035]"
+                className="lens-card group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-950/5 dark:border-white/10 dark:bg-white/[0.035]"
               >
                 <div className="text-xs font-black tracking-[0.2em] text-emerald-500">{program.eyebrow}</div>
                 <h3 className="mt-4 text-2xl font-black tracking-tight">{program.title}</h3>
@@ -217,6 +228,10 @@ export function App() {
               </motion.article>
             ))}
           </div>
+        </section>
+
+        <section className="overflow-hidden border-y border-slate-200/70 py-5 dark:border-white/10" aria-label="FinanceMeta principles">
+          <div className="marquee-track">{[...PRINCIPLES, ...PRINCIPLES].map((principle, index) => <span key={`${principle}-${index}`}>✦ {principle}</span>)}</div>
         </section>
 
         <section id="why" className="border-y border-slate-200 bg-white py-24 dark:border-white/10 dark:bg-white/[0.025]">
@@ -237,6 +252,16 @@ export function App() {
                 </div>
               ))}
             </div>
+          </div>
+        </section>
+
+        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+          <div className="media-split grid overflow-hidden rounded-[2rem] border border-slate-200 dark:border-white/10 lg:grid-cols-[0.9fr_1.1fr]">
+            <div className="relative min-h-72 overflow-hidden bg-[#0b2119] p-8 text-white sm:p-12">
+              <svg className="absolute inset-0 h-full w-full opacity-45" viewBox="0 0 500 360" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="signal" x1="0" x2="1"><stop stopColor="#34d399" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs><path d="M-20 270 C80 190 120 290 210 165 S370 90 520 25" fill="none" stroke="url(#signal)" strokeWidth="3" /><path d="M-20 300 C90 225 140 305 240 195 S380 135 520 70" fill="none" stroke="url(#signal)" strokeWidth="1" opacity=".6" /></svg>
+              <div className="relative text-xs font-black uppercase tracking-[0.22em] text-emerald-300">Signal processing</div><div className="relative mt-20 font-mono text-sm text-emerald-100/80">01100110 / evidence / method / revision</div><div className="relative mt-3 text-3xl font-black">Make the signal legible.</div>
+            </div>
+            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} type="button" role="tab" aria-selected={activeLane === index} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div className="mt-5 min-h-20" role="tabpanel"><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
           </div>
         </section>
 
