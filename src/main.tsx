@@ -81,6 +81,13 @@ export function App() {
   const prefersReducedMotion = useReducedMotion();
   const memberHandoffConfigured = hasConfiguredMemberHandoff();
   const memberHandoffUrl = getMemberHandoffUrl();
+  const moveLane = (key: string) => {
+    const lastLane = JOURNEY_LANES.length - 1;
+    if (key === "ArrowRight") setActiveLane((lane) => lane === lastLane ? 0 : lane + 1);
+    if (key === "ArrowLeft") setActiveLane((lane) => lane === 0 ? lastLane : lane - 1);
+    if (key === "Home") setActiveLane(0);
+    if (key === "End") setActiveLane(lastLane);
+  };
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
@@ -263,7 +270,7 @@ export function App() {
               <svg className="absolute inset-0 h-full w-full opacity-45" viewBox="0 0 500 360" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="signal" x1="0" x2="1"><stop stopColor="#34d399" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs><path d="M-20 270 C80 190 120 290 210 165 S370 90 520 25" fill="none" stroke="url(#signal)" strokeWidth="3" /><path d="M-20 300 C90 225 140 305 240 195 S380 135 520 70" fill="none" stroke="url(#signal)" strokeWidth="1" opacity=".6" /></svg>
               <div className="relative text-xs font-black uppercase tracking-[0.22em] text-emerald-300">Signal processing</div><div className="relative mt-20 font-mono text-sm text-emerald-100/80">01100110 / evidence / method / revision</div><div className="relative mt-3 text-3xl font-black">Make the signal legible.</div>
             </div>
-            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} type="button" role="tab" aria-selected={activeLane === index} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div className="mt-5 min-h-20" role="tabpanel"><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
+            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} id={`lane-tab-${index}`} type="button" role="tab" tabIndex={activeLane === index ? 0 : -1} aria-controls="lane-panel" aria-selected={activeLane === index} onKeyDown={(event) => moveLane(event.key)} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div id="lane-panel" className="mt-5 min-h-20" role="tabpanel" aria-labelledby={`lane-tab-${activeLane}`}><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
           </div>
         </section>
 
