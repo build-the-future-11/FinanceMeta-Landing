@@ -109,8 +109,9 @@ export function App() {
 
           <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-sm font-medium md:flex">
             <a className="hover:text-emerald-500" href="#programs">Programs</a>
-            <a className="hover:text-emerald-500" href="#why">Why FinanceMeta</a>
-            <a className="hover:text-emerald-500" href="#join">Join</a>
+            <a className="hover:text-emerald-500" href="#research">Research</a>
+            <a className="hover:text-emerald-500" href="#community">Community</a>
+            <a className="hover:text-emerald-500" href="#faq">FAQ</a>
           </nav>
 
           <div className="flex items-center gap-2">
@@ -133,7 +134,8 @@ export function App() {
         </div>
         <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-slate-200/70 px-6 py-3 text-sm font-semibold dark:border-white/10 md:hidden">
           <a className="hover:text-emerald-500" href="#programs">Programs</a>
-          <a className="hover:text-emerald-500" href="#why">Why</a>
+          <a className="hover:text-emerald-500" href="#research">Research</a>
+          <a className="hover:text-emerald-500" href="#community">Community</a>
           <a className="hover:text-emerald-500" href="#join">Join</a>
         </nav>
       </header>
@@ -263,6 +265,22 @@ export function App() {
             </div>
             <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} type="button" role="tab" aria-selected={activeLane === index} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div className="mt-5 min-h-20" role="tabpanel"><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
           </div>
+        </section>
+
+        <section id="research" className="border-y border-slate-200 bg-white py-24 dark:border-white/10 dark:bg-white/[0.025]">
+          <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[.78fr_1.22fr] lg:px-8">
+            <div className="lg:sticky lg:top-28 lg:self-start"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Research and publishing</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">Claims earn their place.</h2><p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">FinanceMeta treats research as a practice of clear questions, useful baselines, reproducible work, and honest limits. No outcome is presented here without evidence.</p></div>
+            <div className="grid gap-4 sm:grid-cols-2">{[["Question", "Define the decision, hypothesis, inputs, and failure conditions before celebrating an answer."], ["Baseline", "Compare against a simple conventional approach before making a stronger claim."], ["Evidence", "Keep configuration, raw outputs, limitations, and reproduction steps with the result."], ["Review", "Separate drafts, submitted work, reviewed evidence, and published outcomes."]].map(([title, copy], index) => <article key={title} className="lens-card rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.035]"><div className="text-xs font-black tracking-[.2em] text-emerald-500">STANDARD 0{index + 1}</div><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{copy}</p></article>)}</div>
+          </div>
+        </section>
+
+        <section id="community" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
+          <div className="max-w-3xl"><div className="text-sm font-black uppercase tracking-[.2em] text-emerald-500">The member journey</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">From curiosity to contribution.</h2><p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">The member platform is the working layer for onboarding, programs, research participation, events, applications, and contribution.</p></div>
+          <ol className="tracing-timeline mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{[["Discover", "Understand the programs and evidence standard before creating an account."], ["Onboard", "Share only the information needed for participation."], ["Participate", "Apply to published opportunities and track explicit status."], ["Contribute", "Submit work with reviewable evidence and feedback."]].map(([title, copy], index) => <li key={title} className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/[.035]"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-sm font-black text-[#07110d]">{index + 1}</div><h3 className="mt-6 text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{copy}</p></li>)}</ol>
+        </section>
+
+        <section id="faq" className="border-y border-slate-200 bg-[#edf3ef] py-24 dark:border-white/10 dark:bg-white/[0.025]">
+          <div className="mx-auto max-w-5xl px-6 lg:px-8"><div className="text-center"><div className="text-sm font-black uppercase tracking-[.2em] text-emerald-500">Frequently asked</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">Know what you are joining.</h2></div><div className="mt-12 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-6 dark:divide-white/10 dark:border-white/10 dark:bg-white/[.035] sm:px-8">{[["Who is FinanceMeta for?", "Students and early-career builders who want practical judgment across finance, economics, technology, research, and communication."], ["Is every program currently open?", "No. A program is described as active only after its evidence requirements and operating record are met."], ["Does FinanceMeta offer investment advice?", "No. Educational projects and research are not investment advice or evidence of live market performance."], ["How do partnerships start?", "Send a work inquiry with the collaboration you have in mind. The team evaluates fit without invented partner tiers or reach numbers."]].map(([question, answer]) => <details key={question} className="group py-6"><summary className="cursor-pointer list-none pr-8 text-lg font-black">{question}<span aria-hidden="true" className="float-right text-emerald-500 transition group-open:rotate-45">+</span></summary><p className="mt-4 max-w-3xl leading-7 text-slate-600 dark:text-slate-400">{answer}</p></details>)}</div></div>
         </section>
 
         <section id="join" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
