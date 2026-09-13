@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { App } from "./main";
 
@@ -26,5 +26,20 @@ describe("member handoff", () => {
     const link = screen.getByRole("link", { name: "Email FinanceMeta to get involved" });
     expect(link.getAttribute("data-member-handoff")).toBe("fallback");
     expect(link.getAttribute("href")).toMatch(/^mailto:/);
+  });
+});
+
+describe("journey lane tabs", () => {
+  it("moves selection with keyboard navigation", () => {
+    render(<App />);
+
+    const learnTab = screen.getByRole("tab", { name: "Learn" });
+    const researchTab = screen.getByRole("tab", { name: "Research" });
+
+    expect(learnTab.getAttribute("aria-selected")).toBe("true");
+    fireEvent.keyDown(learnTab, { key: "ArrowRight" });
+
+    expect(researchTab.getAttribute("aria-selected")).toBe("true");
+    expect(screen.getByText("Interrogate the claim")).toBeTruthy();
   });
 });

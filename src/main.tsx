@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { motion, useReducedMotion } from "framer-motion";
 import "./index.css";
@@ -62,6 +62,13 @@ const JOURNEY_LANES = [
   { label: "Build", title: "Make the work visible", copy: "Ship a model, project, or analysis that can be reviewed and improved." },
 ];
 
+const READINESS_GATES = [
+  { label: "Lead named", state: "Required", copy: "Each program needs a visible owner before it is represented as active." },
+  { label: "Operating record", state: "Required", copy: "Work moves from concept to live only when activity can be reviewed." },
+  { label: "Evidence archive", state: "Required", copy: "Published claims need source material, limits, and reproduction notes." },
+  { label: "Member path", state: "Required", copy: "Participants should know what happens after they apply, submit, or join." },
+];
+
 function initialDarkMode() {
   try {
     const savedTheme = window.localStorage.getItem("financemeta-theme");
@@ -78,15 +85,21 @@ export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
   const [activeLane, setActiveLane] = useState(0);
   const [pointer, setPointer] = useState({ x: -100, y: -100 });
+  const laneTabs = useRef<Array<HTMLButtonElement | null>>([]);
   const prefersReducedMotion = useReducedMotion();
   const memberHandoffConfigured = hasConfiguredMemberHandoff();
   const memberHandoffUrl = getMemberHandoffUrl();
   const moveLane = (key: string) => {
     const lastLane = JOURNEY_LANES.length - 1;
-    if (key === "ArrowRight") setActiveLane((lane) => lane === lastLane ? 0 : lane + 1);
-    if (key === "ArrowLeft") setActiveLane((lane) => lane === 0 ? lastLane : lane - 1);
-    if (key === "Home") setActiveLane(0);
-    if (key === "End") setActiveLane(lastLane);
+    let nextLane: number | null = null;
+    if (key === "ArrowRight") nextLane = activeLane === lastLane ? 0 : activeLane + 1;
+    if (key === "ArrowLeft") nextLane = activeLane === 0 ? lastLane : activeLane - 1;
+    if (key === "Home") nextLane = 0;
+    if (key === "End") nextLane = lastLane;
+    if (nextLane !== null) {
+      setActiveLane(nextLane);
+      laneTabs.current[nextLane]?.focus();
+    }
   };
 
   useEffect(() => {
@@ -116,6 +129,7 @@ export function App() {
 
           <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-sm font-medium md:flex">
             <a className="hover:text-emerald-500" href="#programs">Programs</a>
+            <a className="hover:text-emerald-500" href="#standards">Standards</a>
             <a className="hover:text-emerald-500" href="#research">Research</a>
             <a className="hover:text-emerald-500" href="#community">Community</a>
             <a className="hover:text-emerald-500" href="#faq">FAQ</a>
@@ -141,8 +155,8 @@ export function App() {
         </div>
         <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-slate-200/70 px-6 py-3 text-sm font-semibold dark:border-white/10 md:hidden">
           <a className="hover:text-emerald-500" href="#programs">Programs</a>
+          <a className="hover:text-emerald-500" href="#standards">Standards</a>
           <a className="hover:text-emerald-500" href="#research">Research</a>
-          <a className="hover:text-emerald-500" href="#community">Community</a>
           <a className="hover:text-emerald-500" href="#join">Join</a>
         </nav>
       </header>
@@ -270,7 +284,31 @@ export function App() {
               <svg className="absolute inset-0 h-full w-full opacity-45" viewBox="0 0 500 360" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="signal" x1="0" x2="1"><stop stopColor="#34d399" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs><path d="M-20 270 C80 190 120 290 210 165 S370 90 520 25" fill="none" stroke="url(#signal)" strokeWidth="3" /><path d="M-20 300 C90 225 140 305 240 195 S380 135 520 70" fill="none" stroke="url(#signal)" strokeWidth="1" opacity=".6" /></svg>
               <div className="relative text-xs font-black uppercase tracking-[0.22em] text-emerald-300">Signal processing</div><div className="relative mt-20 font-mono text-sm text-emerald-100/80">01100110 / evidence / method / revision</div><div className="relative mt-3 text-3xl font-black">Make the signal legible.</div>
             </div>
-            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} id={`lane-tab-${index}`} type="button" role="tab" tabIndex={activeLane === index ? 0 : -1} aria-controls="lane-panel" aria-selected={activeLane === index} onKeyDown={(event) => moveLane(event.key)} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div id="lane-panel" className="mt-5 min-h-20" role="tabpanel" aria-labelledby={`lane-tab-${activeLane}`}><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
+            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} ref={(element) => { laneTabs.current[index] = element; }} id={`lane-tab-${index}`} type="button" role="tab" tabIndex={activeLane === index ? 0 : -1} aria-controls="lane-panel" aria-selected={activeLane === index} onKeyDown={(event) => { if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) event.preventDefault(); moveLane(event.key); }} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div id="lane-panel" className="mt-5 min-h-20" role="tabpanel" aria-labelledby={`lane-tab-${activeLane}`}><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
+          </div>
+        </section>
+
+        <section id="standards" className="operating-board border-y border-slate-200 py-24 dark:border-white/10">
+          <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
+            <div>
+              <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Operating standard</div>
+              <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Progress should be visible before it is celebrated.</h2>
+              <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
+                The public site now separates ambition from verified activity. That keeps the brand confident without overstating traction.
+              </p>
+            </div>
+            <div className="readiness-grid">
+              {READINESS_GATES.map((gate, index) => (
+                <article key={gate.label} className="readiness-card">
+                  <div className="flex items-center justify-between gap-4">
+                    <span className="text-xs font-black tracking-[0.18em] text-emerald-500">GATE 0{index + 1}</span>
+                    <span className="rounded-full border border-emerald-500/25 px-3 py-1 text-[0.68rem] font-black uppercase tracking-[0.12em] text-emerald-600 dark:text-emerald-300">{gate.state}</span>
+                  </div>
+                  <h3 className="mt-6 text-xl font-black">{gate.label}</h3>
+                  <p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{gate.copy}</p>
+                </article>
+              ))}
+            </div>
           </div>
         </section>
 
