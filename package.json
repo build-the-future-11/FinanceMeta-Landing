@@ -8,7 +8,7 @@
     "preview": "vite preview",
     "release:check": "npm run accessibility:check && npm run test && npm run build && node scripts/verify-release.mjs",
     "accessibility:check": "node scripts/verify-accessibility.mjs",
-    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs",
+    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs",
     "test": "npm run live:contract:test && vitest run",
     "typecheck": "tsc --noEmit",
     "live:verify": "node scripts/verify-live.mjs"
