@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
 import { resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
@@ -56,4 +57,21 @@ test('GitHub SHA and then git HEAD are bounded fallbacks only when stronger iden
     () => resolveReleaseRevision({ env: {}, gitHead: () => 'main' }),
     /git HEAD must be an immutable lowercase 40-character Git SHA/,
   );
+});
+
+test('release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04', () => {
+  const declaredNode = readFileSync(new URL('../.nvmrc', import.meta.url), 'utf8').trim();
+  assert.equal(declaredNode, '22.22.2');
+
+  for (const workflowPath of [
+    '../.github/workflows/release-check.yml',
+    '../.github/workflows/production-health.yml',
+  ]) {
+    const workflow = readFileSync(new URL(workflowPath, import.meta.url), 'utf8');
+
+    assert.match(workflow, /runs-on:\s*ubuntu-24\.04/);
+    assert.match(workflow, new RegExp(`node-version:\\s*['\"]${declaredNode.replaceAll('.', '\\.') }['\"]`));
+    assert.doesNotMatch(workflow, /node-version:\s*['\"]?22['\"]?\s*$/m);
+    assert.doesNotMatch(workflow, /runs-on:\s*ubuntu-latest/);
+  }
 });
