@@ -1,0 +1,59 @@
+name: Temporary React 19 Generator
+
+on:
+  push:
+    branches:
+      - "eng/react19-coordinated-20260915"
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout generator branch
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          ref: eng/react19-coordinated-20260915
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: "22.22.2"
+          cache: npm
+      - name: Generate coordinated React 19 package graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --package-lock-only --legacy-peer-deps --no-audit --fund=false --save-exact react@19.3.0 react-dom@19.3.0
+          npm install --package-lock-only --legacy-peer-deps --no-audit --fund=false --save-dev --save-exact @types/react@19.3.0 @types/react-dom@19.3.0
+          node --input-type=module <<'NODE'
+          import pkg from './package.json' with { type: 'json' };
+          const expected = {
+            react: pkg.dependencies?.react,
+            'react-dom': pkg.dependencies?.['react-dom'],
+            '@types/react': pkg.devDependencies?.['@types/react'],
+            '@types/react-dom': pkg.devDependencies?.['@types/react-dom'],
+          };
+          for (const [name, version] of Object.entries(expected)) {
+            if (version !== '19.3.0') throw new Error(`${name} resolved package.json version ${version}`);
+          }
+          NODE
+      - name: Verify generated graph before commit
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm ci --legacy-peer-deps --no-audit --fund=false
+          npm run release:check
+          git diff --check
+          git diff --exit-code -- . ':!.github/workflows/temp-react19-generator.yml' || true
+      - name: Commit package-manager output only
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git diff --cached --exit-code && { echo "No dependency changes generated" >&2; exit 1; } || true
+          git commit -m "chore(deps): coordinate React 19.3 dependency graph"
+          git push origin HEAD:eng/react19-coordinated-20260915
