@@ -7,7 +7,7 @@ import { resolveReleaseRevision, validateReleaseRevision } from './release-revis
 export const EXPECTED_ORIGIN = 'https://finance-meta-landing.vercel.app/';
 export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.svg`;
 export const EXPECTED_REVISION_URL = `${EXPECTED_ORIGIN}release-revision.json`;
-export const EXPECTED_SOCIAL_ALT = 'FinanceMeta — Understand finance. Build with it.';
+export const EXPECTED_SOCIAL_ALT = 'Finance for All — Financial confidence is built.';
 
 const EXPECTED_HEADERS = new Map([
   ['strict-transport-security', 'max-age=63072000; includeSubDomains'],
@@ -69,8 +69,8 @@ export const verifyHeaders = (headers) => {
 
 export const verifyHtml = (html) => {
   const title = singleMatch(html, /<title>([^<]+)<\/title>/gi, 'title');
-  if (!title.includes('FinanceMeta')) {
-    fail('title must identify FinanceMeta');
+  if (!title.includes('Finance for All')) {
+    fail('title must identify Finance for All');
   }
 
   singleMatch(
@@ -143,7 +143,7 @@ export const verifyHtml = (html) => {
     'Twitter image alt',
   );
   if (ogAlt !== EXPECTED_SOCIAL_ALT || twitterAlt !== EXPECTED_SOCIAL_ALT) {
-    fail('social image alt metadata must match the approved FinanceMeta description');
+    fail('social image alt metadata must match the approved Finance for All description');
   }
 };
 
@@ -198,7 +198,7 @@ const fetchWithoutRedirect = async (url) => {
   const response = await fetch(url, {
     redirect: 'manual',
     signal: AbortSignal.timeout(15_000),
-    headers: { 'user-agent': 'FinanceMeta-release-verifier/1.1' },
+    headers: { 'user-agent': 'FinanceForAll-release-verifier/1.1' },
   });
   if (response.status >= 300 && response.status < 400) {
     fail(`unexpected redirect ${response.status} from ${url}`);
@@ -238,7 +238,7 @@ export const runLiveVerification = async (
   const expectedBytes = readFileSync('public/social-preview.svg');
   verifySocialAsset({ headers: socialResponse.headers, bytes: deployedBytes, expectedBytes });
 
-  console.log(`FinanceMeta live release check passed for ${target.href} at ${expectedRevision}`);
+  console.log(`Finance for All live release check passed for ${target.href} at ${expectedRevision}`);
 };
 
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {

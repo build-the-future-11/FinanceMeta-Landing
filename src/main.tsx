@@ -1,371 +1,327 @@
 import React, { useEffect, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { motion, useReducedMotion } from "framer-motion";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
+import { trackLandingEvent } from "./analytics";
+import { getMemberAppBaseUrl, getMemberHandoffUrl, getMemberPublicUrl } from "./member-handoff";
 import "./index.css";
-import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from "./member-handoff";
 
 type Program = {
-  eyebrow: string;
   title: string;
   description: string;
+  status: "Open resource" | "In development" | "Planned";
+  path: string;
 };
 
-const PROGRAMS: Program[] = [
+const PROGRAM_GROUPS: { id: string; label: string; title: string; copy: string; programs: Program[] }[] = [
   {
-    eyebrow: "LEARN",
-    title: "Axiom Pathways",
-    description:
-      "Structured pathways that help students move from first principles to practical finance, economics, and quantitative thinking.",
+    id: "learn",
+    label: "Learn",
+    title: "Build financial understanding that travels with you.",
+    copy: "Free resources and structured learning for students who want to understand the systems behind everyday financial decisions.",
+    programs: [
+      { title: "Digital courses", description: "Clear, sourced lessons with explicit learning objectives and practical exercises.", status: "Open resource", path: "/learn" },
+      { title: "Global literacy outreach", description: "A workshop model for financial foundations, consumer awareness, and economic confidence.", status: "In development", path: "/programs" },
+      { title: "School visits", description: "Facilitated sessions for schools, educators, and student communities.", status: "Planned", path: "/events" },
+    ],
   },
   {
-    eyebrow: "BUILD",
-    title: "FinTech Studio",
-    description:
-      "A place to turn ideas into real financial tools, models, experiments, and student-led products with visible outcomes.",
+    id: "experience",
+    label: "Experience",
+    title: "Put ideas under real pressure.",
+    copy: "Research, publishing, competition, and industry work that turns knowledge into something visible and reviewable.",
+    programs: [
+      { title: "Live industry projects", description: "Scoped briefs, working teams, milestones, and reviewed outputs.", status: "In development", path: "/programs" },
+      { title: "Economics Olympiad", description: "A competition built around reasoning, evidence, and transparent evaluation.", status: "Planned", path: "/events" },
+      { title: "FinanceMeta Labs", description: "Reproducible student research across finance, economics, data, and technology.", status: "In development", path: "/research" },
+    ],
   },
   {
-    eyebrow: "RESEARCH",
-    title: "FinanceMeta Labs",
-    description:
-      "Student research and experimentation across markets, economics, computational finance, data, and emerging financial technology.",
-  },
-  {
-    eyebrow: "CONNECT",
-    title: "Global Chapters",
-    description:
-      "Local communities that bring FinanceMeta programs, discussions, projects, and collaboration to students around the world.",
-  },
-  {
-    eyebrow: "PUBLISH",
-    title: "The Debrief",
-    description:
-      "Student-facing analysis and commentary that makes important financial and economic ideas clearer, sharper, and easier to engage with.",
-  },
-  {
-    eyebrow: "COMPETE",
-    title: "Challenges & Competitions",
-    description:
-      "Applied experiences that reward rigorous thinking, evidence, communication, and creative problem solving rather than passive participation.",
+    id: "lead",
+    label: "Lead",
+    title: "Create a stronger financial culture around you.",
+    copy: "Paths for students to publish, host, organise, and bring high-quality financial education into their communities.",
+    programs: [
+      { title: "School clubs", description: "A local leadership model with operating standards, curriculum, and evidence records.", status: "Planned", path: "/events" },
+      { title: "Economics journal", description: "Student analysis with editorial review, citations, and a corrections policy.", status: "In development", path: "/research" },
+      { title: "Student podcast", description: "Interviews and explainers with source notes, guest consent, and published recordings.", status: "Planned", path: "/research" },
+    ],
   },
 ];
 
-const PRINCIPLES = [
-  "Build before you badge",
-  "Evidence over hype",
-  "Student-led, globally connected",
-  "Finance as a tool for understanding the world",
+const META_PROJECTS = [
+  { number: "01", name: "FinanceMeta Labs", type: "Research", copy: "Research questions, experiments, repositories, papers, and preserved limitations." },
+  { number: "02", name: "Economics Journal", type: "Publishing", copy: "Long-form student analysis with editorial discipline and visible sources." },
+  { number: "03", name: "Finance Debriefs", type: "Editorial", copy: "Timely financial and economic ideas made useful without becoming advice." },
+  { number: "04", name: "Industry Projects", type: "Build", copy: "Real briefs, accountable teams, working artifacts, and external review." },
+  { number: "05", name: "Student Podcast", type: "Media", copy: "Conversations with builders, researchers, educators, and operators." },
+  { number: "06", name: "Economics Olympiad", type: "Competition", copy: "Rigorous economic reasoning through a transparent competitive format." },
 ];
 
-const JOURNEY_LANES = [
-  { label: "Learn", title: "Build a durable base", copy: "Start with explanations that make financial and economic systems feel navigable." },
-  { label: "Research", title: "Interrogate the claim", copy: "Turn curiosity into a question with a baseline, method, limits, and evidence." },
-  { label: "Build", title: "Make the work visible", copy: "Ship a model, project, or analysis that can be reviewed and improved." },
-];
+const memberAppUrl = getMemberAppBaseUrl();
 
-const READINESS_GATES = [
-  { label: "Lead named", state: "Required", copy: "Each program needs a visible owner before it is represented as active." },
-  { label: "Operating record", state: "Required", copy: "Work moves from concept to live only when activity can be reviewed." },
-  { label: "Evidence archive", state: "Required", copy: "Published claims need source material, limits, and reproduction notes." },
-  { label: "Member path", state: "Required", copy: "Participants should know what happens after they apply, submit, or join." },
-];
+function trackCta(action: string, surface: string, destination: string, handoff = false) {
+  return () => trackLandingEvent(handoff ? "member_handoff_started" : "landing_cta", { action, surface, destination });
+}
 
 function initialDarkMode() {
   try {
-    const savedTheme = window.localStorage.getItem("financemeta-theme");
-    if (savedTheme === "dark" || savedTheme === "light") {
-      return savedTheme === "dark";
-    }
+    const saved = window.localStorage.getItem("financemeta-theme");
+    if (saved === "dark" || saved === "light") return saved === "dark";
   } catch {
-    // Storage can be unavailable in private or restricted browser contexts.
+    // Theme preference still works for the current session when storage is unavailable.
   }
-  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? true;
+  return window.matchMedia?.("(prefers-color-scheme: dark)").matches ?? false;
+}
+
+function BrandMark({ compact = false }: { compact?: boolean }) {
+  return (
+    <span className="brand-lockup">
+      <span className="brand-symbol" aria-hidden="true"><i /><i /><i /></span>
+      <span className="brand-copy">
+        <strong>Finance for All</strong>
+        {!compact && <small>A Finance Meta initiative</small>}
+      </span>
+    </span>
+  );
+}
+
+function Arrow() {
+  return <span className="arrow" aria-hidden="true">↗</span>;
+}
+
+function SpotlightPanel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const onPointerMove = (event: React.PointerEvent<HTMLDivElement>) => {
+    const node = ref.current;
+    if (!node) return;
+    const rect = node.getBoundingClientRect();
+    node.style.setProperty("--spot-x", `${event.clientX - rect.left}px`);
+    node.style.setProperty("--spot-y", `${event.clientY - rect.top}px`);
+  };
+  return <div ref={ref} onPointerMove={onPointerMove} className={`spotlight-panel ${className}`}>{children}</div>;
 }
 
 export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
-  const [activeLane, setActiveLane] = useState(0);
-  const [pointer, setPointer] = useState({ x: -100, y: -100 });
-  const laneTabs = useRef<Array<HTMLButtonElement | null>>([]);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeGroup, setActiveGroup] = useState(0);
+  const programTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
-  const memberHandoffConfigured = hasConfiguredMemberHandoff();
-  const memberHandoffUrl = getMemberHandoffUrl();
-  const moveLane = (key: string) => {
-    const lastLane = JOURNEY_LANES.length - 1;
-    let nextLane: number | null = null;
-    if (key === "ArrowRight") nextLane = activeLane === lastLane ? 0 : activeLane + 1;
-    if (key === "ArrowLeft") nextLane = activeLane === 0 ? lastLane : activeLane - 1;
-    if (key === "Home") nextLane = 0;
-    if (key === "End") nextLane = lastLane;
-    if (nextLane !== null) {
-      setActiveLane(nextLane);
-      laneTabs.current[nextLane]?.focus();
-    }
+  const active = PROGRAM_GROUPS[activeGroup];
+
+  const moveProgramTab = (key: string) => {
+    const lastIndex = PROGRAM_GROUPS.length - 1;
+    const nextIndex = key === "Home"
+      ? 0
+      : key === "End"
+        ? lastIndex
+        : key === "ArrowRight"
+          ? (activeGroup + 1) % PROGRAM_GROUPS.length
+          : key === "ArrowLeft"
+            ? (activeGroup - 1 + PROGRAM_GROUPS.length) % PROGRAM_GROUPS.length
+            : activeGroup;
+    setActiveGroup(nextIndex);
+    programTabs.current[nextIndex]?.focus();
   };
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", darkMode);
-    try {
-      window.localStorage.setItem("financemeta-theme", darkMode ? "dark" : "light");
-    } catch {
-      // Theme selection remains functional for this session when storage is unavailable.
-    }
+    try { window.localStorage.setItem("financemeta-theme", darkMode ? "dark" : "light"); } catch { /* noop */ }
   }, [darkMode]);
 
+  useEffect(() => {
+    trackLandingEvent("landing_impression", { action: "view", surface: "finance_for_all_landing" });
+  }, []);
+
   return (
-    <div className="landing-shell min-h-screen bg-[#f5f7f5] text-slate-950 transition-colors duration-300 dark:bg-[#08100d] dark:text-white" onPointerMove={(event) => setPointer({ x: event.clientX, y: event.clientY })}>
-      {!prefersReducedMotion && <span className="landing-cursor" style={{ transform: `translate3d(${pointer.x - 10}px, ${pointer.y - 10}px, 0)` }} aria-hidden="true" />}
+    <div className="site-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <header className="glass-header sticky top-0 z-50 border-b border-slate-200/70 bg-[#f5f7f5]/90 backdrop-blur-xl dark:border-white/10 dark:bg-[#08100d]/85">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 lg:px-8">
-          <a href="#top" className="flex items-center gap-3" aria-label="FinanceMeta home">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-500 font-black text-[#07110d]">
-              FM
-            </div>
-            <div>
-              <div className="text-sm font-semibold tracking-[0.22em] text-emerald-500">FINANCEMETA</div>
-              <div className="text-xs text-slate-500 dark:text-slate-400">Learn · Build · Research · Compete</div>
-            </div>
-          </a>
-
-          <nav aria-label="Primary navigation" className="hidden items-center gap-7 text-sm font-medium md:flex">
-            <a className="hover:text-emerald-500" href="#programs">Programs</a>
-            <a className="hover:text-emerald-500" href="#standards">Standards</a>
-            <a className="hover:text-emerald-500" href="#research">Research</a>
-            <a className="hover:text-emerald-500" href="#community">Community</a>
-            <a className="hover:text-emerald-500" href="#faq">FAQ</a>
+      <header className="site-header">
+        <div className="header-inner">
+          <a href="#top" aria-label="Finance for All home"><BrandMark /></a>
+          <nav className="desktop-nav" aria-label="Primary navigation">
+            <a href="#programs">Programs</a>
+            <a href="#schools">Schools & clubs</a>
+            <a href="#meta">Finance Meta</a>
+            <a href="#standard">Evidence</a>
           </nav>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={() => setDarkMode((value) => !value)}
-              className="rounded-full border border-slate-300 px-3 py-2 text-xs font-semibold text-slate-600 transition hover:border-emerald-500 hover:text-emerald-500 dark:border-white/15 dark:text-slate-300"
-              aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"}
-              aria-pressed={darkMode}
-            >
-              {darkMode ? "Light" : "Dark"}
+          <div className="header-actions">
+            <button className="theme-button" type="button" onClick={() => setDarkMode((value) => !value)} aria-label={darkMode ? "Switch to light theme" : "Switch to dark theme"} aria-pressed={darkMode}>
+              <span aria-hidden="true">{darkMode ? "☀" : "◐"}</span>
             </button>
-            <a
-              href="#join"
-              className="rounded-full bg-emerald-500 px-4 py-2 text-sm font-bold text-[#07110d] transition hover:bg-emerald-400"
-            >
-              Get involved
-            </a>
+            {memberAppUrl ? (
+              <a className="header-portal" data-cta-id="header-member-login" href={getMemberHandoffUrl("/login")} onClick={trackCta("member_login", "header", "/login", true)}>Member portal <Arrow /></a>
+            ) : (
+              <a className="header-portal" data-cta-id="header-get-involved" href="#join">Get involved <Arrow /></a>
+            )}
+            <button className="menu-button" type="button" onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-controls="mobile-menu"><span /><span /></button>
           </div>
         </div>
-        <nav aria-label="Mobile navigation" className="flex justify-center gap-6 border-t border-slate-200/70 px-6 py-3 text-sm font-semibold dark:border-white/10 md:hidden">
-          <a className="hover:text-emerald-500" href="#programs">Programs</a>
-          <a className="hover:text-emerald-500" href="#standards">Standards</a>
-          <a className="hover:text-emerald-500" href="#research">Research</a>
-          <a className="hover:text-emerald-500" href="#join">Join</a>
-        </nav>
+        <AnimatePresence>
+          {menuOpen && (
+            <motion.nav id="mobile-menu" className="mobile-menu" initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} exit={{ opacity: 0, height: 0 }} aria-label="Mobile navigation">
+              {[ ["Programs", "#programs"], ["Schools & clubs", "#schools"], ["Finance Meta", "#meta"], ["Evidence", "#standard"] ].map(([label, href]) => <a key={href} href={href} onClick={() => setMenuOpen(false)}>{label}<Arrow /></a>)}
+            </motion.nav>
+          )}
+        </AnimatePresence>
       </header>
 
       <main id="main-content" tabIndex={-1}>
-        <section className="hero-stage relative overflow-hidden border-b border-slate-200/70 dark:border-white/10">
-          <div className="absolute inset-0 -z-10 bg-[radial-gradient(circle_at_top_left,rgba(16,185,129,0.18),transparent_34%),radial-gradient(circle_at_80%_25%,rgba(52,211,153,0.12),transparent_30%)]" />
-          <div className="neural-field absolute inset-0 -z-10" aria-hidden="true" />
-          <div className="tetris-field absolute inset-0 -z-10" aria-hidden="true"><i /><i /><i /><i /><i /><i /></div>
-          <div className="mx-auto grid max-w-7xl gap-14 px-6 py-24 lg:grid-cols-[1.3fr_0.7fr] lg:px-8 lg:py-32">
-            <motion.div
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.55 }}
-            >
-              <div className="mb-7 inline-flex items-center gap-2 rounded-full border border-emerald-500/25 bg-emerald-500/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-emerald-600 dark:text-emerald-400">
-                Building an evidence-first student finance ecosystem
+        <section id="top" className="hero-section">
+          <div className="hero-grid" aria-hidden="true" />
+          <div className="hero-inner">
+            <motion.div className="hero-copy" initial={prefersReducedMotion ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .7 }}>
+              <p className="eyebrow"><span /> Financial education, made participatory</p>
+              <h1>Financial confidence<br />is built, <em>not inherited.</em></h1>
+              <p className="hero-lede">Finance for All helps students understand money, economics, and financial systems through learning, research, real projects, and leadership.</p>
+              <div className="hero-actions">
+                <a className="button button-primary" data-cta-id="hero-programs" href="#programs" onClick={trackCta("program_discovery", "hero", "#programs")}>Explore programs <Arrow /></a>
+                {memberAppUrl && <a className="button button-secondary" data-cta-id="hero-member-signup" href={getMemberHandoffUrl("/signup")} onClick={trackCta("member_signup", "hero", "/signup", true)}>Join the network</a>}
               </div>
-              <h1 className="max-w-4xl text-5xl font-black leading-[0.98] tracking-[-0.05em] sm:text-6xl lg:text-7xl">
-                <span className="blur-reveal">Understand finance.</span>
-                <span className="box-reveal block text-emerald-500">Build with it.</span>
-              </h1>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                FinanceMeta is building one student-led platform for learning, research, publishing, competitions, chapters, and practical projects. Programs launch only after their evidence requirements are met.
-              </p>
-              <div className="mt-9 flex flex-col gap-3 sm:flex-row">
-                <a
-                  href="#programs"
-                  className="shimmer-button rounded-xl bg-emerald-500 px-6 py-3.5 text-center font-bold text-[#07110d] shadow-[0_14px_35px_rgba(16,185,129,0.22)] transition hover:-translate-y-0.5 hover:bg-emerald-400"
-                >
-                  Explore the ecosystem
-                </a>
-                <a
-                  href="mailto:financeforalledu@gmail.com"
-                  className="rounded-xl border border-slate-300 px-6 py-3.5 text-center font-bold transition hover:border-emerald-500 hover:text-emerald-500 dark:border-white/15"
-                >
-                  Partner with FinanceMeta
-                </a>
-              </div>
+              <div className="hero-note"><span>For students</span><span>For schools</span><span>For partners</span></div>
             </motion.div>
 
-            <motion.aside
-              initial={prefersReducedMotion ? false : { opacity: 0, scale: 0.97 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: prefersReducedMotion ? 0 : 0.55, delay: prefersReducedMotion ? 0 : 0.08 }}
-              className="float-card glow-border self-end rounded-3xl border border-slate-200 bg-white/80 p-7 shadow-2xl shadow-emerald-950/5 backdrop-blur dark:border-white/10 dark:bg-white/[0.045]"
-            >
-              <div className="text-xs font-bold uppercase tracking-[0.22em] text-emerald-500">The FinanceMeta loop</div>
-              <div className="mt-6 space-y-5">
-                {[
-                  ["01", "Learn", "Build strong mental models."],
-                  ["02", "Apply", "Turn concepts into projects and analysis."],
-                  ["03", "Publish", "Explain what you learned with evidence."],
-                  ["04", "Compete", "Test your thinking under pressure."],
-                  ["05", "Lead", "Bring the ecosystem to your own community."],
-                ].map(([number, title, copy]) => (
-                  <div key={number} className="grid grid-cols-[44px_1fr] gap-4">
-                    <div className="text-sm font-black text-emerald-500">{number}</div>
-                    <div>
-                      <div className="font-bold">{title}</div>
-                      <div className="mt-1 text-sm leading-6 text-slate-500 dark:text-slate-400">{copy}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </motion.aside>
+            <motion.div initial={prefersReducedMotion ? false : { opacity: 0, scale: .97 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: .7, delay: .1 }}>
+              <SpotlightPanel className="access-panel">
+                <div className="panel-topline"><span>Access now</span><span className="live-indicator"><i /> Public resources</span></div>
+                <a className="access-feature" href={getMemberPublicUrl("/learn/five-foundations", "#programs")}>
+                  <span className="access-index">01</span>
+                  <span><small>Open lesson</small><strong>Five Foundations</strong><em>35 minutes · Grades 9–12</em></span>
+                  <Arrow />
+                </a>
+                <div className="access-list">
+                  <a href={getMemberPublicUrl("/research", "#meta")}><span>02</span><strong>Explore research</strong><Arrow /></a>
+                  <a href={getMemberPublicUrl("/events", "#schools")}><span>03</span><strong>Events & chapters</strong><Arrow /></a>
+                  <a href="mailto:financeforalledu@gmail.com?subject=Bring%20Finance%20for%20All%20to%20our%20school"><span>04</span><strong>Bring us to your school</strong><Arrow /></a>
+                </div>
+                <div className="signal-graphic" aria-hidden="true"><i /><i /><i /><i /><i /></div>
+              </SpotlightPanel>
+            </motion.div>
           </div>
         </section>
 
-        <section id="programs" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="max-w-3xl">
-            <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Planned programs</div>
-            <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">A roadmap with evidence gates.</h2>
-            <p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">
-              These program families are in development. A program is described as active only after a named lead, operating record, and reviewable output exist.
-            </p>
+        <section className="intent-strip" aria-label="Ways to participate">
+          <div className="intent-inner">
+            <p>Start where you are.</p>
+            {["Learn the foundations", "Join a project", "Lead a club", "Work with us"].map((item, index) => <a href={index === 0 ? getMemberPublicUrl("/learn", "#programs") : index === 2 ? "#schools" : index === 3 ? "#join" : "#programs"} key={item}><span>0{index + 1}</span>{item}</a>)}
+          </div>
+        </section>
+
+        <section id="programs" className="section program-section">
+          <div className="section-heading split-heading">
+            <div><p className="eyebrow"><span /> Programs</p><h2>One mission.<br /><em>Multiple ways in.</em></h2></div>
+            <p>Students do not all learn in the same way. Finance for All connects foundational education with research, publishing, competition, projects, and local leadership.</p>
           </div>
 
-          <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-            {PROGRAMS.map((program, index) => (
-              <motion.article
-                key={program.title}
-                initial={prefersReducedMotion ? false : { opacity: 0, y: 14 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: prefersReducedMotion ? 0 : 0.4, delay: prefersReducedMotion ? 0 : index * 0.04 }}
-                className="lens-card group rounded-2xl border border-slate-200 bg-white p-6 transition hover:-translate-y-1 hover:border-emerald-500/60 hover:shadow-xl hover:shadow-emerald-950/5 dark:border-white/10 dark:bg-white/[0.035]"
-              >
-                <div className="text-xs font-black tracking-[0.2em] text-emerald-500">{program.eyebrow}</div>
-                <h3 className="mt-4 text-2xl font-black tracking-tight">{program.title}</h3>
-                <p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{program.description}</p>
-              </motion.article>
+          <div className="program-explorer">
+            <div className="program-tabs" role="tablist" aria-label="Program pathways">
+              {PROGRAM_GROUPS.map((group, index) => (
+                <button
+                  key={group.id}
+                  ref={(element) => { programTabs.current[index] = element; }}
+                  type="button"
+                  role="tab"
+                  tabIndex={activeGroup === index ? 0 : -1}
+                  aria-selected={activeGroup === index}
+                  onClick={() => setActiveGroup(index)}
+                  onKeyDown={(event) => {
+                    if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
+                      event.preventDefault();
+                      moveProgramTab(event.key);
+                    }
+                  }}
+                  className={activeGroup === index ? "active" : ""}
+                >
+                  <span>0{index + 1}</span>{group.label}
+                </button>
+              ))}
+            </div>
+            <div className="program-stage" role="tabpanel">
+              <AnimatePresence mode="wait">
+                <motion.div key={active.id} initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .28 }}>
+                  <div className="program-intro"><p>{active.copy}</p><h3>{active.title}</h3></div>
+                  <div className="program-list">
+                    {active.programs.map((program, index) => (
+                      <a key={program.title} href={getMemberPublicUrl(program.path, "#programs")} className="program-row">
+                        <span className="row-number">0{index + 1}</span>
+                        <span className="row-main"><strong>{program.title}</strong><small>{program.description}</small></span>
+                        <span className={`status status-${program.status.toLowerCase().replace(" ", "-")}`}>{program.status}</span>
+                        <Arrow />
+                      </a>
+                    ))}
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+          </div>
+        </section>
+
+        <section id="schools" className="school-section">
+          <div className="school-inner">
+            <div className="school-copy">
+              <p className="eyebrow light"><span /> Schools & clubs</p>
+              <h2>Bring financial learning into the room.</h2>
+              <p>Finance for All is building formats for workshops, school visits, and student-led clubs. Each format is designed around clear ownership, safeguarding, reviewed materials, and honest reporting.</p>
+              <a className="button button-light" data-cta-id="school-partnership" href="mailto:financeforalledu@gmail.com?subject=School%20or%20club%20partnership" onClick={trackCta("school_contact", "schools", "mailto")}>Start a conversation <Arrow /></a>
+            </div>
+            <ol className="school-steps">
+              {[
+                ["01", "Choose the format", "A school visit, workshop series, club, or custom collaboration."],
+                ["02", "Agree the standard", "Audience, learning goals, consent, timing, ownership, and reporting."],
+                ["03", "Deliver and document", "Run the work, collect appropriate evidence, and publish only what is verified."],
+              ].map(([number, title, copy]) => <li key={number}><span>{number}</span><div><strong>{title}</strong><p>{copy}</p></div></li>)}
+            </ol>
+          </div>
+        </section>
+
+        <section id="meta" className="section meta-section">
+          <div className="section-heading meta-heading">
+            <p className="eyebrow"><span /> The wider ecosystem</p>
+            <h2>Finance for All is one part of <em>Finance Meta.</em></h2>
+            <p>Finance Meta is the umbrella for research, publishing, media, technical builds, industry work, and competition.</p>
+          </div>
+          <div className="meta-grid">
+            {META_PROJECTS.map((project, index) => (
+              <article className={`meta-card meta-card-${index + 1}`} key={project.name}>
+                <div className="meta-card-top"><span>{project.number}</span><small>{project.type}</small></div>
+                <div><h3>{project.name}</h3><p>{project.copy}</p></div>
+                <a href={getMemberPublicUrl(project.type === "Research" ? "/research" : project.type === "Competition" ? "/events" : "/programs", "#meta")} aria-label={`Explore ${project.name}`}><Arrow /></a>
+              </article>
             ))}
           </div>
         </section>
 
-        <section className="overflow-hidden border-y border-slate-200/70 py-5 dark:border-white/10" aria-label="FinanceMeta principles">
-          <div className="marquee-track">{[...PRINCIPLES, ...PRINCIPLES].map((principle, index) => <span key={`${principle}-${index}`}>✦ {principle}</span>)}</div>
-        </section>
-
-        <section id="why" className="border-y border-slate-200 bg-white py-24 dark:border-white/10 dark:bg-white/[0.025]">
-          <div className="mx-auto grid max-w-7xl gap-12 px-6 lg:grid-cols-2 lg:px-8">
-            <div>
-              <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Why FinanceMeta</div>
-              <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Finance education should produce capability.</h2>
-              <p className="mt-6 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">
-                The goal is not to collect another certificate. It is to leave with sharper judgment, stronger technical skills, better questions, and work you can actually show.
-              </p>
-            </div>
-
-            <div className="grid gap-4 sm:grid-cols-2">
-              {PRINCIPLES.map((principle, index) => (
-                <div key={principle} className="rounded-2xl border border-slate-200 p-6 dark:border-white/10">
-                  <div className="text-sm font-black text-emerald-500">0{index + 1}</div>
-                  <div className="mt-8 text-xl font-black leading-snug">{principle}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="media-split grid overflow-hidden rounded-[2rem] border border-slate-200 dark:border-white/10 lg:grid-cols-[0.9fr_1.1fr]">
-            <div className="relative min-h-72 overflow-hidden bg-[#0b2119] p-8 text-white sm:p-12">
-              <svg className="absolute inset-0 h-full w-full opacity-45" viewBox="0 0 500 360" preserveAspectRatio="none" aria-hidden="true"><defs><linearGradient id="signal" x1="0" x2="1"><stop stopColor="#34d399" /><stop offset="1" stopColor="#60a5fa" /></linearGradient></defs><path d="M-20 270 C80 190 120 290 210 165 S370 90 520 25" fill="none" stroke="url(#signal)" strokeWidth="3" /><path d="M-20 300 C90 225 140 305 240 195 S380 135 520 70" fill="none" stroke="url(#signal)" strokeWidth="1" opacity=".6" /></svg>
-              <div className="relative text-xs font-black uppercase tracking-[0.22em] text-emerald-300">Signal processing</div><div className="relative mt-20 font-mono text-sm text-emerald-100/80">01100110 / evidence / method / revision</div><div className="relative mt-3 text-3xl font-black">Make the signal legible.</div>
-            </div>
-            <div className="p-8 sm:p-12"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">How the platform feels</div><h2 className="mt-4 text-4xl font-black tracking-[-0.035em]">A visual system with a serious point of view.</h2><p className="mt-5 max-w-xl text-lg leading-8 text-slate-600 dark:text-slate-300">Motion clarifies progress, attention, and relationships. It does not turn evidence, privacy, or participation into decoration.</p><div className="morph-tabs mt-8 inline-flex rounded-full border border-slate-200 p-1 dark:border-white/10" role="tablist" aria-label="FinanceMeta learning lanes">{JOURNEY_LANES.map((lane, index) => <button key={lane.label} ref={(element) => { laneTabs.current[index] = element; }} id={`lane-tab-${index}`} type="button" role="tab" tabIndex={activeLane === index ? 0 : -1} aria-controls="lane-panel" aria-selected={activeLane === index} onKeyDown={(event) => { if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) event.preventDefault(); moveLane(event.key); }} onClick={() => setActiveLane(index)} className={`morph-tab ${activeLane === index ? "is-active" : ""}`}>{lane.label}</button>)}</div><div id="lane-panel" className="mt-5 min-h-20" role="tabpanel" aria-labelledby={`lane-tab-${activeLane}`}><div className="text-lg font-black">{JOURNEY_LANES[activeLane].title}</div><p className="mt-2 max-w-lg leading-7 text-slate-600 dark:text-slate-300">{JOURNEY_LANES[activeLane].copy}</p></div></div>
-          </div>
-        </section>
-
-        <section id="standards" className="operating-board border-y border-slate-200 py-24 dark:border-white/10">
-          <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[0.8fr_1.2fr] lg:px-8">
-            <div>
-              <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Operating standard</div>
-              <h2 className="mt-4 text-4xl font-black tracking-[-0.035em] sm:text-5xl">Progress should be visible before it is celebrated.</h2>
-              <p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">
-                The public site now separates ambition from verified activity. That keeps the brand confident without overstating traction.
-              </p>
-            </div>
-            <div className="readiness-grid">
-              {READINESS_GATES.map((gate, index) => (
-                <article key={gate.label} className="readiness-card">
-                  <div className="flex items-center justify-between gap-4">
-                    <span className="text-xs font-black tracking-[0.18em] text-emerald-500">GATE 0{index + 1}</span>
-                    <span className="rounded-full border border-emerald-500/25 px-3 py-1 text-[0.68rem] font-black uppercase tracking-[0.12em] text-emerald-600 dark:text-emerald-300">{gate.state}</span>
-                  </div>
-                  <h3 className="mt-6 text-xl font-black">{gate.label}</h3>
-                  <p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{gate.copy}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="research" className="border-y border-slate-200 bg-white py-24 dark:border-white/10 dark:bg-white/[0.025]">
-          <div className="mx-auto grid max-w-7xl gap-10 px-6 lg:grid-cols-[.78fr_1.22fr] lg:px-8">
-            <div className="lg:sticky lg:top-28 lg:self-start"><div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-500">Research and publishing</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">Claims earn their place.</h2><p className="mt-6 text-lg leading-8 text-slate-600 dark:text-slate-300">FinanceMeta treats research as a practice of clear questions, useful baselines, reproducible work, and honest limits. No outcome is presented here without evidence.</p></div>
-            <div className="grid gap-4 sm:grid-cols-2">{[["Question", "Define the decision, hypothesis, inputs, and failure conditions before celebrating an answer."], ["Baseline", "Compare against a simple conventional approach before making a stronger claim."], ["Evidence", "Keep configuration, raw outputs, limitations, and reproduction steps with the result."], ["Review", "Separate drafts, submitted work, reviewed evidence, and published outcomes."]].map(([title, copy], index) => <article key={title} className="lens-card rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/[0.035]"><div className="text-xs font-black tracking-[.2em] text-emerald-500">STANDARD 0{index + 1}</div><h3 className="mt-5 text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{copy}</p></article>)}</div>
-          </div>
-        </section>
-
-        <section id="community" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="max-w-3xl"><div className="text-sm font-black uppercase tracking-[.2em] text-emerald-500">The member journey</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">From curiosity to contribution.</h2><p className="mt-5 text-lg leading-8 text-slate-600 dark:text-slate-300">The member platform is the working layer for onboarding, programs, research participation, events, applications, and contribution.</p></div>
-          <ol className="tracing-timeline mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">{[["Discover", "Understand the programs and evidence standard before creating an account."], ["Onboard", "Share only the information needed for participation."], ["Participate", "Apply to published opportunities and track explicit status."], ["Contribute", "Submit work with reviewable evidence and feedback."]].map(([title, copy], index) => <li key={title} className="rounded-2xl border border-slate-200 bg-white p-6 dark:border-white/10 dark:bg-white/[.035]"><div className="flex h-9 w-9 items-center justify-center rounded-full bg-emerald-500 text-sm font-black text-[#07110d]">{index + 1}</div><h3 className="mt-6 text-xl font-black">{title}</h3><p className="mt-3 leading-7 text-slate-600 dark:text-slate-400">{copy}</p></li>)}</ol>
-        </section>
-
-        <section id="faq" className="border-y border-slate-200 bg-[#edf3ef] py-24 dark:border-white/10 dark:bg-white/[0.025]">
-          <div className="mx-auto max-w-5xl px-6 lg:px-8"><div className="text-center"><div className="text-sm font-black uppercase tracking-[.2em] text-emerald-500">Frequently asked</div><h2 className="mt-4 text-4xl font-black tracking-[-.035em] sm:text-5xl">Know what you are joining.</h2></div><div className="mt-12 divide-y divide-slate-200 rounded-2xl border border-slate-200 bg-white px-6 dark:divide-white/10 dark:border-white/10 dark:bg-white/[.035] sm:px-8">{[["Who is FinanceMeta for?", "Students and early-career builders who want practical judgment across finance, economics, technology, research, and communication."], ["Is every program currently open?", "No. A program is described as active only after its evidence requirements and operating record are met."], ["Does FinanceMeta offer investment advice?", "No. Educational projects and research are not investment advice or evidence of live market performance."], ["How do partnerships start?", "Send a work inquiry with the collaboration you have in mind. The team evaluates fit without invented partner tiers or reach numbers."]].map(([question, answer]) => <details key={question} className="group py-6"><summary className="cursor-pointer list-none pr-8 text-lg font-black">{question}<span aria-hidden="true" className="float-right text-emerald-500 transition group-open:rotate-45">+</span></summary><p className="mt-4 max-w-3xl leading-7 text-slate-600 dark:text-slate-400">{answer}</p></details>)}</div></div>
-        </section>
-
-        <section id="join" className="mx-auto max-w-7xl px-6 py-24 lg:px-8">
-          <div className="overflow-hidden rounded-3xl bg-[#0d1c16] p-8 text-white shadow-2xl shadow-emerald-950/15 sm:p-12 lg:p-14">
-            <div className="grid items-end gap-10 lg:grid-cols-[1fr_auto]">
-              <div>
-                <div className="text-sm font-black uppercase tracking-[0.2em] text-emerald-400">Join the network</div>
-                <h2 className="mt-4 max-w-3xl text-4xl font-black tracking-[-0.04em] sm:text-5xl">
-                  Come to learn. Stay to build something worth sharing.
-                </h2>
-                <p className="mt-5 max-w-2xl text-lg leading-8 text-slate-300">
-                  Students, chapter leads, mentors, educators, universities, and ecosystem partners can all plug into FinanceMeta in different ways.
-                </p>
+        <section id="standard" className="standard-section">
+          <div className="standard-inner">
+            <div><p className="eyebrow"><span /> Our standard</p><h2>Evidence before applause.</h2></div>
+            <div className="standard-copy">
+              <p>Programs are not labelled active because they sound good. Research is not presented as a result because code runs. Partnerships, reach, outcomes, and student work appear publicly only when there is a reviewable record behind them.</p>
+              <div className="standard-grid">
+                {[ ["Named owner", "Someone is accountable."], ["Clear method", "The work can be followed."], ["Visible limits", "Uncertainty stays attached."], ["Reviewable output", "There is something to inspect."] ].map(([title, copy], index) => <div key={title}><span>0{index + 1}</span><strong>{title}</strong><small>{copy}</small></div>)}
               </div>
-              <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
-                <a
-                  href={memberHandoffUrl}
-                  data-member-handoff={memberHandoffConfigured ? "configured" : "fallback"}
-                  aria-label={memberHandoffConfigured ? "Open FinanceMeta member portal" : "Email FinanceMeta to get involved"}
-                  className="rounded-xl bg-emerald-400 px-6 py-3.5 text-center font-black text-[#07110d] transition hover:bg-emerald-300"
-                >
-                  {memberHandoffConfigured ? "Open member portal" : "Get involved"}
-                </a>
-                <a
-                  href="mailto:financeforalledu@gmail.com?subject=FinanceMeta%20Partnership"
-                  className="rounded-xl border border-white/20 px-6 py-3.5 text-center font-black transition hover:border-emerald-400 hover:text-emerald-300"
-                >
-                  Explore a partnership
-                </a>
-              </div>
+              <a className="text-link" data-cta-id="evidence-boundary" href={getMemberPublicUrl("/evidence", "#standard")}>Read the public evidence boundary <Arrow /></a>
             </div>
           </div>
+        </section>
+
+        <section id="join" className="section join-section">
+          <SpotlightPanel className="join-panel">
+            <div className="join-orbit" aria-hidden="true"><i /><i /><i /></div>
+            <p className="eyebrow light"><span /> Take part</p>
+            <h2>Learn something useful.<br />Build something <em>worth sharing.</em></h2>
+            <p>Join as a student, bring Finance for All to a school, contribute to a Finance Meta project, or explore a partnership.</p>
+            <div className="hero-actions">
+              {memberAppUrl && <a className="button button-light" data-cta-id="join-member-signup" href={getMemberHandoffUrl("/signup")} onClick={trackCta("member_signup", "join", "/signup", true)}>Create member account <Arrow /></a>}
+              <a className="button button-ghost-light" data-cta-id="join-partnership" href="mailto:financeforalledu@gmail.com?subject=Finance%20for%20All%20partnership">Partner with us</a>
+            </div>
+          </SpotlightPanel>
         </section>
       </main>
 
-      <footer className="border-t border-slate-200 px-6 py-8 text-sm text-slate-500 dark:border-white/10 dark:text-slate-400">
-        <div className="mx-auto flex max-w-7xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <div>FinanceMeta · Student-led finance, economics, research, and building.</div>
-          <div>Built for people who want to understand by doing.</div>
-        </div>
+      <footer className="site-footer">
+        <div className="footer-top"><BrandMark /><p>Financial learning, research, and opportunity<br />built with evidence and made to travel.</p></div>
+        <div className="footer-links"><a href="#programs">Programs</a><a href="#schools">Schools</a><a href="#meta">Finance Meta</a><a href="mailto:financeforalledu@gmail.com">Contact</a></div>
+        <div className="footer-bottom"><span>© 2026 Finance for All</span><span>Education, not financial advice.</span></div>
       </footer>
     </div>
   );
@@ -373,9 +329,5 @@ export function App() {
 
 const rootElement = document.getElementById("root");
 if (rootElement) {
-  createRoot(rootElement).render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
-  );
+  createRoot(rootElement).render(<React.StrictMode><App /></React.StrictMode>);
 }

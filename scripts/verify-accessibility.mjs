@@ -36,4 +36,4 @@ for (const marker of styleMarkers) {
   }
 }
 
-console.log("FinanceMeta accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.");
+console.log("Finance for All accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.");

@@ -31,7 +31,7 @@ const validHtml = () => `<!doctype html>
 <html>
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="FinanceMeta release verification fixture" />
+    <meta name="description" content="Finance for All release verification fixture" />
     <link rel="canonical" href="${EXPECTED_ORIGIN}" />
     <meta property="og:url" content="${EXPECTED_ORIGIN}" />
     <meta property="og:image" content="${EXPECTED_SOCIAL_URL}" />
@@ -39,7 +39,7 @@ const validHtml = () => `<!doctype html>
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content="${EXPECTED_SOCIAL_URL}" />
     <meta name="twitter:image:alt" content="${EXPECTED_SOCIAL_ALT}" />
-    <title>FinanceMeta — Release Fixture</title>
+    <title>Finance for All — Release Fixture</title>
   </head>
 </html>`;
 
@@ -130,7 +130,7 @@ test('release revision response must identify the exact immutable source', () =>
 });
 
 test('social asset requires SVG content type and exact committed bytes', () => {
-  const bytes = Buffer.from('<svg width="1200" height="630"><title>FinanceMeta</title></svg>');
+  const bytes = Buffer.from('<svg width="1200" height="630"><title>Finance for All</title></svg>');
   assert.doesNotThrow(() =>
     verifySocialAsset({
       headers: new Headers({ 'content-type': 'image/svg+xml; charset=utf-8' }),

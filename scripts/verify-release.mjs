@@ -69,10 +69,10 @@ const singleMatch = (regex, label) => {
 
 const expectedOrigin = 'https://finance-meta-landing.vercel.app/';
 const expectedSocialUrl = `${expectedOrigin}social-preview.svg`;
-const expectedSocialAlt = 'FinanceMeta — Understand finance. Build with it.';
+const expectedSocialAlt = 'Finance for All — Financial confidence is built.';
 const title = singleMatch(/<title>([^<]+)<\/title>/gi, 'title');
-if (!title.includes('FinanceMeta')) {
-  fail('built HTML title must identify FinanceMeta');
+if (!title.includes('Finance for All')) {
+  fail('built HTML title must identify Finance for All');
 }
 
 singleMatch(
@@ -178,8 +178,8 @@ const socialSvg = readFileSync('public/social-preview.svg', 'utf8');
 if (!/<svg\b[^>]*\bwidth=["']1200["'][^>]*\bheight=["']630["']/i.test(socialSvg)) {
   fail('social preview SVG must declare 1200x630 dimensions');
 }
-if (!/<title\b[^>]*>[^<]*FinanceMeta[^<]*<\/title>/i.test(socialSvg)) {
-  fail('social preview SVG must include an accessible FinanceMeta title');
+if (!/<title\b[^>]*>[^<]*Finance for All[^<]*<\/title>/i.test(socialSvg)) {
+  fail('social preview SVG must include an accessible Finance for All title');
 }
 
 const iconHref = singleMatch(
@@ -244,5 +244,5 @@ for (const [key, expectedValue] of requiredHeaders) {
 }
 
 console.log(
-  `FinanceMeta release check passed for source ${expectedRevision}: build output, immutable revision identity, social metadata/assets, favicon integrity, and hardened response headers are valid.`,
+  `Finance for All release check passed for source ${expectedRevision}: build output, immutable revision identity, social metadata/assets, favicon integrity, and hardened response headers are valid.`,
 );
