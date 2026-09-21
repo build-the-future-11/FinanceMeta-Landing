@@ -4,16 +4,17 @@ import { pathToFileURL } from 'node:url';
 
 import { resolveReleaseRevision, validateReleaseRevision } from './release-revision.mjs';
 
-export const EXPECTED_ORIGIN = 'https://finance-meta-landing.vercel.app/';
-export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.svg`;
+import {siteOrigin} from './site-origin.mjs';
+export const EXPECTED_ORIGIN = `${siteOrigin()}/`;
+export const EXPECTED_SOCIAL_URL = `${EXPECTED_ORIGIN}social-preview.png`;
 export const EXPECTED_REVISION_URL = `${EXPECTED_ORIGIN}release-revision.json`;
-export const EXPECTED_SOCIAL_ALT = 'FinanceMeta — Understand finance. Build with it.';
+export const EXPECTED_SOCIAL_ALT = 'FinanceMeta — Research the systems moving capital';
 
 const EXPECTED_HEADERS = new Map([
   ['strict-transport-security', 'max-age=63072000; includeSubDomains'],
   [
     'content-security-policy',
-    "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; upgrade-insecure-requests",
+    "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests",
   ],
   ['x-content-type-options', 'nosniff'],
   ['referrer-policy', 'strict-origin-when-cross-origin'],
@@ -92,7 +93,7 @@ export const verifyHtml = (html) => {
     /<link\s+rel=["']canonical["']\s+href=["']([^"']+)["'][^>]*>/gi,
     'canonical link',
   );
-  if (canonical !== EXPECTED_ORIGIN) {
+  if (canonical !== EXPECTED_ORIGIN && canonical !== siteOrigin()) {
     fail(`canonical URL must be ${EXPECTED_ORIGIN}, found ${canonical}`);
   }
 
@@ -101,7 +102,7 @@ export const verifyHtml = (html) => {
     /<meta\s+property=["']og:url["']\s+content=["']([^"']+)["']\s*\/?\s*>/gi,
     'Open Graph URL',
   );
-  if (ogUrl !== EXPECTED_ORIGIN) {
+  if (ogUrl !== EXPECTED_ORIGIN && ogUrl !== siteOrigin()) {
     fail(`Open Graph URL must be ${EXPECTED_ORIGIN}, found ${ogUrl}`);
   }
 
@@ -149,8 +150,8 @@ export const verifyHtml = (html) => {
 
 export const verifySocialAsset = ({ headers, bytes, expectedBytes }) => {
   const contentType = headers.get('content-type')?.split(';', 1)[0]?.trim().toLowerCase();
-  if (contentType !== 'image/svg+xml') {
-    fail(`social asset content-type must be image/svg+xml, found ${contentType ?? 'missing'}`);
+  if (contentType !== 'image/png') {
+    fail(`social asset content-type must be image/png, found ${contentType ?? 'missing'}`);
   }
   const actualDigest = createHash('sha256').update(bytes).digest('hex');
   const expectedDigest = createHash('sha256').update(expectedBytes).digest('hex');
@@ -235,7 +236,7 @@ export const runLiveVerification = async (
     fail(`social asset must return HTTP 200, found ${socialResponse.status}`);
   }
   const deployedBytes = Buffer.from(await socialResponse.arrayBuffer());
-  const expectedBytes = readFileSync('public/social-preview.svg');
+  const expectedBytes = readFileSync('public/social-preview.png');
   verifySocialAsset({ headers: socialResponse.headers, bytes: deployedBytes, expectedBytes });
 
   console.log(`FinanceMeta live release check passed for ${target.href} at ${expectedRevision}`);

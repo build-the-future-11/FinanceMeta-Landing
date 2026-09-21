@@ -1,7 +1,12 @@
+.vercel
+.env*
+!.env.example
 node_modules/
 dist/
-.env
-.env.*
-!.env.example
+.site-build/
+releases/
+
 .DS_Store
-*.log
+._*
+release-evidence/
+live-evidence/

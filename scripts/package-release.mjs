@@ -1,0 +1,20 @@
+import {existsSync,readdirSync,readFileSync,writeFileSync,mkdirSync,cpSync} from 'node:fs';
+import {join} from 'node:path';
+import {createHash} from 'node:crypto';
+import {execFileSync} from 'node:child_process';
+const roots=['.github','src','public','scripts','tests','package.json','package-lock.json','.nvmrc','.gitignore','index.html','tsconfig.json','postcss.config.js','tailwind.config.js','vercel.json','.env.example','README.md','evidence/cta-matrix.json','docs/IMPROVEMENTS_2026-09-21.md','docs/RELEASE_RUNBOOK_2026-09-21.md'];
+const walk=path=>readdirSync(path,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(join(path,entry.name)):[join(path,entry.name)]);
+const files=roots.flatMap(path=>{if(!existsSync(path))throw new Error(`Release input missing: ${path}`);return readdirIfDirectory(path);});
+function readdirIfDirectory(path){try{return walk(path);}catch(error){if(error.code==='ENOTDIR')return [path];throw error;}}
+const sha=value=>createHash('sha256').update(value).digest('hex');
+const sourceHashes=Object.fromEntries(files.sort().map(path=>[path,sha(readFileSync(path))]));
+const sourceId=sha(JSON.stringify(sourceHashes));const destination=`releases/${sourceId.slice(0,12)}`;
+if(existsSync(destination))throw new Error(`Release ${destination} already exists; existing receipts are immutable.`);
+mkdirSync(destination,{recursive:true});
+execFileSync('tar',['-czf',`${destination}/source.tar.gz`,...roots]);
+execFileSync('tar',['-czf',`${destination}/site.tar.gz`,'dist','vercel.json']);
+if(existsSync('evidence/improvements-2026-09-21'))cpSync('evidence/improvements-2026-09-21',`${destination}/evidence`,{recursive:true});
+const manifest={createdAt:new Date().toISOString(),node:process.version,sourceId,sourceHashes,artifacts:{'source.tar.gz':sha(readFileSync(`${destination}/source.tar.gz`)),'site.tar.gz':sha(readFileSync(`${destination}/site.tar.gz`))},routeManifest:JSON.parse(readFileSync('dist/route-manifest.json','utf8')),deploymentStatus:'NOT_DEPLOYED',browserValidation:'See evidence and improvements report; no implied production certification'};
+writeFileSync(`${destination}/manifest.json`,JSON.stringify(manifest,null,2));
+writeFileSync(`${destination}/SHA256SUMS`,Object.entries(manifest.artifacts).map(([name,hash])=>`${hash}  ${name}`).join('\n')+'\n');
+console.log(`Release package: ${destination}\nSource identity: ${sourceId}`);

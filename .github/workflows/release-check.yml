@@ -33,7 +33,7 @@ jobs:
           test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: "22.22.2"
+          node-version: "22.23.2"
           cache: npm
       - name: Install exact locked dependencies without duplicate advisory fetch
         run: npm ci --legacy-peer-deps --no-audit --fund=false

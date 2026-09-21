@@ -15,8 +15,7 @@ test('postcss-selector-parser stays on the patched 6.x security release', async 
   ]);
 
   assert.equal(pkg.overrides?.['postcss-selector-parser'], PATCHED_SELECTOR_PARSER);
-  assert.equal(
-    lock.packages?.['node_modules/postcss-selector-parser']?.version,
-    PATCHED_SELECTOR_PARSER,
-  );
+  const parsers = Object.entries(lock.packages).filter(([path]) => path.endsWith('node_modules/postcss-selector-parser'));
+  assert.ok(parsers.length > 0, 'selector parser must remain represented in the lockfile');
+  for (const [path, pkg] of parsers) assert.equal(pkg.version, PATCHED_SELECTOR_PARSER, path);
 });
