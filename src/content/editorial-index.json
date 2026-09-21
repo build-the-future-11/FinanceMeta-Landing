@@ -1,0 +1,30 @@
+[
+  {
+    "slug": "ipo-from-private-company-to-public-market",
+    "title": "The complete guide to an IPO",
+    "dek": "An IPO is not just a stock-market debut. It is a months-long transfer of information, ownership, and risk between a private company and public investors.",
+    "reviewedAt": "2026-09-20",
+    "readMinutes": 5
+  },
+  {
+    "slug": "how-interest-rates-move-through-the-economy",
+    "title": "How interest rates move through the economy",
+    "dek": "A policy-rate change is a starting signal. Banks, borrowers, investors, firms, and governments determine how far and how quickly it travels.",
+    "reviewedAt": "2026-09-20",
+    "readMinutes": 6
+  },
+  {
+    "slug": "upi-payments-and-the-economics-of-a-network",
+    "title": "UPI and the economics of a payment network",
+    "dek": "The visible app is only the front door. A payment network is a layered institution built from standards, incentives, identity, dispute rules, and shared infrastructure.",
+    "reviewedAt": "2026-09-20",
+    "readMinutes": 5
+  },
+  {
+    "slug": "reading-an-economic-claim-without-getting-fooled",
+    "title": "How to read an economic claim without getting fooled",
+    "dek": "Good economic reasoning starts by asking what was measured, compared with what, over which period, and what result would disprove the story.",
+    "reviewedAt": "2026-09-20",
+    "readMinutes": 5
+  }
+]

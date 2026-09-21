@@ -2,36 +2,49 @@
   "name": "finance4all-landing",
   "version": "1.0.0",
   "private": true,
+  "packageManager": "npm@10.9.8",
+  "engines": {
+    "node": ">=22.22.0 <23"
+  },
   "scripts": {
     "dev": "vite",
-    "build": "npm run typecheck && vite build && node scripts/write-release-revision.mjs",
+    "build": "npm run typecheck && vite build && vite build --ssr src/prerender.tsx --outDir .site-build && node scripts/prerender.mjs && node scripts/write-release-revision.mjs",
     "preview": "vite preview",
-    "release:check": "npm run accessibility:check && npm run test && npm run build && node scripts/verify-release.mjs",
+    "release:check": "npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build && npm test && node scripts/verify-release.mjs",
+    "audit:prod": "npm audit --omit=dev --audit-level=moderate",
     "accessibility:check": "node scripts/verify-accessibility.mjs",
-    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs tests/dependency-security.test.mjs",
-    "test": "npm run live:contract:test && vitest run",
+    "funnel:check": "node scripts/verify-funnel.mjs",
+    "source:check": "node scripts/verify-source-completion.mjs",
     "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test tests/*.test.mjs",
+    "lint": "tsc --noEmit --noUnusedLocals --noUnusedParameters && node scripts/lint-source.mjs",
+    "prebuild": "node --experimental-strip-types scripts/prepare-content.mjs",
+    "predev": "node --experimental-strip-types scripts/prepare-content.mjs",
+    "qa:serve": "node scripts/qa-server.mjs",
+    "links:check": "node scripts/check-links.mjs",
+    "release:package": "npm run release:check && node scripts/package-release.mjs",
+    "social:generate": "node scripts/render-social.mjs",
+    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs tests/dependency-security.test.mjs",
     "live:verify": "node scripts/verify-live.mjs"
   },
   "dependencies": {
-    "framer-motion": "^13.2.0",
-    "react": "19.3.0",
-    "react-dom": "19.3.0"
+    "framer-motion": "^13.1.1",
+    "react": "18.3.0",
+    "react-dom": "18.3.0"
   },
   "devDependencies": {
-    "@testing-library/dom": "^10.4.1",
-    "@testing-library/react": "16.3.3",
-    "@types/node": "26.5.1",
-    "@types/react": "19.3.0",
-    "@types/react-dom": "19.3.0",
+    "@resvg/resvg-js": "2.6.2",
+    "@types/node": "26.4.0",
+    "@types/react": "18.2.15",
+    "@types/react-dom": "18.3.7",
     "autoprefixer": "^10.5.4",
-    "jsdom": "^30.0.1",
-    "postcss": "^8.5.28",
+    "axe-core": "4.10.3",
+    "postcss": "^8.5.26",
     "tailwindcss": "^3.3.3",
     "typescript": "^7.0.2",
-    "vite": "^8.3.0",
-    "vitest": "^5.0.0"
+    "vite": "^8.2.2"
   },
+  "type": "module",
   "overrides": {
     "postcss-selector-parser": "6.1.3"
   }

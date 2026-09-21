@@ -61,7 +61,7 @@ test('GitHub SHA and then git HEAD are bounded fallbacks only when stronger iden
 
 test('release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04', () => {
   const declaredNode = readFileSync(new URL('../.nvmrc', import.meta.url), 'utf8').trim();
-  assert.equal(declaredNode, '22.22.2');
+  assert.equal(declaredNode, '22.23.2');
 
   for (const workflowPath of [
     '../.github/workflows/release-check.yml',
