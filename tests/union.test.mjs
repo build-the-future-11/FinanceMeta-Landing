@@ -19,3 +19,23 @@ test('public handoffs reject private and credential-bearing destinations',()=>{
  for(const url of ['http://example.org','https://127.0.0.1','https://[::1]','https://host.local','https://user:pass@example.org','https://example.org:8443','https://localhost']) assert.equal(publicHttpsUrl(url),null,url);
  assert.equal(publicHttpsUrl('https://example.org/login').pathname,'/login');
 });
+
+import { prepareCollaborationBrief } from '../src/union-brief.ts';
+const briefInput = { path: 'education', organisation: '  Test workshop  ', idea: '  Explore how students interpret inflation using public data.  ', contribution: '  A teaching plan and two hours of facilitation.  ', outcome: '  An accessible lesson with an understanding check.  ' };
+test('brief preserves the selected area and user wording without implying submission',()=>{
+ const text=prepareCollaborationBrief(briefInput);
+ assert.match(text,/Area: Education/);
+ assert.match(text,/From: Test workshop\n/);
+ assert.ok(text.includes('THE IDEA\nExplore how students interpret inflation using public data.\n'));
+ assert.match(text,/proposal — draft/);
+ assert.match(text,/permissions to be agreed/);
+ assert.ok(!prepareCollaborationBrief({...briefInput,organisation:'   '}).includes('From:'));
+});
+test('brief rejects whitespace-only, undersized and oversized fields before export',()=>{
+ for(const [field,min,max] of [['idea',30,1000],['contribution',15,600],['outcome',15,600]]) {
+  for(const value of [' '.repeat(min),'x'.repeat(min-1),'x'.repeat(max+1)]) assert.throws(()=>prepareCollaborationBrief({...briefInput,[field]:value}));
+  for(const value of ['x'.repeat(min),'x'.repeat(max)]) assert.doesNotThrow(()=>prepareCollaborationBrief({...briefInput,[field]:value}));
+ }
+ assert.throws(()=>prepareCollaborationBrief({...briefInput,organisation:'x'.repeat(101)}));
+ assert.throws(()=>prepareCollaborationBrief({...briefInput,path:'unrecognised'}));
+});

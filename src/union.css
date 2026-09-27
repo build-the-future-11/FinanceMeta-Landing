@@ -1,8 +1,114 @@
-.union-page { min-width: 0; overflow-wrap: anywhere; }
-.union-empty { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3rem; border-block: 1px solid var(--line); padding-block: 2rem; }
+/* Union uses numbered editorial sections and a quiet green accent. */
+.union-page { --union-green: #244b40; --union-soft: #e9eeea; min-width: 0; overflow-wrap: anywhere; }
+:root[data-theme="dark"] .union-page { --union-green: #b9d4c6; --union-soft: #202d28; }
+.union-hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: clamp(2rem,5vw,5rem); align-items: center; padding: 4.5rem 0 3.5rem; }
+.union-hero-copy { min-width: 0; }
+.union-dot { display: inline-block; width: 7px; height: 7px; background: var(--union-green); border-radius: 50%; margin-right: .4rem; }
+.union-hero h1 { font-size: clamp(3rem,5.2vw,5.4rem); line-height: 1.04; letter-spacing: -.055em; margin: 1.6rem 0; }
+.union-hero h1 em, .union-proposal-intro h2 em { color: var(--union-green); font-weight: inherit; }
+.union-deck { font-size: 1.12rem; line-height: 1.8; max-width: 35rem; color: var(--muted); }
+.union-hero .page-actions { margin-top: 2rem; gap: 1.4rem; align-items: center; }
+.union-page .union-primary { background: #244b40; border-color: #244b40; color: #fff; gap: .8rem; }
+:root[data-theme="dark"] .union-page .union-primary { background: #b9d4c6; border-color: #b9d4c6; color: #15281f; }
+.union-page .union-primary:hover { opacity: .9; }
+.union-hero-note { font-size: .78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.7; }
+.union-principles { color: #f5f6ee; background: #203b33; padding: clamp(1.5rem,3.2vw,3rem); }
+.union-principles .eyebrow { color: #c2d1c8; }
+.union-principles h2 { font-family: var(--serif); font-size: clamp(1.9rem,3vw,2.6rem); font-weight: 400; line-height: 1.2; letter-spacing: -.03em; margin: 1.2rem 0 2rem; }
+.union-principles ol { list-style: none; padding: 0; margin: 0; }
+.union-principles li { display: grid; grid-template-columns: 1.8rem 1fr; gap: .8rem; border-top: 1px solid #50695e; padding: 1.05rem 0; }
+.union-step { font-family: var(--mono); font-size: .68rem; color: #c2d1c8; padding-top: .2rem; }
+.union-principles h3 { margin: 0 0 .35rem; font-size: .88rem; font-weight: 600; }
+.union-principles li p { margin: 0; color: #c2d1c8; font-size: .8rem; line-height: 1.6; }
+.union-principles-note { font-size: .7rem; color: #c2d1c8; border-top: 1px solid #50695e; padding-top: 1.2rem; margin-bottom: 0; line-height: 1.7; }
+.union-page-nav { display: grid; grid-template-columns: repeat(3,1fr); border-block: 1px solid var(--line); }
+.union-page-nav a { display: flex; align-items: center; gap: .85rem; padding: 1.4rem 1.1rem; font-size: .8rem; min-height: 44px; }
+.union-page-nav a + a { border-left: 1px solid var(--line); }
+.union-page-nav a > span:first-child { font-family: var(--mono); font-size: .65rem; color: var(--muted); }
+.union-page-nav a > span:last-child { margin-left: auto; }
+.union-page-nav a:hover { background: var(--union-soft); }
+.union-paths, .union-directory { padding-block: 4.5rem; scroll-margin-top: 2rem; }
+.union-section-heading { max-width: 43rem; margin-bottom: 2rem; }
+.union-section-heading h2 { font-family: var(--serif); font-weight: 400; font-size: clamp(1.8rem,3.3vw,2.8rem); line-height: 1.15; letter-spacing: -.035em; margin: .8rem 0; }
+.union-section-heading > p:last-child { color: var(--muted); line-height: 1.75; font-size: .95rem; }
+.union-path-layout { display: grid; grid-template-columns: 1fr 1.7fr; gap: 3.5rem; align-items: start; }
+.union-path-options { border-top: 1px solid var(--line); }
+.union-path-options button { display: flex; width: 100%; min-height: 80px; align-items: center; gap: 1.2rem; padding: 1.2rem 1rem; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: var(--ink); text-align: left; cursor: pointer; font-size: 1.15rem; }
+.union-path-options button[aria-pressed="true"] { background: var(--union-soft); color: var(--union-green); }
+.union-path-options button:hover { background: var(--union-soft); }
+.union-path-number { font-family: var(--mono); font-size: .65rem; }
+.union-path-options button > span:last-child { margin-left: auto; }
+.union-path-guide { padding: .6rem 0 0; min-width: 0; }
+.union-path-guide h3 { font-family: var(--serif); font-size: 2rem; font-weight: 400; letter-spacing: -.025em; line-height: 1.2; margin: 1rem 0; }
+.union-path-guide > p:not(.eyebrow) { color: var(--muted); line-height: 1.75; font-size: .95rem; }
+.union-path-guide dl { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; border-top: 1px solid var(--line); padding-top: 1.4rem; margin-top: 1.5rem; }
+.union-path-guide dt { font-size: .75rem; font-weight: 600; }
+.union-path-guide dd { margin: .6rem 0 0; color: var(--muted); font-size: .85rem; line-height: 1.7; }
+.union-proposal { display: grid; grid-template-columns: 1fr 1.25fr; gap: clamp(2rem,5vw,5rem); border-block: 1px solid var(--line); padding-block: 4.5rem; scroll-margin-top: 2rem; }
+.union-proposal-intro h2 { font-family: var(--serif); font-size: clamp(2rem,3.5vw,3rem); font-weight: 400; line-height: 1.15; letter-spacing: -.04em; margin: 1rem 0 1.5rem; }
+.union-proposal-intro > p:not(.eyebrow) { color: var(--muted); line-height: 1.8; font-size: .95rem; max-width: 26rem; }
+.union-local-note { border-left: 2px solid var(--union-green); padding: .2rem 0 .2rem 1.25rem; margin: 2rem 0; max-width: 26rem; }
+.union-local-note strong { font-size: .85rem; }
+.union-local-note p { color: var(--muted); font-size: .8rem; line-height: 1.75; margin: .5rem 0 0; }
+.union-proposal-intro > .text-link { font-size: .8rem; line-height: 1.7; }
+.union-brief-form { min-width: 0; background: var(--surface); border: 1px solid var(--line); padding: clamp(1.1rem,2.6vw,2.5rem); }
+.union-form-caption { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: .7rem; border-bottom: 1px solid var(--line); padding-bottom: 1.3rem; margin-bottom: 1.5rem; }
+.union-path-pill { padding: .35rem .65rem; background: var(--union-soft); color: var(--union-green); font-size: .7rem; }
+.union-brief-form label { display: block; margin-top: 1.35rem; margin-bottom: .65rem; font-size: .85rem; font-weight: 600; }
+.union-brief-form .union-optional { display: inline; margin-left: .5rem; color: var(--muted); font-weight: 400; font-size: .7rem; }
+.union-brief-form input, .union-brief-form textarea { display: block; box-sizing: border-box; width: 100%; max-width: 100%; min-width: 0; border: 1px solid var(--line); border-radius: 0; padding: .85rem; color: var(--ink); background: var(--paper); font: inherit; font-size: 1rem; line-height: 1.6; }
+.union-brief-form textarea { resize: vertical; }
+.union-brief-form textarea::placeholder { color: var(--muted); opacity: 1; font-size: .85rem; }
+.union-brief-form .fine-print { font-size: .72rem; line-height: 1.7; color: var(--muted); margin: .65rem 0; }
+.union-form-error { color: var(--ink); font-size: .85rem; font-weight: 600; }
+.union-form-error:empty { display: none; }
+.union-brief-form > .button { margin-top: 1.1rem; }
+.union-brief-result { margin-top: 2rem; padding-top: 1.8rem; border-top: 1px solid var(--line); }
+.union-brief-result h3 { font-family: var(--serif); font-size: 1.8rem; font-weight: 400; margin: 0; }
+.union-brief-result > p { font-size: .8rem; line-height: 1.7; color: var(--muted); }
+.union-brief-result pre { white-space: pre-wrap; overflow-wrap: anywhere; font-family: var(--mono); font-size: .75rem; line-height: 1.8; background: var(--paper); padding: 1.2rem; border: 1px solid var(--line); }
+.union-brief-result .page-actions { align-items: center; gap: 1.25rem; }
+.union-brief-result .text-link { font-size: .8rem; }
+.union-brief-result > .button { max-width: 100%; }
+.union-empty { display: grid; grid-template-columns: 2rem 1fr auto; align-items: center; gap: 1.5rem; border-block: 1px solid var(--line); padding-block: 2rem; }
+.union-empty-symbol { font-family: var(--serif); font-size: 1.8rem; color: var(--muted); align-self: start; }
+.union-empty h3 { font-size: 1rem; margin: 0 0 .5rem; font-weight: 500; }
+.union-empty p { font-size: .85rem; color: var(--muted); max-width: 40rem; margin: 0; }
+.union-empty > .text-link { font-size: .8rem; }
 .union-empty p, .union-records p { line-height: 1.75; }
 .union-facts { display: flex; flex-wrap: wrap; gap: 2rem; padding-block: 2rem; }
 .union-facts dt { font-size: .8rem; } .union-facts dd { margin: .4rem 0 0; }
 .union-records { list-style: none; padding: 0; } .union-records li { border-top: 1px solid var(--line); padding-block: 1.5rem; }
 .union-page .filter-bar > label { min-width: 0; }
-@media(max-width:600px) { .union-empty { grid-template-columns: 1fr; gap: 1.5rem; } }
+@media(max-width:900px) {
+ .union-hero { grid-template-columns: 1fr; padding-top: 3rem; gap: 2.5rem; }
+ .union-hero h1 { font-size: clamp(3rem,8vw,5rem); }
+ .union-principles { padding: 2rem; }
+ .union-principles ol { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; }
+ .union-path-layout { gap: 2rem; grid-template-columns: 1fr 1.5fr; }
+ .union-proposal { grid-template-columns: 1fr; gap: 2rem; }
+ .union-proposal-intro > p:not(.eyebrow), .union-local-note { max-width: 38rem; }
+ .union-empty { grid-template-columns: 2rem 1fr; }
+ .union-empty > .text-link { grid-column: 2; }
+}
+@media(max-width:600px) {
+ .union-hero { padding: 2.5rem 0 2rem; gap: 2rem; }
+ .union-hero h1 { font-size: clamp(2.8rem,10.6vw,4rem); margin: 1.3rem 0; }
+ .union-hero .eyebrow { font-size: .62rem; }
+ .union-deck { font-size: 1rem; }
+ .union-hero .page-actions { align-items: flex-start; gap: 1.2rem; }
+ .union-principles { padding: 1.5rem; }
+ .union-principles ol { display: block; }
+ .union-page-nav { grid-template-columns: 1fr; }
+ .union-page-nav a { padding: 1rem .35rem; }
+ .union-page-nav a + a { border-left: 0; border-top: 1px solid var(--line); }
+ .union-paths, .union-proposal, .union-directory { padding-block: 3rem; }
+ .union-path-layout { grid-template-columns: 1fr; gap: 1.5rem; }
+ .union-path-options button { min-height: 65px; }
+ .union-path-guide h3 { font-size: 1.8rem; }
+ .union-path-guide dl { grid-template-columns: 1fr; gap: 1.4rem; }
+ .union-brief-form { padding: 1.1rem; }
+ .union-brief-result pre { padding: .8rem; }
+ .union-brief-result .button { white-space: normal; }
+ .union-empty { gap: 1rem; grid-template-columns: 1.2rem 1fr; }
+}
