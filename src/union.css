@@ -1,0 +1,8 @@
+.union-page { min-width: 0; overflow-wrap: anywhere; }
+.union-empty { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3rem; border-block: 1px solid var(--line); padding-block: 2rem; }
+.union-empty p, .union-records p { line-height: 1.75; }
+.union-facts { display: flex; flex-wrap: wrap; gap: 2rem; padding-block: 2rem; }
+.union-facts dt { font-size: .8rem; } .union-facts dd { margin: .4rem 0 0; }
+.union-records { list-style: none; padding: 0; } .union-records li { border-top: 1px solid var(--line); padding-block: 1.5rem; }
+.union-page .filter-bar > label { min-width: 0; }
+@media(max-width:600px) { .union-empty { grid-template-columns: 1fr; gap: 1.5rem; } }
