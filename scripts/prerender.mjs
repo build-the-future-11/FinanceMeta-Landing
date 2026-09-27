@@ -11,17 +11,21 @@ const css = readdirSync('dist/assets').find(name=>name.endsWith('.css')&&readFil
 if (!css) throw new Error('Public design-system CSS is missing');
 const siteScript=readdirSync('dist/assets').find(name=>/^site-.*\.js$/.test(name));
 const articleScript=readdirSync('dist/assets').find(name=>/^editorial-.*\.js$/.test(name));
+const manifest=JSON.parse(readFileSync('dist/.vite/manifest.json','utf8'));
+const unionStyles=manifest['src/union-page.tsx']?.css;
+if (!unionStyles?.length) throw new Error('Union page CSS is missing from the build manifest');
 const hashes = {};
 function writePage(route, notFound=false) {
  const legacy=route.path==='/finance-for-all';
  const canonical=base+(route.path==='/'?'':route.path);
  const title=`${route.title} | FinanceMeta`;
  const meta=`<title>${escape(title)}</title><meta name="description" content="${escape(route.description)}"/><link rel="canonical" href="${canonical}"/><meta property="og:title" content="${escape(title)}"/><meta property="og:description" content="${escape(route.description)}"/><meta property="og:type" content="${publications.some(p=>route.path.endsWith('/'+p.slug))?'article':'website'}"/><meta property="og:url" content="${canonical}"/><meta property="og:image" content="${base}/social-preview.png"/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/><meta property="og:image:alt" content="FinanceMeta — Research the systems moving capital"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="${escape(title)}"/><meta name="twitter:description" content="${escape(route.description)}"/><meta name="twitter:image" content="${base}/social-preview.png"/><meta name="twitter:image:alt" content="FinanceMeta — Research the systems moving capital"/>${(notFound||route.path==='/search')?'<meta name="robots" content="noindex"/>':''}${!legacy?`<link rel="stylesheet" href="/assets/${css}"/>`:''}`;
+ const routeStyles=route.path==='/union'?unionStyles.map(file=>`<link rel="stylesheet" href="/${escape(file)}"/>`).join(''):'';
  const preloads=legacy?'':`<link rel="modulepreload" href="/assets/${siteScript}"/>${route.path.startsWith('/publications/financedebriefed/')?`<link rel="modulepreload" href="/assets/${articleScript}"/>`:''}`;
  const record=structuredRecord(route.path,base);
  const structured=record?`<script type="application/ld+json">${JSON.stringify(record).replace(/</g,'\\u003c')}</script>`:'';
  const body=legacy?'':render(route.path);
- const html=template.replace(/<!--site-meta-->[\s\S]*?<!--\/site-meta-->/,meta+preloads+structured).replace('<div id="root"></div>',`<div id="root"${legacy?'':' data-rendered="true"'}>${body}</div>`);
+ const html=template.replace(/<!--site-meta-->[\s\S]*?<!--\/site-meta-->/,meta+routeStyles+preloads+structured).replace('<div id="root"></div>',`<div id="root"${legacy?'':' data-rendered="true"'}>${body}</div>`);
  const file=notFound?'dist/404.html':route.path==='/'?'dist/index.html':`dist${route.path}.html`;
  mkdirSync(dirname(file),{recursive:true});writeFileSync(file,html);
  hashes[route.path]=createHash('sha256').update(html).digest('hex');

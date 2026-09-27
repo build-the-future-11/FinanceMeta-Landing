@@ -115,3 +115,14 @@ test('public pages do not skip heading levels after the page title',()=>{
  }
  assert.deepEqual(failures,[]);
 });
+
+test('Union styles load with server-rendered HTML before interactive hydration',()=>{
+ const manifest=JSON.parse(readFileSync('dist/.vite/manifest.json','utf8'));
+ const styles=manifest['src/union-page.tsx'].css;
+ assert.ok(styles.length>0);
+ for(const file of styles) {
+  assert.ok(htmlFor('/union').includes(`<link rel="stylesheet" href="/${file}"/>`));
+  assert.match(readFileSync('dist/'+file,'utf8'),/\.union-hero/);
+  assert.ok(!htmlFor('/').includes(`href="/${file}"`));
+ }
+});
