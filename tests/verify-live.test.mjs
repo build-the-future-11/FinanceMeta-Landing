@@ -20,7 +20,7 @@ const validHeaders = () =>
     'content-type': 'text/html; charset=utf-8',
     'strict-transport-security': 'max-age=63072000; includeSubDomains',
     'content-security-policy':
-      "default-src 'self'; base-uri 'self'; frame-ancestors 'none'; object-src 'none'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' https:; upgrade-insecure-requests",
+      "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://*.supabase.co; base-uri 'self'; form-action 'self' mailto:; frame-ancestors 'none'; object-src 'none'; upgrade-insecure-requests",
     'x-content-type-options': 'nosniff',
     'referrer-policy': 'strict-origin-when-cross-origin',
     'permissions-policy': 'camera=(), microphone=(), geolocation=()',
@@ -129,11 +129,11 @@ test('release revision response must identify the exact immutable source', () =>
   );
 });
 
-test('social asset requires SVG content type and exact committed bytes', () => {
+test('social asset requires PNG content type and exact committed bytes', () => {
   const bytes = Buffer.from('<svg width="1200" height="630"><title>FinanceMeta</title></svg>');
   assert.doesNotThrow(() =>
     verifySocialAsset({
-      headers: new Headers({ 'content-type': 'image/svg+xml; charset=utf-8' }),
+      headers: new Headers({ 'content-type': 'image/png; charset=utf-8' }),
       bytes,
       expectedBytes: bytes,
     }),
@@ -146,13 +146,13 @@ test('social asset requires SVG content type and exact committed bytes', () => {
         bytes,
         expectedBytes: bytes,
       }),
-    /content-type must be image\/svg\+xml/,
+    /content-type must be image\/png/,
   );
 
   assert.throws(
     () =>
       verifySocialAsset({
-        headers: new Headers({ 'content-type': 'image/svg+xml' }),
+        headers: new Headers({ 'content-type': 'image/png' }),
         bytes: Buffer.from('different'),
         expectedBytes: bytes,
       }),

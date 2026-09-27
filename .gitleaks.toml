@@ -1,0 +1,9 @@
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Generated route content SHA-256, not an API credential"
+condition = "AND"
+paths = ['''route-manifest\.json$''']
+regexes = ['''/research/projects/digital-payments-access''']
+regexTarget = "line"

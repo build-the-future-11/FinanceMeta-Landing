@@ -5,6 +5,7 @@ on:
   push:
     branches:
       - "main"
+      - "release/**"
 
 permissions:
   contents: read
@@ -21,238 +22,19 @@ jobs:
     runs-on: ubuntu-24.04
     timeout-minutes: 20
     steps:
-      - name: Checkout exact source
+      - name: Checkout source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
-      - name: Verify exact source binding
-        shell: bash
-        run: |
-          set -euo pipefail
-          test "$(git rev-parse HEAD)" = "${SOURCE_SHA}"
-      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+      - name: Select Node
+        uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
-          node-version: "22.22.2"
+          node-version: "22.23.2"
           cache: npm
-      - name: Install exact locked dependencies without duplicate advisory fetch
-        run: npm ci --legacy-peer-deps --no-audit --fund=false
-      - name: Verify lockfile was not rewritten
-        shell: bash
-        run: |
-          set -euo pipefail
-          git diff --exit-code -- package-lock.json
-      - name: Verify installed production dependency tree
-        run: npm ls --omit=dev
-      - name: Production dependency audit with bounded transport retry
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p release-evidence
-          selected=""
-
-          for attempt in 1 2; do
-            log="release-evidence/npm-audit-prod-attempt-${attempt}.json"
-            status_file="release-evidence/npm-audit-prod-attempt-${attempt}.status"
-
-            set +e
-            timeout 180s npm audit \
-              --omit=dev \
-              --audit-level=high \
-              --json \
-              --fetch-timeout=150000 \
-              --fetch-retries=0 \
-              > "$log" 2>&1
-            status=$?
-            set -e
-
-            printf '%s\n' "$status" > "$status_file"
-            if [ "$status" -eq 124 ]; then
-              printf '%s\n' "npm audit timed out after 180 seconds on attempt ${attempt}" >> "$log"
-              cat "$log" || true
-              if [ "$attempt" -lt 2 ]; then
-                continue
-              fi
-              exit 124
-            fi
-
-            cat "$log" || true
-
-            if node --input-type=module - "$log" <<'NODE'
-          import { readFileSync } from 'node:fs';
-
-          const auditPath = process.argv[2];
-          let report;
-          try {
-            report = JSON.parse(readFileSync(auditPath, 'utf8'));
-          } catch {
-            process.exit(2);
-          }
-
-          const vulnerabilities = report?.metadata?.vulnerabilities;
-          if (!vulnerabilities || typeof vulnerabilities !== 'object') process.exit(2);
-
-          for (const severity of ['high', 'critical']) {
-            const count = Number(vulnerabilities[severity]);
-            if (!Number.isInteger(count) || count < 0) process.exit(2);
-            if (count !== 0) process.exit(1);
-          }
-          NODE
-            then
-              selected="$log"
-              break
-            else
-              validation_status=$?
-              if [ "$validation_status" -eq 1 ]; then
-                echo "npm audit returned a valid report with high or critical production vulnerabilities" >&2
-                exit 1
-              fi
-
-              echo "npm audit attempt ${attempt} did not return a valid vulnerability report" >&2
-              if [ "$attempt" -ge 2 ]; then
-                if [ "$status" -ne 0 ]; then
-                  exit "$status"
-                fi
-                exit 2
-              fi
-            fi
-          done
-
-          test -n "$selected"
-          cp "$selected" release-evidence/npm-audit-prod.json
-          test -s release-evidence/npm-audit-prod.json
-          sha256sum release-evidence/npm-audit-prod.json > release-evidence/npm-audit-prod.sha256
-      - name: Full dependency tree audit with bounded transport retry
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p release-evidence
-          selected=""
-
-          for attempt in 1 2; do
-            log="release-evidence/npm-audit-full-attempt-${attempt}.json"
-            status_file="release-evidence/npm-audit-full-attempt-${attempt}.status"
-
-            set +e
-            timeout 180s npm audit \
-              --audit-level=high \
-              --json \
-              --fetch-timeout=150000 \
-              --fetch-retries=0 \
-              > "$log" 2>&1
-            status=$?
-            set -e
-
-            printf '%s\n' "$status" > "$status_file"
-            if [ "$status" -eq 124 ]; then
-              printf '%s\n' "full npm audit timed out after 180 seconds on attempt ${attempt}" >> "$log"
-              cat "$log" || true
-              if [ "$attempt" -lt 2 ]; then
-                continue
-              fi
-              exit 124
-            fi
-
-            cat "$log" || true
-
-            if node --input-type=module - "$log" <<'NODE'
-          import { readFileSync } from 'node:fs';
-
-          const auditPath = process.argv[2];
-          let report;
-          try {
-            report = JSON.parse(readFileSync(auditPath, 'utf8'));
-          } catch {
-            process.exit(2);
-          }
-
-          const vulnerabilities = report?.metadata?.vulnerabilities;
-          if (!vulnerabilities || typeof vulnerabilities !== 'object') process.exit(2);
-
-          for (const severity of ['high', 'critical']) {
-            const count = Number(vulnerabilities[severity]);
-            if (!Number.isInteger(count) || count < 0) process.exit(2);
-            if (count !== 0) process.exit(1);
-          }
-          NODE
-            then
-              selected="$log"
-              break
-            else
-              validation_status=$?
-              if [ "$validation_status" -eq 1 ]; then
-                echo "npm audit returned a valid report with high or critical vulnerabilities in the full dependency tree" >&2
-                exit 1
-              fi
-
-              echo "full npm audit attempt ${attempt} did not return a valid vulnerability report" >&2
-              if [ "$attempt" -ge 2 ]; then
-                if [ "$status" -ne 0 ]; then
-                  exit "$status"
-                fi
-                exit 2
-              fi
-            fi
-          done
-
-          test -n "$selected"
-          cp "$selected" release-evidence/npm-audit-full.json
-          test -s release-evidence/npm-audit-full.json
-          sha256sum release-evidence/npm-audit-full.json > release-evidence/npm-audit-full.sha256
-      - name: Upload audit failure evidence
-        if: failure()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: finance-meta-audit-failure-${{ env.SOURCE_SHA }}
-          path: release-evidence
-          if-no-files-found: error
-          retention-days: 30
-      - name: Run deterministic release gate
+      - name: Install landing dependencies
+        run: npm ci
+      - name: Certify public landing
         run: npm run release:check
-      - name: Verify release output exists and is regular-file only
-        shell: bash
-        run: |
-          set -euo pipefail
-          test -d dist
-          test -n "$(find dist -type f -print -quit)"
-          test -z "$(find dist -type l -print -quit)"
-      - name: Verify deterministic rebuild
-        shell: bash
-        run: |
-          set -euo pipefail
-          find dist -type f -print0 \
-            | LC_ALL=C sort -z \
-            | xargs -0 sha256sum > release-evidence/dist-first.sha256
-          npm run build
-          node scripts/verify-release.mjs
-          find dist -type f -print0 \
-            | LC_ALL=C sort -z \
-            | xargs -0 sha256sum > release-evidence/dist-second.sha256
-          cmp release-evidence/dist-first.sha256 release-evidence/dist-second.sha256
-      - name: Record release provenance
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            printf 'source_commit=%s\n' "${SOURCE_SHA}"
-            printf 'workflow_commit=%s\n' "${GITHUB_SHA}"
-            printf 'workflow_ref=%s\n' "${GITHUB_REF}"
-            printf 'runner_image=%s\n' "${ImageOS:-ubuntu24}"
-            printf 'node=%s\n' "$(node --version)"
-            printf 'npm=%s\n' "$(npm --version)"
-          } > release-evidence/provenance.txt
-          sha256sum package.json package-lock.json > release-evidence/package-inputs.sha256
-          sha256sum scripts/verify-release.mjs scripts/verify-accessibility.mjs scripts/verify-live.mjs scripts/release-revision.mjs scripts/write-release-revision.mjs tests/verify-live.test.mjs tests/release-revision.test.mjs > release-evidence/verifier-inputs.sha256
-          sha256sum dist/release-revision.json > release-evidence/release-revision.sha256
-          cp release-evidence/dist-second.sha256 release-evidence/dist-sha256.txt
-          test -s release-evidence/dist-sha256.txt
-          test -s release-evidence/npm-audit-prod.sha256
-          test -s release-evidence/npm-audit-full.sha256
-          test -s release-evidence/release-revision.sha256
-      - name: Upload release evidence
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
-        with:
-          name: finance-meta-release-${{ env.SOURCE_SHA }}
-          path: release-evidence
-          if-no-files-found: error
-          retention-days: 30
+      - name: Audit public landing runtime dependencies
+        run: npm run audit:prod

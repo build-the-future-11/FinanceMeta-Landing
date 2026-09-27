@@ -1,0 +1,10 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {growth,amortize,purchasingPower,bond,portfolioRisk,valuation,scenarioCsv} from '../src/lib/finance-tools.ts';
+const close=(actual,expected)=>assert.ok(Math.abs(actual-expected)<1e-6,`${actual} != ${expected}`);
+test('growth uses effective annual rates and end-of-month contributions',()=>{close(growth(100,0,10,1)[0].balance,110);close(growth(100,10,0,1)[0].balance,220);close(growth(100,0,-10,1)[0].balance,90);});
+test('amortization handles zero rates and extra payments without negative balances',()=>{const zero=amortize(1200,0,1,0);close(zero.payment,100);assert.equal(zero.months,12);close(zero.rows.at(-1).balance,0);const regular=amortize(100000,6,30,0),fast=amortize(100000,6,30,100);assert.ok(fast.months<regular.months);assert.ok(fast.totalInterest<regular.totalInterest);assert.ok(fast.rows.every(r=>r.balance>=0));});
+test('bond par price, zero coupon duration and inverse yield sensitivity',()=>{close(bond(100,5,5,10).price,100);close(bond(100,0,5,10).duration,10);assert.ok(bond(100,5,6,10).price<100);});
+test('purchasing power, correlation limits and finite-horizon valuation',()=>{close(purchasingPower(110,10,1),100);close(portfolioRisk(.5,20,20,-1),0);close(portfolioRisk(.5,20,20,1),20);close(valuation(100,0,0,3),300);});
+test('invalid numerical assumptions fail before calculating',()=>{assert.throws(()=>growth(Infinity,0,1,5));assert.throws(()=>amortize(100,-1,5,0));assert.throws(()=>bond(100,5,5,1.5));assert.throws(()=>portfolioRisk(.5,20,20,1.1));assert.throws(()=>valuation(100,0,0,0));});
+test('CSV retains raw values for independent recalculation',()=>{assert.equal(scenarioCsv([{period:1,balance:110,contributed:100,interest:10}]).split('\n')[1],'1,110,100,10');});
