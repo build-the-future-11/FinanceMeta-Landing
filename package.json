@@ -28,7 +28,7 @@
     "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs tests/dependency-security.test.mjs"
   },
   "dependencies": {
-    "framer-motion": "^13.4.2",
+    "framer-motion": "^13.4.4",
     "react": "18.3.0",
     "react-dom": "18.3.0"
   },
