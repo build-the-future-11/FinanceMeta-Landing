@@ -1,10 +1,11 @@
+import { InstitutionHome } from './landing-home';
 import { UnionPage } from './union-page';
 import { Join } from './join-page';
 import { ReadingListPage } from './reading-list-page';
 import { Glossary, LearningPractice } from './learning-practice';
 import { FinanceTools, ProgramComparison } from './feature-pages';
 import type { ComponentType } from 'react';
-const routePages: Record<string, ComponentType> = {'/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
+const routePages: Record<string, ComponentType> = {'/': InstitutionHome, '/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
 import { renderToString } from 'react-dom/server';
 import { Site } from './site';
 export { routes, aliases } from './routes';

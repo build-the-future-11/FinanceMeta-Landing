@@ -42,3 +42,5 @@ html{scroll-behavior:smooth;scroll-padding-top:100px}body{background:var(--paper
 
 /* Intake and structured record pages */
 .intake-select{display:grid;gap:10px;margin:24px 0;font-weight:600}.intake-select select{padding:14px;background:var(--surface);color:inherit;border:1px solid var(--border);font:inherit;width:100%;max-width:100%}.transcript-text{white-space:pre-wrap;line-height:1.8}.event-record{display:grid;grid-template-columns:minmax(90px,1fr) 3fr;gap:14px;padding:28px 0;border-block:1px solid var(--border)}.event-record dd{margin:0;overflow-wrap:anywhere}.event-record dt{font-weight:600}
+
+.theme-toggle svg{width:19px;height:19px;display:block;margin:auto}
