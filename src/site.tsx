@@ -1,6 +1,6 @@
 import { ReadingProvider, ReadingFeedback } from './reading-list';
 import type { ComponentType } from 'react';
-import { InstitutionHome, ResearchExplorer, ProgramsDirectory, LearnDirectory, Markets, EventsCalendar } from './product-pages';
+import { ResearchExplorer, ProgramsDirectory, LearnDirectory, Markets, EventsCalendar } from './product-pages';
 import { useEffect, useState } from 'react';
 import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from './member-handoff';
 import { Apply, Privacy, Participation, EpisodeDetail, EpisodeIndex, EventDetail, PersonDetail, ChapterDetail, ChapterStart } from './platform-pages';
@@ -39,7 +39,6 @@ function Page({path,articleBody,routePage: RoutePage}: {path:string;articleBody?
  case '/podcast/episodes':case '/podcast/topics':return <EpisodeIndex/>;
  case '/podcast/guests':return <EpisodeIndex guests/>;
  case '/network/chapters/start':return <ChapterStart/>;
- case '/':return <InstitutionHome/>;
  case '/research':return <ResearchExplorer/>;
  case '/markets':return <Markets/>;
  case '/learn':return <LearnDirectory/>;
@@ -78,4 +77,4 @@ function Page({path,articleBody,routePage: RoutePage}: {path:string;articleBody?
 }
 export function Site({path:rawPath,articleBody,routePage}: {path:string;articleBody?:string;routePage?:ComponentType}){
 useEffect(()=>{const click=(event:MouseEvent)=>{const link=(event.target as Element)?.closest?.('a');if(!link)return;const url=new URL(link.href,window.location.origin);const destination=url.protocol==='mailto:'?'mailto':url.origin===window.location.origin?url.pathname:url.hostname;trackLandingEvent('landing_cta',{action:'navigate',surface:'research_website',destination});};document.addEventListener('click',click);return()=>document.removeEventListener('click',click);},[]);
-const resolved=aliases[normalizePath(rawPath)]||normalizePath(rawPath);const path=getRoute(resolved)?resolved:'/404';useEffect(()=>{const route=getRoute(path);document.title=route?`${route.title} | FinanceMeta`:'Page not found | FinanceMeta';trackLandingEvent('landing_impression',{action:'view',surface:'research_website',destination:path});},[path]);return <ReadingProvider><div className="research-site"><a className="skip-link" href="#main-content">Skip to main content</a><Navbar path={path}/><main id="main-content" tabIndex={-1}>{path!=='/'&&<Breadcrumbs path={path}/>}<Page path={path} articleBody={articleBody} routePage={routePage}/></main><Footer/><ReadingFeedback/></div></ReadingProvider>;}
+const resolved=aliases[normalizePath(rawPath)]||normalizePath(rawPath);const path=getRoute(resolved)?resolved:'/404';useEffect(()=>{const route=getRoute(path);document.title=route?`${route.title} | FinanceMeta`:'Page not found | FinanceMeta';trackLandingEvent('landing_impression',{action:'view',surface:'research_website',destination:path});},[path]);return <ReadingProvider><div className={`research-site${path==='/'?' home-shell':''}`}><a className="skip-link" href="#main-content">Skip to main content</a><Navbar path={path}/><main id="main-content" tabIndex={-1}>{path!=='/'&&<Breadcrumbs path={path}/>}<Page path={path} articleBody={articleBody} routePage={routePage}/></main><Footer/><ReadingFeedback/></div></ReadingProvider>;}

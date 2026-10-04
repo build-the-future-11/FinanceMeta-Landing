@@ -1,6 +1,7 @@
 // Load interactive tool code only on the route that uses it, before hydration.
 export async function loadRoutePage(rawPath: string) {
   const path = rawPath.replace(/\/+$/, '');
+  if (path === '') return (await import('./landing-home')).InstitutionHome;
   if (path === '/union') return (await import('./union-page')).UnionPage;
   if (path === '/join') return (await import('./join-page')).Join;
   if (path === '/reading-list') return (await import('./reading-list-page')).ReadingListPage;

@@ -126,3 +126,14 @@ test('Union styles load with server-rendered HTML before interactive hydration',
   assert.ok(!htmlFor('/').includes(`href="/${file}"`));
  }
 });
+
+test('homepage styles render before hydration without loading on other routes',()=>{
+ const manifest=JSON.parse(readFileSync('dist/.vite/manifest.json','utf8'));
+ const styles=manifest['src/landing-home.tsx'].css;
+ assert.ok(styles.length>0);
+ for(const file of styles){
+  assert.ok(htmlFor('/').includes(`<link rel="stylesheet" href="/${file}"/>`));
+  assert.match(readFileSync('dist/'+file,'utf8'),/\.field-hero/);
+  assert.ok(!htmlFor('/research').includes(`href="/${file}"`));
+ }
+});
