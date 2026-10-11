@@ -123,7 +123,7 @@ export function PortfolioProjectPage({ project }: { project: PortfolioProject })
         <a className="text-link" href={registryUrl}>Inspect canonical registry <span aria-hidden="true">↗</span></a>
       </aside>
     </div>
-    <CTA title="Help move a held project responsibly." description="Begin with a specific contribution, the project ID, and the evidence or review step you can support." href={`/join?role=Contributor&project=${project.id}`} action="Discuss a contribution" />
+    <CTA title="Help move a held project responsibly." description="Begin with a specific contribution, the project ID, and the evidence or review step you can support." href={`/join?project=${encodeURIComponent(project.id)}`} action="Discuss a contribution" />
   </>;
 }
 
