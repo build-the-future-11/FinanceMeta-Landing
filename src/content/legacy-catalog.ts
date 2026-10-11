@@ -65,6 +65,7 @@ export const legacyProjects = [
     status: "Verified repository",
     domain: "Community infrastructure",
     tags: ["education", "community", "open source"],
+    website: "https://finance4all-global-reach.vercel.app/",
     href: "https://github.com/build-the-future-11/finance4all-global-reach",
     evidence: "Public repository verified 19 Sep 2026",
   },
