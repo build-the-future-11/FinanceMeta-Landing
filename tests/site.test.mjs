@@ -48,6 +48,7 @@ test('lab, cohort, and project relations retain complete denominators',()=>{
 test('legacy research projects and all four real explainers are preserved',()=>{
  for(const slug of ['fi-jepa','eigen-jepa','eigenfinance','lgwm','finimmunity','iy-ern','portal','inflation-observatory','digital-payments-access','youth-expectations-panel','public-company-lab','finance-meta-global'])assert.ok(projects.some(p=>p.slug===slug));
  assert.equal(publications.length,4);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
+ const iyern=htmlFor('/research/projects/iy-ern');assert.match(iyern,/href="https:\/\/iy-ern\.vercel\.app"/);assert.match(iyern,/Open project website/);
 });
 test('no invented publication, episode, event, or chapter output is shown',()=>{
  assert.match(htmlFor('/publications/working-papers'),/No working papers have been released/);
