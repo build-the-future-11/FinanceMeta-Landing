@@ -26,7 +26,7 @@ function writePage(route, notFound=false) {
  const preloads=legacy?'':`<link rel="modulepreload" href="/assets/${siteScript}"/>${route.path.startsWith('/publications/financedebriefed/')?`<link rel="modulepreload" href="/assets/${articleScript}"/>`:''}`;
  const record=structuredRecord(route.path,base);
  const structured=record?`<script type="application/ld+json">${JSON.stringify(record).replace(/</g,'\\u003c')}</script>`:'';
- const body=legacy?'':render(route.path);
+ const body=legacy?`<main id="main-content" style="max-width:48rem;margin:4rem auto;padding:0 1.5rem;font-family:system-ui,sans-serif;line-height:1.7"><h1>Finance for All</h1><p>Open financial education, economics reading and ways to contribute to FinanceMeta.</p><nav aria-label="Finance for All resources"><ul><li><a href="/learn">Explore open learning</a></li><li><a href="/publications/financedebriefed">Read Finance Debriefed</a></li><li><a href="/research">Explore the research record</a></li><li><a href="/projects">Browse all project records</a></li><li><a href="/signin">Member sign in</a></li></ul></nav><p>The interactive page loads with JavaScript. These links remain available without it.</p><p>Educational material, not personal financial advice.</p><a href="/privacy">Privacy information</a></main>`:render(route.path);
  const html=template.replace(/<!--site-meta-->[\s\S]*?<!--\/site-meta-->/,meta+routeStyles+preloads+structured).replace('<div id="root"></div>',`<div id="root"${legacy?'':' data-rendered="true"'}>${body}</div>`);
  const file=notFound?'dist/404.html':route.path==='/'?'dist/index.html':`dist${route.path}.html`;
  mkdirSync(dirname(file),{recursive:true});writeFileSync(file,html);

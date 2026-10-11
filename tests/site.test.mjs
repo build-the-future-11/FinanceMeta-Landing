@@ -20,17 +20,18 @@ test('all 166 public routes have unique paths and emitted files',()=>{
  assert.equal(routes.length,166);assert.equal(publicPaths.size,routes.length);
  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
 });
-test('all research pages are server-rendered with one H1 and meaningful metadata',()=>{
- for(const r of routes.filter(r=>r.path!=='/finance-for-all')){
+test('all public pages contain one H1 and meaningful metadata before JavaScript runs',()=>{
+ for(const r of routes){
   const html=htmlFor(r.path);assert.equal((html.match(/<h1[ >]/g)||[]).length,1,r.path);
-  for(const value of ['data-rendered="true"','name="description"','property="og:title"','name="twitter:card"','rel="canonical"','id="main-content"'])assert.ok(html.includes(value),`${r.path}: ${value}`);
+  if(r.path!=='/finance-for-all')assert.ok(html.includes('data-rendered="true"'),r.path);
+  for(const value of ['name="description"','property="og:title"','name="twitter:card"','rel="canonical"','id="main-content"'])assert.ok(html.includes(value),`${r.path}: ${value}`);
   assert.ok(html.includes(`${siteOrigin}${r.path==='/'?'':r.path}`),r.path);
   assert.ok(!html.includes('Page not found |'),r.path);
  }
 });
 test('every rendered internal link resolves to a route, alias, fragment, or real public file',()=>{
  const failures=[];
- for(const route of routes.filter(r=>r.path!=='/finance-for-all')){
+ for(const route of routes){
   const html=htmlFor(route.path);
   for(const match of html.matchAll(/href="([^"]+)"/g)){
    const href=match[1].replaceAll('&amp;','&');
