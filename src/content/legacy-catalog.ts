@@ -50,12 +50,13 @@ export const legacyProjects = [
   {
     id: "iy-ern",
     title: "Iy-ERN economics research network",
-    description: "A public codebase for an economics research and preprint network. Product claims and peer-review status remain bounded by the evidence published in the repository.",
+    description: "A public pre-launch site and codebase for an economics research and preprint network. The archive is intentionally empty until reviewed, permissioned records are available.",
     status: "Verified repository",
     domain: "Research publishing",
     tags: ["economics", "preprints", "publishing"],
+    website: "https://iy-ern.vercel.app",
     href: "https://github.com/build-the-future-11/Iy-ERN",
-    evidence: "Public repository verified 19 Sep 2026",
+    evidence: "Public site and repository verified 11 Oct 2026; no papers or DOI records are represented as published",
   },
   {
     id: "portal",
