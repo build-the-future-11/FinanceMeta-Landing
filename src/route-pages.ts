@@ -13,5 +13,9 @@ export async function loadRoutePage(rawPath: string) {
     const pages = await import('./feature-pages');
     return path === '/open/tools' ? pages.FinanceTools : pages.ProgramComparison;
   }
+  if (path === '/projects' || /^\/projects\/f4a-\d{2}$/.test(path)) {
+    const pages = await import('./portfolio-pages');
+    return pages.portfolioPageFor(path);
+  }
   return undefined;
 }

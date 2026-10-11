@@ -3,8 +3,11 @@ import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { gzipSync } from 'node:zlib';
 import {siteOrigin as configuredOrigin,publicSiteOrigin} from '../scripts/site-origin.mjs';
-import { routes, aliases, labs, projects, cohorts, publications, resources, render } from '../.site-build/prerender.js';
+import { routes, aliases, labs, projects, portfolioProjects, cohorts, publications, resources, render } from '../.site-build/prerender.js';
 const htmlFor=path=>readFileSync(path==='/'?'dist/index.html':`dist${path}.html`,'utf8');
+const textFor=path=>htmlFor(path)
+ .replaceAll('&amp;','&').replaceAll('&lt;','<').replaceAll('&gt;','>')
+ .replaceAll('&quot;','"').replaceAll('&#x27;',"'").replaceAll('<!-- -->','');
 const siteOrigin=configuredOrigin();
 const publicPaths=new Set(routes.map(r=>r.path));
 
@@ -13,8 +16,8 @@ test('canonical origins reject local addresses, credentials and accidental paths
  for(const value of ['http://financemeta.org','https://localhost','https://127.0.0.1','https://[::1]','https://user:password@financemeta.org','https://financemeta.org/path','https://financemeta.org/?query=1','https://financemeta.org/#fragment'])assert.throws(()=>publicSiteOrigin(value));
 });
 
-test('all 117 public routes have unique paths and emitted files',()=>{
- assert.equal(routes.length,117);assert.equal(publicPaths.size,routes.length);
+test('all 166 public routes have unique paths and emitted files',()=>{
+ assert.equal(routes.length,166);assert.equal(publicPaths.size,routes.length);
  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
 });
 test('all research pages are server-rendered with one H1 and meaningful metadata',()=>{
@@ -45,9 +48,24 @@ test('lab, cohort, and project relations retain complete denominators',()=>{
  for(const c of cohorts){assert.equal(c.status,'Upcoming');assert.match(c.applicationStatus,/Proposed/);assert.ok(c.methods.length&&c.output.length);}
  assert.ok(projects.every(p=>!['Active','Published','Completed'].includes(p.status)));
 });
+test('the complete FinanceMeta portfolio has one public control page per canonical record',()=>{
+ assert.equal(portfolioProjects.length,48);
+ assert.deepEqual(portfolioProjects.map(p=>p.id),Array.from({length:48},(_,i)=>`F4A-${String(i+1).padStart(2,'0')}`));
+ assert.match(htmlFor('/projects'),/48(?:<!-- -->)? of (?:<!-- -->)?48(?:<!-- -->)? (?:<!-- -->)?entries/);
+ assert.match(htmlFor('/projects'),/Planning and execution-control registry/);
+ assert.match(htmlFor('/projects'),/class="portfolio-masthead"/);
+ assert.equal((htmlFor('/projects').match(/class="portfolio-record-row"/g)||[]).length,48);
+ for(const p of portfolioProjects){
+  const path=`/projects/${p.id.toLowerCase()}`;const html=textFor(path);
+  assert.ok(html.includes(p.project),path);assert.ok(html.includes(p.decision),path);assert.ok(html.includes(p.activation_gate),path);
+  assert.match(htmlFor(path),/class="portfolio-record-header"/,path);
+ }
+});
 test('legacy research projects and all four real explainers are preserved',()=>{
  for(const slug of ['fi-jepa','eigen-jepa','eigenfinance','lgwm','finimmunity','iy-ern','portal','inflation-observatory','digital-payments-access','youth-expectations-panel','public-company-lab','finance-meta-global'])assert.ok(projects.some(p=>p.slug===slug));
  assert.equal(publications.length,4);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
+ const iyern=htmlFor('/research/projects/iy-ern');assert.match(iyern,/href="https:\/\/iy-ern\.vercel\.app"/);assert.match(iyern,/Open project website/);
+ assert.match(iyern,/project-spotlight/);
 });
 test('no invented publication, episode, event, or chapter output is shown',()=>{
  assert.match(htmlFor('/publications/working-papers'),/No working papers have been released/);
@@ -64,6 +82,7 @@ test('navigation, search, join forms, and honest submission state are implemente
  const join=htmlFor('/join');assert.match(join,/required=""/);assert.match(join,/minLength="30"/);assert.match(join,/does not submit or store an application/);assert.match(join,/https:\/\/tally.so\/r\/5B7blP/);
  assert.match(htmlFor('/research/projects'),/Search projects/);assert.match(htmlFor('/research/projects'),/All (?:<!-- -->)?methods/);
  assert.match(htmlFor('/'),/aria-label="Primary navigation"/);assert.match(htmlFor('/'),/Skip to main content/);
+ assert.match(htmlFor('/'),/class="home-portfolio-gateway"/);assert.match(textFor('/'),/Open all 48 project records/);assert.match(htmlFor('/'),/href="\/projects"/);
 });
 test('a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite',()=>{
  assert.match(render('/nonexistent'),/404 \/ Page not found/);
