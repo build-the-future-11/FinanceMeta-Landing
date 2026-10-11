@@ -33,4 +33,4 @@ Run `npm run release:check` after editing. The catalog validator checks uniquene
 
 ## Native application bridge
 
-Use `/apply?call=<id>` for the public entry. The native handoff remains disabled until the portal deployment is verified. Read `Finance4allLanding/docs/PLATFORM_INTAKE.md` for database and environment configuration. Private submissions never become published research merely because a reviewer accepts them.
+Use `/apply?call=<id>` for the public entry. The native handoff remains disabled until the portal deployment is verified. Read the canonical [portal intake documentation](https://github.com/build-the-future-11/finance4all-global-reach/blob/2182f79e1fbf9b902b6fe80ab433e50993c56ec7/docs/PLATFORM_INTAKE.md) at the selected release revision for database and environment configuration; the former nested `Finance4allLanding` checkout is not authoritative. Private submissions never become published research merely because a reviewer accepts them.

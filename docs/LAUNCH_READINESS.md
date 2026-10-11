@@ -1,5 +1,12 @@
 # FinanceMeta launch readiness
 
+> Historical audit from 20 September. The current execution checklist is
+> [EXECUTION_CHECKLIST_2026-10-11.md](EXECUTION_CHECKLIST_2026-10-11.md).
+> The live public site now serves `48deeab4af0945bfcfbc1f35da38c075417b0d24` and passed exact-revision
+> health verification on 11 October. Privacy and participation information exist at `/privacy` and
+> `/participation`; policy approval and live member acceptance remain separate open gates.
+> The failures and test counts below are preserved as observations from their original date.
+
 Decision date: 2026-09-20
 Decision: **NO-GO for broad public onboarding**
 
