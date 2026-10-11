@@ -47,11 +47,6 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/projects",
-      "destination": "/research/projects",
-      "permanent": true
-    },
-    {
       "source": "/fellowship",
       "destination": "/research/fellowship",
       "permanent": true

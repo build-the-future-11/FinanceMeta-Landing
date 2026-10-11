@@ -13,13 +13,13 @@ export function LinkButton({href,children,secondary=false,download}: {href:strin
 export function StatusBadge({children}: {children:React.ReactNode}) {return <span className="status-badge">{children}</span>;}
 export function Tags({items}: {items:string[]}) {return <div className="tags">{items.map(t=><span key={t}>{t}</span>)}</div>;}
 export function Section({eyebrow,title,description,href,children,className='',id}: {eyebrow?:string;title:string;description?:string;href?:string;children:React.ReactNode;className?:string;id?:string}) {return <section id={id} className={`section ${className}`}><div className="section-heading"><div>{eyebrow&&<p className="eyebrow">{eyebrow}</p>}<h2>{title}</h2>{description&&<p className="section-deck">{description}</p>}</div>{href&&<a className="text-link" href={href} aria-label={`View all: ${title}`}>View all <Arrow/></a>}</div>{children}</section>;}
-export function PageHeader({eyebrow,title,description,children}: {eyebrow:string;title:string;description:string;children?:React.ReactNode}) {return <header className="page-header"><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="page-deck">{description}</p>{children&&<div className="page-actions">{children}</div>}</header>;}
+export function PageHeader({eyebrow,title,description,children,className=''}: {eyebrow:string;title:string;description:string;children?:React.ReactNode;className?:string}) {return <header className={`page-header ${className}`}><p className="eyebrow">{eyebrow}</p><h1>{title}</h1><p className="page-deck">{description}</p>{children&&<div className="page-actions">{children}</div>}</header>;}
 export function EmptyState({title,description,href='/join',action='Get involved'}: {title:string;description:string;href?:string;action?:string}) {return <div className="empty-state"><span className="eyebrow">An honest starting point</span><h3>{title}</h3><p>{description}</p><a className="text-link" href={href}>{action}<Arrow/></a></div>;}
 export function CTA({title='Good research starts with a better question.',description='Bring your curiosity, your methods, or a problem worth investigating.',href='/join',action='Find your place'}: {title?:string;description?:string;href?:string;action?:string}) {return <section className="cta"><div><p className="eyebrow">Contribute to the next question</p><h2>{title}</h2><p>{description}</p></div><LinkButton href={href}>{action}</LinkButton></section>;}
 export function Breadcrumbs({path}: {path:string}) {const parts=path.split('/').filter(Boolean);return <nav className="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a>{parts.map((s,i)=><React.Fragment key={s}><span aria-hidden="true">/</span>{i===parts.length-1?<span aria-current="page">{s.replaceAll('-',' ')}</span>:<a href={'/'+parts.slice(0,i+1).join('/')}>{s.replaceAll('-',' ')}</a>}</React.Fragment>)}</nav>;}
 
 export const publicNavigation = [
-  ['Research', '/research'], ['Labs', '/labs'], ['Programs', '/programs'],
+  ['Research', '/research'], ['Projects', '/projects'], ['Labs', '/labs'], ['Programs', '/programs'],
   ['Markets', '/markets'], ['Learn', '/learn'], ['Events', '/events'], ['Podcast', '/podcast'],
 ];
 export function Navbar({path}: {path:string}) {
@@ -41,7 +41,7 @@ export function Navbar({path}: {path:string}) {
 }
 export function MemberLink({children='Member sign in'}: {children?:React.ReactNode}) {const [href,setHref]=useState('/signin');useEffect(()=>{if(hasConfiguredMemberHandoff())setHref(getMemberHandoffUrl('/login'));},[]);return <a href={href} onClick={()=>trackLandingEvent('member_handoff_started',{surface:'research_website',action:'member_login',destination:href.startsWith('http')?'/login':'contact'})}>{children}</a>;}
 export function Footer(){return <footer className="site-footer" itemScope itemType="https://schema.org/Organization"><div className="footer-masthead"><a className="brand" href="/" itemProp="url"><span itemProp="name">FinanceMeta</span></a><p>Financial systems.<br/>Better questions.</p></div><div className="footer-columns">{[
- ['Research',['Labs','/research/labs'],['Projects','/research/projects'],['IYERN','https://iy-ern.vercel.app'],['Cohorts','/research/cohorts'],['Standards','/research/standards']],
+ ['Research',['Labs','/research/labs'],['All 48 projects','/projects'],['Research index','/research/projects'],['IYERN','https://iy-ern.vercel.app'],['Cohorts','/research/cohorts'],['Standards','/research/standards']],
  ['Publications',['FinanceDebriefed','/publications/financedebriefed'],['Research notes','/publications/research-notes'],['Working papers','/publications/working-papers'],['IyERJ','/publications/iyerj']],
  ['Programs',['Fellowship','/research/fellowship'],['SISTER','/research/sister'],['Studio','/studio'],['Challenges','/challenges']],
  ['Community',['Union Project','/union'],['Network','/network'],['Chapters','/network/chapters'],['Open resources','/open'],['Podcast & events','/media']],
