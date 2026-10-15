@@ -1,7 +1,7 @@
 {
   "study_id": "financemeta-application-conversion-v1",
-  "updated_at": "2026-10-15T14:13:49.924767+00:00",
-  "phase": "DEVELOPMENT_IMPLEMENTATION",
+  "updated_at": "2026-10-15T14:56:14.617354+00:00",
+  "phase": "RELEASED_ENGINEERING_VALIDATION",
   "disposition": "INCONCLUSIVE",
   "canonical_state": "FinanceMeta-Landing/research/conversion-v1/STATE.json",
   "scope": [
@@ -39,7 +39,7 @@
   "protocol": "PROTOCOL.md",
   "flaw_checklist": "CHECKLIST.md",
   "review_operations": "REVIEW_OPERATIONS.md",
-  "release_status": "NOT_YET_RELEASED",
+  "release_status": "THREE_PUBLIC_SITES_AND_FIVE_TALLY_FORMS_PUBLISHED",
   "scientific_result": "No prospective visitor outcomes collected. Engineering checks cannot establish conversion uplift.",
   "preserved_history": [
     "../../../evidence/iyern-deployment-20261014/release-verification.json",
@@ -49,7 +49,23 @@
   "failures": [
     {
       "stage": "Tally question-type change",
-      "result": "Connector rejected its documented change_type operation before mutation. Browser requires fresh Google sign-in; user handoff pending."
+      "result": "Connector rejected change_type before mutation. Authenticated editor used successfully after user completed sign-in; radio choices and required unchecked consent published. Original block IDs retained and replaced typed questions hidden."
+    },
+    {
+      "stage": "Landing release check",
+      "result": "Stale assertion expected the removed email-draft workflow; updated to assert real form routing. Hosted release checks passed."
+    },
+    {
+      "stage": "Portal database CI",
+      "result": "External Docker image registry quota interrupted startup; affected job rerun passed."
+    },
+    {
+      "stage": "Portal cross-browser accessibility",
+      "result": "Axe found dark text on the dark IYERN challenge panel in three browsers. Fixed inherited link color without weakening the check; all hosted checks passed."
+    },
+    {
+      "stage": "Tally optional fields",
+      "result": "A stale editor/connector state initially retained required settings under optional labels. Reloaded, corrected in editor, independently reloaded schema and published; all seven supplemental fields now optional."
     }
   ],
   "open_gates": [
@@ -68,6 +84,11 @@
     {
       "date": "2026-10-15",
       "event": "Preserved source and form baseline before conversion edits. Began development based on observed routing friction; canonical study state now records scope and evidence boundary."
+    },
+    {
+      "date": "2026-10-15",
+      "event": "Merged and verified production revisions for all three public sites. Published journal/forum structured controls, optional supplemental fields and review expectations; preserved earlier failures and baseline. Prospective conversion result remains INCONCLUSIVE."
     }
-  ]
+  ],
+  "release_evidence": "RELEASE.md"
 }
