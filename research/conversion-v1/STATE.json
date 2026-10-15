@@ -42,9 +42,9 @@
   "release_status": "NOT_YET_RELEASED",
   "scientific_result": "No prospective visitor outcomes collected. Engineering checks cannot establish conversion uplift.",
   "preserved_history": [
-    "../../../../evidence/iyern-deployment-20261014/release-verification.json",
-    "../../../../evidence/conversion-20261015/baseline-source.json",
-    "../../../../evidence/conversion-20261015/form-*-before.json"
+    "../../../evidence/iyern-deployment-20261014/release-verification.json",
+    "../../../evidence/conversion-20261015/baseline-source.json",
+    "../../../evidence/conversion-20261015/form-*-before.json"
   ],
   "failures": [
     {
