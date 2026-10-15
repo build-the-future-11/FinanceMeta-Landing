@@ -32,7 +32,7 @@ export function applicationUrl(route: ApplicationRoute, search = '', context: Re
 export function applicationDestination(href: string) {
   try {
     const url = new URL(href);
-    if (url.protocol !== 'https:' || url.hostname !== 'tally.so') return null;
+    if (url.origin !== 'https://tally.so' || url.username || url.password) return null;
     const id = url.pathname.match(/^\/r\/([a-zA-Z0-9]+)$/)?.[1];
     if (!id || !Object.values(applicationForms).some(value => value === id)) return null;
     return `tally.so/r/${id}`;
