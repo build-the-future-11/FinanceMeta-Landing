@@ -11,7 +11,7 @@ test('catalog validates and rejects unsupported claims, unsafe links and broken 
 });
 test('empty directories have archive routes without invented entries',()=>{
  for(const path of ['/podcast/episodes','/podcast/topics','/podcast/guests','/programs','/privacy','/participation','/apply','/network/chapters/start'])assert.doesNotMatch(render(path),/404 \/ Page not found/);
- assert.match(render('/apply'),/Native member intake has not been enabled/);
+ for(const form of ['5B7blP','b5BBko','RGXXLJ'])assert.match(render('/apply'),new RegExp('tally\\.so/r/'+form));
  assert.match(render('/about/partners'),/No substantiated partnership records/);
  assert.equal(catalog.episodes.length,0);assert.equal(catalog.events.length,0);
 });

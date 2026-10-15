@@ -80,7 +80,7 @@ test('published resource downloads exist and unsafe protocols are absent',()=>{
  for(const r of routes)assert.doesNotMatch(htmlFor(r.path),/href="(?:javascript:|#")/);
 });
 test('navigation, search, join forms, and honest submission state are implemented',()=>{
- const join=htmlFor('/join');assert.match(join,/required=""/);assert.match(join,/minLength="30"/);assert.match(join,/does not submit or store an application/);assert.match(join,/https:\/\/tally.so\/r\/5B7blP/);
+ const join=htmlFor('/join');assert.match(join,/without creating a FinanceMeta account/);assert.match(join,/Choose journal review or the preprint forum/);assert.doesNotMatch(join,/<form|Prepare email draft|minLength="30"/);assert.match(join,/https:\/\/tally.so\/r\/5B7blP/);
  assert.match(htmlFor('/research/projects'),/Search projects/);assert.match(htmlFor('/research/projects'),/All (?:<!-- -->)?methods/);
  assert.match(htmlFor('/'),/aria-label="Primary navigation"/);assert.match(htmlFor('/'),/Skip to main content/);
  assert.match(htmlFor('/'),/class="home-portfolio-gateway"/);assert.match(textFor('/'),/Open all 48 project records/);assert.match(htmlFor('/'),/href="\/projects"/);

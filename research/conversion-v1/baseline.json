@@ -1,0 +1,51 @@
+{
+  "observed_at": "2026-10-15",
+  "period": "30d",
+  "scope": "Provider aggregate form metrics; not website sessions or qualified applicants. Includes possible QA traffic.",
+  "forms": {
+    "obWxvN": {
+      "visits": 27,
+      "visitDuration": 599,
+      "submissions": 8,
+      "uniqueRespondents": 8,
+      "totalViews": 27,
+      "starts": 10,
+      "completions": 8,
+      "completionDuration": 2253.5,
+      "completionRate": 80
+    },
+    "5B7blP": {
+      "visits": 8,
+      "visitDuration": 70.5,
+      "submissions": 1,
+      "uniqueRespondents": 1,
+      "totalViews": 8,
+      "starts": 2,
+      "completions": 1,
+      "completionDuration": 653,
+      "completionRate": 50
+    },
+    "b5BBko": {
+      "visits": 1,
+      "visitDuration": 7,
+      "submissions": 0,
+      "uniqueRespondents": 0,
+      "totalViews": 1,
+      "starts": 0,
+      "completions": 0,
+      "completionDuration": 0,
+      "completionRate": 0
+    },
+    "RGXXLJ": {
+      "visits": 1,
+      "visitDuration": 55,
+      "submissions": 0,
+      "uniqueRespondents": 0,
+      "totalViews": 1,
+      "starts": 0,
+      "completions": 0,
+      "completionDuration": 0,
+      "completionRate": 0
+    }
+  }
+}
