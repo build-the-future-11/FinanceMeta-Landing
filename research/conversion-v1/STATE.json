@@ -1,0 +1,73 @@
+{
+  "study_id": "financemeta-application-conversion-v1",
+  "updated_at": "2026-10-15T14:13:49.924767+00:00",
+  "phase": "DEVELOPMENT_IMPLEMENTATION",
+  "disposition": "INCONCLUSIVE",
+  "canonical_state": "FinanceMeta-Landing/research/conversion-v1/STATE.json",
+  "scope": [
+    "FinanceMeta-Landing public application journey",
+    "Iy-ERN public journal and preprint routes",
+    "finance4all-global-reach public participation routes",
+    "FinanceMeta-Global governance reference",
+    "Tally forms 5B7blP b5BBko RGXXLJ; chapter and partnership routing"
+  ],
+  "research_question": "Does a direct, contextual, account-free application journey improve completed suitable applications and subsequent participation?",
+  "mechanism": "Explicit task choices and preserved public context reduce navigation uncertainty and repeated entry; adequate preparation information preserves submission quality.",
+  "novelty": "Product improvement and evaluation; no new scientific model or general scientific novelty asserted.",
+  "hypothesis": "Qualified applicants can identify and reach the correct form with fewer unnecessary steps while required editorial declarations remain intact.",
+  "falsifier": "Correct-route task success fails to improve, submission quality deteriorates, or an apparent gain disappears after separating source mix, QA traffic and form-version differences.",
+  "budgets": {
+    "implementation_review_rounds": 3,
+    "paid_compute": 0,
+    "unsolicited_outreach": 0,
+    "local_build_floor_mib": 512,
+    "hosted_ci": "Existing repository checks; rerun only affected failing work"
+  },
+  "protected_boundary": "No protected experiment or randomization is currently running. Baseline aggregates were inspected for development; never reuse them as untouched confirmatory data.",
+  "primary_endpoint": "Confirmed suitable applications / eligible human application-page sessions, separated by route. Not estimable until both denominator and reviewer qualification are recorded.",
+  "secondary_endpoints": [
+    "Correct-route task success",
+    "Form starts / recorded form visits",
+    "Confirmed submissions / starts",
+    "First agreed activity completed / accepted applicants",
+    "Time to human review"
+  ],
+  "review_owner": "Ryan",
+  "assistant_role": "Organize submissions, flag missing material and prepare review notes; Ryan makes final participation and publication decisions.",
+  "response_window": null,
+  "baseline": "baseline.json",
+  "protocol": "PROTOCOL.md",
+  "flaw_checklist": "CHECKLIST.md",
+  "review_operations": "REVIEW_OPERATIONS.md",
+  "release_status": "NOT_YET_RELEASED",
+  "scientific_result": "No prospective visitor outcomes collected. Engineering checks cannot establish conversion uplift.",
+  "preserved_history": [
+    "../../../../evidence/iyern-deployment-20261014/release-verification.json",
+    "../../../../evidence/conversion-20261015/baseline-source.json",
+    "../../../../evidence/conversion-20261015/form-*-before.json"
+  ],
+  "failures": [
+    {
+      "stage": "Tally question-type change",
+      "result": "Connector rejected its documented change_type operation before mutation. Browser requires fresh Google sign-in; user handoff pending."
+    }
+  ],
+  "open_gates": [
+    "Live analytics persistence and eligible visitor denominator not certified",
+    "Qualified application rubric and activation require reviewer records",
+    "Response window not confirmed",
+    "Permissioned outcomes and mentor profiles not supplied",
+    "Canonical live member database and controlled-account work remains separately gated",
+    "Prospective visitor outcomes not collected"
+  ],
+  "history": [
+    {
+      "date": "2026-10-14",
+      "event": "Three predecessor public sites merged and deployed; release receipt preserved."
+    },
+    {
+      "date": "2026-10-15",
+      "event": "Preserved source and form baseline before conversion edits. Began development based on observed routing friction; canonical study state now records scope and evidence boundary."
+    }
+  ]
+}

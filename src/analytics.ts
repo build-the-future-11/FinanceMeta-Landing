@@ -8,6 +8,25 @@ type LandingEventProperties = {
 
 const SAFE_VALUE = /^[a-zA-Z0-9_./:#?=&+\-]{1,100}$/;
 const SESSION_KEY = "financemeta-landing-session";
+const ATTRIBUTION_KEY = "financemeta-application-attribution-v1";
+
+export function getApplicationSearch() {
+  const current = new URLSearchParams(window.location.search);
+  let saved = new URLSearchParams();
+  try { saved = new URLSearchParams(window.sessionStorage.getItem(ATTRIBUTION_KEY) || ''); } catch { /* Storage is optional. */ }
+  const result = new URLSearchParams();
+  for (const key of ['utm_source', 'utm_medium', 'utm_campaign']) {
+    const value = current.get(key) ?? saved.get(key);
+    if (value && /^[a-zA-Z0-9_-]{1,80}$/.test(value)) result.set(key, value);
+  }
+  if (current.get('fm_qa') === '1' || saved.get('fm_qa') === '1') result.set('fm_qa', '1');
+  try { window.sessionStorage.setItem(ATTRIBUTION_KEY, result.toString()); } catch { /* Navigation still works. */ }
+  for (const key of ['role', 'project', 'lab', 'call']) {
+    const value = current.get(key);
+    if (value) result.set(key, value);
+  }
+  return result.toString();
+}
 
 function safeHttpsUrl(value: string | undefined) {
   if (!value) return null;
@@ -34,7 +53,7 @@ export function getLandingSessionId() {
 }
 
 function safeAttribution() {
-  const query = new URLSearchParams(window.location.search);
+  const query = new URLSearchParams(getApplicationSearch());
   const read = (key: string) => {
     const value = query.get(key)?.trim();
     return value && SAFE_VALUE.test(value) ? value : null;
@@ -47,6 +66,7 @@ function safeAttribution() {
 }
 
 export function trackLandingEvent(eventName: LandingEventName, properties: LandingEventProperties) {
+  if (new URLSearchParams(getApplicationSearch()).get('fm_qa') === '1') return;
   const safeProperties = Object.fromEntries(
     Object.entries(properties)
       .filter(([, value]) => typeof value === "string" && SAFE_VALUE.test(value))
