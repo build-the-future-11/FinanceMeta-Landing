@@ -2,7 +2,15 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import test from 'node:test';
 
-import { resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+import { equivalentVercelConfig, resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+
+test('hosted configuration normalization permits formatting only', () => {
+  const config = { buildCommand: 'npm run release:check', headers: [{ source: '/(.*)', headers: [{key:'X-Frame-Options', value:'DENY'}] }] };
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify(config, null, 4)), true);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify({...config, buildCommand:'npm run build:dev'})), false);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify({...config, headers:[]})), false);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), '{'), false);
+});
 
 const SHA_A = '0123456789abcdef0123456789abcdef01234567';
 const SHA_B = '89abcdef0123456789abcdef0123456789abcdef';
