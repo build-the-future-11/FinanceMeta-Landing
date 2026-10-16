@@ -1,0 +1,1165 @@
+
+> finance4all-landing@1.0.0 release:check
+> npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build && npm test && node scripts/verify-release.mjs
+
+
+> finance4all-landing@1.0.0 source:check
+> node scripts/verify-source-completion.mjs
+
+FinanceMeta source completion check passed: no TODO/FIXME/pseudocode/stub/scaffold markers in executable source.
+
+> finance4all-landing@1.0.0 accessibility:check
+> node scripts/verify-accessibility.mjs
+
+FinanceMeta accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.
+Research navigation, forms, live result counts, focus, and reduced-motion source contracts passed.
+
+> finance4all-landing@1.0.0 funnel:check
+> node scripts/verify-funnel.mjs
+
+FinanceMeta funnel check passed: 8 CTAs are inventoried; handoff and analytics contracts are bounded.
+
+> finance4all-landing@1.0.0 lint
+> tsc --noEmit --noUnusedLocals --noUnusedParameters && node scripts/lint-source.mjs
+
+Source lint passed for 46 TypeScript modules: explicit button types, link safety, and no raw HTML/eval/debugger.
+
+> finance4all-landing@1.0.0 prebuild
+> node --experimental-strip-types scripts/prepare-content.mjs
+
+Prepared 10 article summaries; verified the committed PNG social card.
+
+> finance4all-landing@1.0.0 build
+> npm run typecheck && vite build && vite build --ssr src/prerender.tsx --outDir .site-build && node --experimental-strip-types scripts/validate-content.mjs && node scripts/prerender.mjs && node scripts/write-release-revision.mjs
+
+
+> finance4all-landing@1.0.0 typecheck
+> tsc --noEmit
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 466 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.62 kB │ gzip:  0.39 kB
+dist/.vite/manifest.json                      4.97 kB │ gzip:  0.85 kB
+dist/assets/features-DM6UTEHn.css             1.16 kB │ gzip:  0.53 kB
+dist/assets/union-page-DzFbztFi.css           8.83 kB │ gzip:  2.12 kB
+dist/assets/landing-home-Ds__TAas.css        17.36 kB │ gzip:  4.12 kB
+dist/assets/landing-DxGlVWX-.css             24.11 kB │ gzip:  6.36 kB
+dist/assets/src-eei0pKxc.css                 67.17 kB │ gzip: 13.79 kB
+dist/assets/reading-CcEKN--Z.js               0.55 kB │ gzip:  0.36 kB
+dist/assets/application-routes-BDWDZ00N.js    1.18 kB │ gzip:  0.64 kB
+dist/assets/member-handoff-IMwYBKZ8.js        2.81 kB │ gzip:  1.18 kB
+dist/assets/curricula-CzNaarTk.js             3.02 kB │ gzip:  1.43 kB
+dist/assets/reading-list-page-1uilfw7_.js     3.43 kB │ gzip:  1.43 kB
+dist/assets/course-pages-BhOFRHfe.js          4.43 kB │ gzip:  1.86 kB
+dist/assets/join-page-DspI9eGo.js             7.70 kB │ gzip:  2.92 kB
+dist/assets/feature-pages-89vLzO30.js        11.17 kB │ gzip:  4.24 kB
+dist/assets/learning-practice-D9GJDJl1.js    12.80 kB │ gzip:  4.72 kB
+dist/assets/union-page-DgVpwmmL.js           17.11 kB │ gzip:  5.37 kB
+dist/assets/landing-home-DHoBNX4n.js         22.05 kB │ gzip:  6.46 kB
+dist/assets/components-DihpvgJx.js           24.50 kB │ gzip:  7.21 kB
+dist/assets/reading-list-DCZy2axl.js         26.58 kB │ gzip:  9.48 kB
+dist/assets/portfolio-pages-6rlqMT_E.js      33.51 kB │ gzip:  8.58 kB
+dist/assets/editorial-CE1PGLQh.js            80.63 kB │ gzip: 28.66 kB
+dist/assets/site-D0MjxkEa.js                117.70 kB │ gzip: 32.04 kB
+dist/assets/landing-C0RdDjn7.js             145.21 kB │ gzip: 46.80 kB
+dist/assets/index-CasMAo1M.js               145.52 kB │ gzip: 47.66 kB
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-will-change/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-will-change/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-motion-value.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-motion-value.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-force-update.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-force-update.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-follow-value.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-follow-value.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-spring.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-spring.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-animation.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-animation.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-scroll.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-scroll.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-max.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-max.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-min.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/features-min.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-velocity.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-velocity.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-transform.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-transform.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-time.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-time.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-motion-template.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-motion-template.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-cycle.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-cycle.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/events/use-dom-event.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/events/use-dom-event.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-in-view.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-in-view.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionContext/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionContext/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/PresenceContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/PresenceContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-constant.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-constant.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/LazyContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/LazyContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-combine-values.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-combine-values.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-computed.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/value/use-computed.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/Reorder/Item.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/Reorder/Item.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/Reorder/Group.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/components/Reorder/Group.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/ReorderContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/ReorderContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionContext/create.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/context/MotionContext/create.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/use-render.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/dom/use-render.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/html/use-props.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/html/use-props.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/svg/use-props.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../../Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/node_modules/framer-motion/dist/es/render/svg/use-props.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+✓ built in 1.38s
+vite v8.3.1 building ssr environment for production...
+transforming...
+✓ 47 modules transformed.
+rendering chunks...
+computing gzip size...
+.site-build/.vite/manifest.json    0.19 kB │ gzip:   0.13 kB
+.site-build/prerender.js         477.18 kB │ gzip: 123.26 kB
+
+✓ built in 737ms
+Content relationships, release evidence, dates and external URL contracts verified.
+Prerendered 172 public routes, 404 page, sitemap, and 11 legacy redirects.
+Wrote immutable release revision bc669c7cf8935d931628451f4e612f034ed931d7
+
+> finance4all-landing@1.0.0 test
+> node --experimental-strip-types --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: membership, journal and preprint remain distinct and account-free
+ok 1 - membership, journal and preprint remain distinct and account-free
+  ---
+  duration_ms: 3.623333
+  type: 'test'
+  ...
+# Subtest: application context and campaign survive without copying personal answers
+ok 2 - application context and campaign survive without copying personal answers
+  ---
+  duration_ms: 1.79225
+  type: 'test'
+  ...
+# Subtest: malformed metadata and unrecognized roles are dropped
+ok 3 - malformed metadata and unrecognized roles are dropped
+  ---
+  duration_ms: 0.231667
+  type: 'test'
+  ...
+# Subtest: validated blank context overrides an unrecognized incoming project
+ok 4 - validated blank context overrides an unrecognized incoming project
+  ---
+  duration_ms: 0.222875
+  type: 'test'
+  ...
+# Subtest: click measurement distinguishes form IDs and rejects lookalike hosts
+ok 5 - click measurement distinguishes form IDs and rejects lookalike hosts
+  ---
+  duration_ms: 0.381125
+  type: 'test'
+  ...
+# Subtest: the four-module curriculum stays fixed as the wider library expands
+ok 6 - the four-module curriculum stays fixed as the wider library expands
+  ---
+  duration_ms: 114.243667
+  type: 'test'
+  ...
+# Subtest: postcss-selector-parser stays on the patched 6.x security release
+ok 7 - postcss-selector-parser stays on the patched 6.x security release
+  ---
+  duration_ms: 71.004125
+  type: 'test'
+  ...
+# Subtest: growth uses effective annual rates and end-of-month contributions
+ok 8 - growth uses effective annual rates and end-of-month contributions
+  ---
+  duration_ms: 43.731208
+  type: 'test'
+  ...
+# Subtest: amortization handles zero rates and extra payments without negative balances
+ok 9 - amortization handles zero rates and extra payments without negative balances
+  ---
+  duration_ms: 1.550125
+  type: 'test'
+  ...
+# Subtest: bond par price, zero coupon duration and inverse yield sensitivity
+ok 10 - bond par price, zero coupon duration and inverse yield sensitivity
+  ---
+  duration_ms: 0.425542
+  type: 'test'
+  ...
+# Subtest: purchasing power, correlation limits and finite-horizon valuation
+ok 11 - purchasing power, correlation limits and finite-horizon valuation
+  ---
+  duration_ms: 2.180666
+  type: 'test'
+  ...
+# Subtest: invalid numerical assumptions fail before calculating
+ok 12 - invalid numerical assumptions fail before calculating
+  ---
+  duration_ms: 0.822833
+  type: 'test'
+  ...
+# Subtest: CSV retains raw values for independent recalculation
+ok 13 - CSV retains raw values for independent recalculation
+  ---
+  duration_ms: 0.619083
+  type: 'test'
+  ...
+# Subtest: multiword queries match across fields and combine with filters
+ok 14 - multiword queries match across fields and combine with filters
+  ---
+  duration_ms: 9.717708
+  type: 'test'
+  ...
+# Subtest: filter and sort URLs round trip without dropping other parameters or mutating data
+ok 15 - filter and sort URLs round trip without dropping other parameters or mutating data
+  ---
+  duration_ms: 104.90175
+  type: 'test'
+  ...
+# Subtest: unknown filters and unbounded queries cannot create broken select states
+ok 16 - unknown filters and unbounded queries cannot create broken select states
+  ---
+  duration_ms: 0.74925
+  type: 'test'
+  ...
+# Subtest: event default status and explicit All survive URL serialization
+ok 17 - event default status and explicit All survive URL serialization
+  ---
+  duration_ms: 0.813083
+  type: 'test'
+  ...
+# Subtest: article contents use stable unique anchors even for repeated headings
+ok 18 - article contents use stable unique anchors even for repeated headings
+  ---
+  duration_ms: 1.0555
+  type: 'test'
+  ...
+# Subtest: reading progress rejects stale, duplicated, and malformed saved records
+ok 19 - reading progress rejects stale, duplicated, and malformed saved records
+  ---
+  duration_ms: 0.631291
+  type: 'test'
+  ...
+# Subtest: cost calculator uses one-way turnover and preserves negative returns
+ok 20 - cost calculator uses one-way turnover and preserves negative returns
+  ---
+  duration_ms: 0.2325
+  type: 'test'
+  ...
+# Subtest: application context resolves real labels and rejects unknown query identifiers
+ok 21 - application context resolves real labels and rejects unknown query identifiers
+  ---
+  duration_ms: 0.452333
+  type: 'test'
+  ...
+# Subtest: four visitor goals retain valid specialist destinations
+ok 22 - four visitor goals retain valid specialist destinations
+  ---
+  duration_ms: 4.84825
+  type: 'test'
+  ...
+# Subtest: nested routes select the most specific section without false prefix matches
+ok 23 - nested routes select the most specific section without false prefix matches
+  ---
+  duration_ms: 4.723958
+  type: 'test'
+  ...
+# Subtest: the shared shell explains the brand and exposes contextual navigation before hydration
+ok 24 - the shared shell explains the brand and exposes contextual navigation before hydration
+  ---
+  duration_ms: 49.708375
+  type: 'test'
+  ...
+# Subtest: journal guidance agrees with the available external submission routes
+ok 25 - journal guidance agrees with the available external submission routes
+  ---
+  duration_ms: 11.913417
+  type: 'test'
+  ...
+# Subtest: catalog validates and rejects unsupported claims, unsafe links and broken relationships
+ok 26 - catalog validates and rejects unsupported claims, unsafe links and broken relationships
+  ---
+  duration_ms: 13.319958
+  type: 'test'
+  ...
+# Subtest: empty directories have archive routes without invented entries
+ok 27 - empty directories have archive routes without invented entries
+  ---
+  duration_ms: 175.749375
+  type: 'test'
+  ...
+# Subtest: proposed cohorts contain staged deliverables and project protocols remain drafts
+ok 28 - proposed cohorts contain staged deliverables and project protocols remain drafts
+  ---
+  duration_ms: 27.28225
+  type: 'test'
+  ...
+# Subtest: BibTeX does not invent authors or original publication dates
+ok 29 - BibTeX does not invent authors or original publication dates
+  ---
+  duration_ms: 0.339209
+  type: 'test'
+  ...
+# Subtest: calendar export respects instants and escapes line injection
+ok 30 - calendar export respects instants and escapes line injection
+  ---
+  duration_ms: 1.950542
+  type: 'test'
+  ...
+# Subtest: unknown addresses hydrate the same recovery markup as the prerendered 404
+ok 31 - unknown addresses hydrate the same recovery markup as the prerendered 404
+  ---
+  duration_ms: 3.877541
+  type: 'test'
+  ...
+# Subtest: FinanceMeta links its public research network without merging product identities
+ok 32 - FinanceMeta links its public research network without merging product identities
+  ---
+  duration_ms: 7.732292
+  type: 'test'
+  ...
+# Subtest: navigation exposes the canonical project-page directory
+ok 33 - navigation exposes the canonical project-page directory
+  ---
+  duration_ms: 0.552791
+  type: 'test'
+  ...
+# Subtest: reading list rejects broken storage and unexpected shapes
+ok 34 - reading list rejects broken storage and unexpected shapes
+  ---
+  duration_ms: 4.806083
+  type: 'test'
+  ...
+# Subtest: restores valid read states and discards duplicates, unsafe links and removed records
+ok 35 - restores valid read states and discards duplicates, unsafe links and removed records
+  ---
+  duration_ms: 2.27225
+  type: 'test'
+  ...
+# Subtest: release revision accepts only immutable lowercase 40-character Git SHAs
+ok 36 - release revision accepts only immutable lowercase 40-character Git SHAs
+  ---
+  duration_ms: 3.043792
+  type: 'test'
+  ...
+# Subtest: clean checkout identity overrides event metadata but must match declared source
+ok 37 - clean checkout identity overrides event metadata but must match declared source
+  ---
+  duration_ms: 0.534542
+  type: 'test'
+  ...
+# Subtest: modified, staged and untracked files reject release even with a declared SHA
+ok 38 - modified, staged and untracked files reject release even with a declared SHA
+  ---
+  duration_ms: 3.482625
+  type: 'test'
+  ...
+# Subtest: source archives require an explicit consistent source identity
+ok 39 - source archives require an explicit consistent source identity
+  ---
+  duration_ms: 1.812333
+  type: 'test'
+  ...
+# Subtest: release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04
+ok 40 - release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04
+  ---
+  duration_ms: 1.965708
+  type: 'test'
+  ...
+# Subtest: canonical origins reject local addresses, credentials and accidental paths
+ok 41 - canonical origins reject local addresses, credentials and accidental paths
+  ---
+  duration_ms: 2.130791
+  type: 'test'
+  ...
+# Subtest: all 172 public routes have unique paths and emitted files
+ok 42 - all 172 public routes have unique paths and emitted files
+  ---
+  duration_ms: 12.728792
+  type: 'test'
+  ...
+# Subtest: all public pages contain one H1 and meaningful metadata before JavaScript runs
+ok 43 - all public pages contain one H1 and meaningful metadata before JavaScript runs
+  ---
+  duration_ms: 17.268
+  type: 'test'
+  ...
+# Subtest: every rendered internal link resolves to a route, alias, fragment, or real public file
+ok 44 - every rendered internal link resolves to a route, alias, fragment, or real public file
+  ---
+  duration_ms: 26.869875
+  type: 'test'
+  ...
+# Subtest: lab, cohort, and project relations retain complete denominators
+ok 45 - lab, cohort, and project relations retain complete denominators
+  ---
+  duration_ms: 0.525042
+  type: 'test'
+  ...
+# Subtest: the complete FinanceMeta portfolio has one public control page per canonical record
+ok 46 - the complete FinanceMeta portfolio has one public control page per canonical record
+  ---
+  duration_ms: 8.298208
+  type: 'test'
+  ...
+# Subtest: legacy research projects and the expanded explainer library have complete text
+ok 47 - legacy research projects and the expanded explainer library have complete text
+  ---
+  duration_ms: 0.80175
+  type: 'test'
+  ...
+# Subtest: no invented publication, episode, event, or chapter output is shown
+ok 48 - no invented publication, episode, event, or chapter output is shown
+  ---
+  duration_ms: 1.063833
+  type: 'test'
+  ...
+# Subtest: published resource downloads exist and unsafe protocols are absent
+ok 49 - published resource downloads exist and unsafe protocols are absent
+  ---
+  duration_ms: 10.664417
+  type: 'test'
+  ...
+# Subtest: navigation, search, join forms, and honest submission state are implemented
+ok 50 - navigation, search, join forms, and honest submission state are implemented
+  ---
+  duration_ms: 1.626166
+  type: 'test'
+  ...
+# Subtest: a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite
+ok 51 - a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite
+  ---
+  duration_ms: 9.348959
+  type: 'test'
+  ...
+# Subtest: member guard and original education experience remain isolated
+ok 52 - member guard and original education experience remain isolated
+  ---
+  duration_ms: 0.262708
+  type: 'test'
+  ...
+# Subtest: prerender includes only the new design system before hydration
+ok 53 - prerender includes only the new design system before hydration
+  ---
+  duration_ms: 0.418333
+  type: 'test'
+  ...
+# Subtest: article navigation, downloads and canonical records retain full content
+ok 54 - article navigation, downloads and canonical records retain full content
+  ---
+  duration_ms: 1.585916
+  type: 'test'
+  ...
+# Subtest: shared script budget excludes the article text and local diagnostics
+ok 55 - shared script budget excludes the article text and local diagnostics
+  ---
+  duration_ms: 26.346292
+  type: 'test'
+  ...
+# Subtest: public pages do not skip heading levels after the page title
+ok 56 - public pages do not skip heading levels after the page title
+  ---
+  duration_ms: 11.069708
+  type: 'test'
+  ...
+# Subtest: Union styles load with server-rendered HTML before interactive hydration
+ok 57 - Union styles load with server-rendered HTML before interactive hydration
+  ---
+  duration_ms: 0.444333
+  type: 'test'
+  ...
+# Subtest: homepage styles render before hydration without loading on other routes
+ok 58 - homepage styles render before hydration without loading on other routes
+  ---
+  duration_ms: 0.333708
+  type: 'test'
+  ...
+# Subtest: starting route validates untrusted URL choices and preserves unrelated parameters
+ok 59 - starting route validates untrusted URL choices and preserves unrelated parameters
+  ---
+  duration_ms: 5.180667
+  type: 'test'
+  ...
+# Subtest: saved route requires supported version and complete valid choices
+ok 60 - saved route requires supported version and complete valid choices
+  ---
+  duration_ms: 0.668792
+  type: 'test'
+  ...
+# Subtest: every goal/pace produces a usable route, never a claim of admission
+ok 61 - every goal/pace produces a usable route, never a claim of admission
+  ---
+  duration_ms: 1.15075
+  type: 'test'
+  ...
+# Subtest: Union has no unverified production affiliations
+ok 62 - Union has no unverified production affiliations
+  ---
+  duration_ms: 2.061042
+  type: 'test'
+  ...
+# Subtest: publication excludes expired, unapproved, duplicate and unsafe records
+ok 63 - publication excludes expired, unapproved, duplicate and unsafe records
+  ---
+  duration_ms: 2.907041
+  type: 'test'
+  ...
+# Subtest: deadline closure respects explicit status and UTC calendar date
+ok 64 - deadline closure respects explicit status and UTC calendar date
+  ---
+  duration_ms: 0.203416
+  type: 'test'
+  ...
+# Subtest: public handoffs reject private and credential-bearing destinations
+ok 65 - public handoffs reject private and credential-bearing destinations
+  ---
+  duration_ms: 0.194041
+  type: 'test'
+  ...
+# Subtest: brief preserves the selected area and user wording without implying submission
+ok 66 - brief preserves the selected area and user wording without implying submission
+  ---
+  duration_ms: 0.57675
+  type: 'test'
+  ...
+# Subtest: brief rejects whitespace-only, undersized and oversized fields before export
+ok 67 - brief rejects whitespace-only, undersized and oversized fields before export
+  ---
+  duration_ms: 0.917875
+  type: 'test'
+  ...
+# Subtest: canonical target accepts only the exact clean production origin
+ok 68 - canonical target accepts only the exact clean production origin
+  ---
+  duration_ms: 2.195542
+  type: 'test'
+  ...
+# Subtest: root response headers must match the hardened production contract
+ok 69 - root response headers must match the hardened production contract
+  ---
+  duration_ms: 2.881375
+  type: 'test'
+  ...
+# Subtest: deployed HTML must retain canonical, social and mobile metadata
+ok 70 - deployed HTML must retain canonical, social and mobile metadata
+  ---
+  duration_ms: 4.87075
+  type: 'test'
+  ...
+# Subtest: release revision response must identify the exact immutable source
+ok 71 - release revision response must identify the exact immutable source
+  ---
+  duration_ms: 0.811542
+  type: 'test'
+  ...
+# Subtest: social asset requires PNG content type and exact committed bytes
+ok 72 - social asset requires PNG content type and exact committed bytes
+  ---
+  duration_ms: 1.296875
+  type: 'test'
+  ...
+# Subtest: release-critical remote GitHub Actions are immutable SHA-pinned
+ok 73 - release-critical remote GitHub Actions are immutable SHA-pinned
+  ---
+  duration_ms: 16.136875
+  type: 'test'
+  ...
+1..73
+# tests 73
+# suites 0
+# pass 73
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1200.739291
+FinanceMeta release check passed: exact source revision, metadata, social image, routes and security headers verified.

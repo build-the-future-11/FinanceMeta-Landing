@@ -1,0 +1,86 @@
+{
+  "recordedAt": "2026-10-16T02:45:47.605Z",
+  "path": "/join",
+  "width": 320,
+  "theme": "light",
+  "scenario": "page",
+  "axeVersion": "4.13.0",
+  "violations": [],
+  "incomplete": [],
+  "passes": 43,
+  "measurements": {
+    "navigationMs": 131.30000001192093,
+    "fcpMs": 176,
+    "lcpMs": 176,
+    "cumulativeLayoutShift": 0,
+    "shifts": [],
+    "resources": [
+      {
+        "name": "/assets/src-BElKTgzC.css",
+        "duration": 37.10000002384186,
+        "transferSize": 67250,
+        "encodedBodySize": 66950
+      },
+      {
+        "name": "/assets/site-nxB90g_0.js",
+        "duration": 41.79999998211861,
+        "transferSize": 121838,
+        "encodedBodySize": 121538
+      },
+      {
+        "name": "/theme.js",
+        "duration": 46.29999998211861,
+        "transferSize": 587,
+        "encodedBodySize": 287
+      },
+      {
+        "name": "/assets/index-BkGWysk8.js",
+        "duration": 59,
+        "transferSize": 145557,
+        "encodedBodySize": 145257
+      },
+      {
+        "name": "/assets/reading-list-CuFmlm8R.js",
+        "duration": 30,
+        "transferSize": 26884,
+        "encodedBodySize": 26584
+      },
+      {
+        "name": "/assets/components-BZYuhp7a.js",
+        "duration": 42.69999998807907,
+        "transferSize": 24559,
+        "encodedBodySize": 24259
+      },
+      {
+        "name": "/assets/member-handoff-IMwYBKZ8.js",
+        "duration": 54.5,
+        "transferSize": 3118,
+        "encodedBodySize": 2818
+      },
+      {
+        "name": "/assets/curricula-CzNaarTk.js",
+        "duration": 58,
+        "transferSize": 3322,
+        "encodedBodySize": 3022
+      },
+      {
+        "name": "/assets/application-routes-GQNWrn_D.js",
+        "duration": 59.60000002384186,
+        "transferSize": 2030,
+        "encodedBodySize": 1730
+      },
+      {
+        "name": "/assets/join-page-BzDtstDD.js",
+        "duration": 62.29999998211861,
+        "transferSize": 7973,
+        "encodedBodySize": 7673
+      },
+      {
+        "name": "/favicon.ico",
+        "duration": 27.5,
+        "transferSize": 75650,
+        "encodedBodySize": 75350
+      }
+    ]
+  }
+}

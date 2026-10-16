@@ -1,0 +1,28 @@
+{
+  "head": "5415626b6a56905e36547c0ba22adf6bedba9810",
+  "existingChanges": {
+    "docs/CONTENT_OPERATIONS.md": "72ffa958f2f806287bc8e9bd6e6b6b4f532fb9084e5aadc6695a4f890cd116f8",
+    "scripts/prepare-content.mjs": "77198ab2a42d2de77543febf46ffa4568206e0093813576996b6d88da953cbda",
+    "src/content/editorial-index.json": "c5d22a5d4202df7c86d6bf72ae81ee4844da1f07eef8374348f7b92f94ee75ce",
+    "src/content/editorial.ts": "29f6f1d997e71e93e1778272414469980c9242e50ef8ab1975e93fb836178ff5",
+    "src/content/research.ts": "6b341fe554fa9f5cfb30d689d25cca31471b8399613bf143c49a56d138a7fc5e",
+    "src/learning-practice.tsx": "370c4d0ed8389c52818eb8d3fb56a03b1ccb4931731dca5ae1a0bbc75e0ef80b",
+    "tests/site.test.mjs": "309778dc84923c07e5792fdd4c1f3f7b266cee8e29ee2c92fbf62be8aab191d6",
+    "evidence/financedebriefed-2026-10-11/article-body-390.png": "4d7e7274a8d4130feab85168bf2a70374698f0cd30bca4b5a501f642f51ef437",
+    "evidence/financedebriefed-2026-10-11/browser-check.json": "769e9f506884245a8f3efafdc2301c431863be1f138c2f1a8f57134abef6d01a",
+    "evidence/financedebriefed-2026-10-11/content-manifest.json": "71642c5533a628f37ff428539f1c9662e9839a28ab3a3ea6fb5ac2e0651828c0",
+    "evidence/financedebriefed-2026-10-11/content-verification.json": "bdbdfbbb8cedae26a4f2fcf9313494d1495bcb00ba25071b07bec9272c81bb08",
+    "evidence/financedebriefed-2026-10-11/inflation-1024.png": "ef0e3891b33d1e8586911d64256e6fa20f877f631bc2b2a2d69be9e161ddbed3",
+    "evidence/financedebriefed-2026-10-11/inflation-1440.png": "251b8062f4405b8dfd633e9c5456da918ab975400aa632b84c6420256c1a80d3",
+    "evidence/financedebriefed-2026-10-11/inflation-390.png": "87dd177c51136795ffc8a05d8fe1a067573bf3a437df57aad57703779085c87e",
+    "evidence/financedebriefed-2026-10-11/library-1024.png": "9457d53add10cafe7a7b8ec46124e0aaad91375d9d67f6e6bc1adbbd0d29f183",
+    "evidence/financedebriefed-2026-10-11/library-1440.png": "176ee030ccbbab33337d67fa5cb1fae787e46e2f8a670d6ac6f6200090f30e31",
+    "evidence/financedebriefed-2026-10-11/library-390.png": "525912aaf9821cf47ec750d5a691401478a67f187da3c630e4a9dacf4179004a",
+    "evidence/financedebriefed-2026-10-11/new-stories-390.png": "6661a11541b67cf49c49d0d989924b74d463e686ffced98d6638b92599f92cbd",
+    "evidence/financedebriefed-2026-10-11/reading-list-check.json": "277b5449663449f3e465a3fc9fa5399d5cff3af9db2b5cbba62429604b290a6c",
+    "evidence/financedebriefed-2026-10-11/release-check.log": "07498c584874e6e5a8473f07b2544cfd1c8b8b026d7d162617962ae23e7ba0a4",
+    "evidence/financedebriefed-2026-10-11/validation.json": "81de97cc1873336e3dfbfb8aaaa95c8c690dd2f5f2c1513445fd65023ce15cdf",
+    "src/content/editorial-series.ts": "a52ec73cf5a8e2c3dc6443871aed47fb589557901778291c0b84c75ce78f4aae"
+  },
+  "baseline": "npm run release:check passed: 68 tests, 172 routes, lint and build. Node 22.22.0. Existing release writer accepted a dirty checkout; this is not deployment certification."
+}

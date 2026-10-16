@@ -1,0 +1,228 @@
+diff --git a/docs/CONTENT_OPERATIONS.md b/docs/CONTENT_OPERATIONS.md
+index d743b3a..9329567 100644
+--- a/docs/CONTENT_OPERATIONS.md
++++ b/docs/CONTENT_OPERATIONS.md
+@@ -7,7 +7,7 @@ The public catalog is typed source under `src/content/`. It is deliberately sepa
+ - `models.ts`: projects, protocols, labs, cohorts/curricula, publications, episodes, people, events, chapters and programs.
+ - `research.ts`: public records. Empty people, event, episode and chapter arrays mean no verified entry is available; they do not generate invented detail routes.
+ - `curricula.ts`: planning curricula for the existing six cohorts and five research/engineering tracks. These are draft expectations, not announced calendars.
+-- `editorial.ts`: full educational articles; generated `editorial-index.json` keeps article bodies out of ordinary page bundles.
++- `editorial.ts` and `editorial-series.ts`: full educational articles; generated `editorial-index.json` keeps article bodies out of ordinary page bundles. New articles carry explicit lab and topic tags so their placement does not depend on array position. The public and member repositories both carry the evergreen series; update both copies together and compare their hashes.
+ - `programs.ts`: reusable program content and competition governance. Competition rubrics are explicitly drafts until a cycle is announced.
+ - `routes.ts`: fixed and generated paths. Events, episodes, people and chapters automatically receive real detail pages when a verified record is added.
+ 
+diff --git a/scripts/prepare-content.mjs b/scripts/prepare-content.mjs
+index e60cf13..f0d6ee7 100644
+--- a/scripts/prepare-content.mjs
++++ b/scripts/prepare-content.mjs
+@@ -1,7 +1,7 @@
+ import {writeFileSync,readFileSync} from 'node:fs';
+ import {editorialExplainers} from '../src/content/editorial.ts';
+ // Only card metadata is imported into the shared client catalog.
+-const metadata=editorialExplainers.map(({slug,title,dek,reviewedAt,readMinutes})=>({slug,title,dek,reviewedAt,readMinutes}));
++const metadata=editorialExplainers.map(({slug,title,dek,reviewedAt,readMinutes,lab,tags})=>({slug,title,dek,reviewedAt,readMinutes,lab:lab??null,tags:tags??null}));
+ writeFileSync('src/content/editorial-index.json',JSON.stringify(metadata,null,2)+'\n');
+ const png=readFileSync('public/social-preview.png');
+ if(png.readUInt32BE(16)!==1200||png.readUInt32BE(20)!==630)throw new Error('Expected a 1200 × 630 social card.');
+diff --git a/src/content/editorial-index.json b/src/content/editorial-index.json
+index 6d55287..0797b50 100644
+--- a/src/content/editorial-index.json
++++ b/src/content/editorial-index.json
+@@ -4,27 +4,113 @@
+     "title": "The complete guide to an IPO",
+     "dek": "An IPO is not just a stock-market debut. It is a months-long transfer of information, ownership, and risk between a private company and public investors.",
+     "reviewedAt": "2026-09-20",
+-    "readMinutes": 5
++    "readMinutes": 5,
++    "lab": null,
++    "tags": null
+   },
+   {
+     "slug": "how-interest-rates-move-through-the-economy",
+     "title": "How interest rates move through the economy",
+     "dek": "A policy-rate change is a starting signal. Banks, borrowers, investors, firms, and governments determine how far and how quickly it travels.",
+     "reviewedAt": "2026-09-20",
+-    "readMinutes": 6
++    "readMinutes": 6,
++    "lab": null,
++    "tags": null
+   },
+   {
+     "slug": "upi-payments-and-the-economics-of-a-network",
+     "title": "UPI and the economics of a payment network",
+     "dek": "The visible app is only the front door. A payment network is a layered institution built from standards, incentives, identity, dispute rules, and shared infrastructure.",
+     "reviewedAt": "2026-09-20",
+-    "readMinutes": 5
++    "readMinutes": 5,
++    "lab": null,
++    "tags": null
+   },
+   {
+     "slug": "reading-an-economic-claim-without-getting-fooled",
+     "title": "How to read an economic claim without getting fooled",
+     "dek": "Good economic reasoning starts by asking what was measured, compared with what, over which period, and what result would disprove the story.",
+     "reviewedAt": "2026-09-20",
+-    "readMinutes": 5
++    "readMinutes": 5,
++    "lab": null,
++    "tags": null
++  },
++  {
++    "slug": "lower-inflation-does-not-mean-lower-prices",
++    "title": "Why lower inflation does not mean lower prices",
++    "dek": "Inflation can fall while your weekly shop gets more expensive. The missing distinction is between how high prices are and how quickly they are rising.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 6,
++    "lab": "macro-monetary-financial-economics",
++    "tags": [
++      "Economics",
++      "Inflation",
++      "Explainers"
++    ]
++  },
++  {
++    "slug": "why-bond-prices-fall-when-yields-rise",
++    "title": "Why bond prices fall when yields rise",
++    "dek": "A bond can keep paying exactly the same coupon while its market price falls. The changing price is how an old promise competes with new interest rates.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 5,
++    "lab": "quantitative-finance-asset-pricing",
++    "tags": [
++      "Markets",
++      "Bonds",
++      "Explainers"
++    ]
++  },
++  {
++    "slug": "how-a-profitable-company-runs-short-of-cash",
++    "title": "How a profitable company can run short of cash",
++    "dek": "Profit records economic activity under accounting rules. Cash determines whether the next payment can be made. A growing business can have one and run short of the other.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 6,
++    "lab": "corporate-finance-private-markets",
++    "tags": [
++      "Companies",
++      "Financial statements",
++      "Explainers"
++    ]
++  },
++  {
++    "slug": "what-a-weaker-currency-changes",
++    "title": "What a weaker currency changes",
++    "dek": "A weaker currency changes the price of crossing a border. Who benefits depends on what they buy, what they sell and which currency their contracts use.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 5,
++    "lab": "macro-monetary-financial-economics",
++    "tags": [
++      "Economics",
++      "Currencies",
++      "Explainers"
++    ]
++  },
++  {
++    "slug": "a-stock-split-does-not-make-a-company-cheaper",
++    "title": "A stock split does not make a company cheaper",
++    "dek": "More shares at a lower price can represent exactly the same ownership. Follow the numerator and denominator before calling a stock split a bargain.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 6,
++    "lab": "corporate-finance-private-markets",
++    "tags": [
++      "Companies",
++      "Markets",
++      "Explainers"
++    ]
++  },
++  {
++    "slug": "a-rising-stock-index-is-not-the-whole-economy",
++    "title": "Why a rising stock index is not the whole economy",
++    "dek": "An index compresses selected market prices into one number. To understand what it says, inspect the companies, weights and return convention behind it.",
++    "reviewedAt": "2026-10-11",
++    "readMinutes": 6,
++    "lab": "quantitative-finance-asset-pricing",
++    "tags": [
++      "Markets",
++      "Indices",
++      "Explainers"
++    ]
+   }
+ ]
+diff --git a/src/content/editorial.ts b/src/content/editorial.ts
+index c5587ef..4f74288 100644
+--- a/src/content/editorial.ts
++++ b/src/content/editorial.ts
+@@ -1,3 +1,4 @@
++import { editorialSeries } from './editorial-series.ts';
+ type ExplainerCard = { id: string; slug: string; title: string; summary: string; difficulty: string; relatedTerms: string[]; body: string; [key: string]: unknown };
+ 
+ export type EditorialExplainer = ExplainerCard & {
+@@ -6,6 +7,8 @@ export type EditorialExplainer = ExplainerCard & {
+   sourceLabel: string;
+   reviewedAt: string;
+   featured?: boolean;
++  lab?: string;
++  tags?: string[];
+ };
+ 
+ const editorialDrafts: EditorialExplainer[] = [
+@@ -329,7 +332,7 @@ This guide is a starting checklist, not a substitute for reviewing the underlyin
+   },
+ ];
+ 
+-export const editorialExplainers = editorialDrafts.map(article => ({ ...article, readMinutes: Math.max(1, Math.ceil(article.body.split(/\s+/).length / 220)) }));
++export const editorialExplainers = [...editorialDrafts, ...editorialSeries].map(article => ({ ...article, readMinutes: Math.max(1, Math.ceil(article.body.split(/\s+/).length / 220)) }));
+ export const featuredExplainers = editorialExplainers.filter((article) => article.featured);
+ 
+ export function findEditorialExplainer(slug: string | undefined) {
+diff --git a/src/content/research.ts b/src/content/research.ts
+index b72f0e4..220e2a1 100644
+--- a/src/content/research.ts
++++ b/src/content/research.ts
+@@ -41,7 +41,7 @@ const legacyQuestions: Record<string,string> = {
+ };
+ for (const project of projects) if (legacyQuestions[project.slug]) project.question = legacyQuestions[project.slug];
+ 
+-export const publications: Publication[] = editorialExplainers.map((p,i)=>({slug:p.slug,title:p.title,authors:[],date:p.reviewedAt,lab:labs[[4,2,3,1][i]??1].slug,abstract:p.dek,tags:[['Markets','Explainers'],['Economics','Explainers'],['Financial systems','Explainers'],['Research','Explainers']][i]??['Explainers'],type:'FinanceDebriefed',status:'Available explainer',body:'',readMinutes:p.readMinutes,limitations:'An educational explainer from the existing Finance for All library. It is not an empirical research finding or personalized financial advice. An individual author and original publication date are not recorded; the date shown is the editorial review date.'}));
++export const publications: Publication[] = editorialExplainers.map((p,i)=>({slug:p.slug,title:p.title,authors:[],date:p.reviewedAt,lab:p.lab??labs[[4,2,3,1][i]??1].slug,abstract:p.dek,tags:p.tags??[['Markets','Explainers'],['Economics','Explainers'],['Financial systems','Explainers'],['Research','Explainers']][i]??['Explainers'],type:'FinanceDebriefed',status:'Available explainer',body:'',readMinutes:p.readMinutes,limitations:'An educational explainer from the existing Finance for All library. It is not an empirical research finding or personalized financial advice. An individual author and original publication date are not recorded; the date shown is the editorial review date.'}));
+ export const episodes: Episode[] = [];
+ export const events: ResearchEvent[] = [];
+ export const chapters: Chapter[] = [];
+diff --git a/src/learning-practice.tsx b/src/learning-practice.tsx
+index cee33ae..37172c5 100644
+--- a/src/learning-practice.tsx
++++ b/src/learning-practice.tsx
+@@ -9,7 +9,7 @@ function readAttempts():Attempt[]{try{const value:unknown=JSON.parse(localStorag
+ export function LearningPractice(){
+  const [answers,setAnswers]=useState<Record<string,number>>({}),[submitted,setSubmitted]=useState(false),[attempts,setAttempts]=useState<Attempt[]>([]),[message,setMessage]=useState('');
+  useEffect(()=>{setAttempts(readAttempts());},[]);const score=scorePractice(answers);
+- return <><PageHeader eyebrow="Learn / Self-assessment" title="Check the reasoning." description="Eight questions across the four released explainers. Each answer includes an explanation. This practice does not award a credential."/><form onSubmit={e=>{e.preventDefault();if(score.answered!==score.total){setMessage('Answer all questions before checking your work.');return;}setSubmitted(true);const next=[...attempts,{at:new Date().toISOString(),correct:score.correct,total:score.total,version:1}].slice(-20);setAttempts(next);try{localStorage.setItem('fm-practice-attempts',JSON.stringify(next));setMessage(`${score.correct} of ${score.total} correct. Attempt saved on this browser.`);}catch{setMessage(`${score.correct} of ${score.total} correct. Browser storage is unavailable; this attempt is not saved.`);}}}>
++ return <><PageHeader eyebrow="Learn / Self-assessment" title="Check the reasoning." description="Eight questions drawn from the explainer library. Each answer includes an explanation. This practice does not award a credential."/><form onSubmit={e=>{e.preventDefault();if(score.answered!==score.total){setMessage('Answer all questions before checking your work.');return;}setSubmitted(true);const next=[...attempts,{at:new Date().toISOString(),correct:score.correct,total:score.total,version:1}].slice(-20);setAttempts(next);try{localStorage.setItem('fm-practice-attempts',JSON.stringify(next));setMessage(`${score.correct} of ${score.total} correct. Attempt saved on this browser.`);}catch{setMessage(`${score.correct} of ${score.total} correct. Browser storage is unavailable; this attempt is not saved.`);}}}>
+  {practiceQuestions.map((q,i)=><fieldset className="feature-panel" key={q.id} disabled={submitted}><legend>{i+1}. {q.question}</legend>{q.options.map((option,j)=><label className="feature-choice" key={option}><input required type="radio" name={q.id} value={j} checked={answers[q.id]===j} onChange={()=>setAnswers(old=>({...old,[q.id]:j}))}/>{option}</label>)}{submitted&&<div><p><strong>{answers[q.id]===q.answer?'Correct.':'Review this answer.'}</strong> {q.explanation}</p><a href={lessonHref(q.lesson)}>Revisit the lesson</a></div>}</fieldset>)}
+  {!submitted&&<button type="submit" className="button">Check answers</button>}<p role="status">{message}</p></form>{submitted&&<button type="button" className="button secondary" onClick={()=>{setAnswers({});setSubmitted(false);setMessage('');}}>Start another attempt</button>}<section className="section"><h2>Recent practice</h2><p>Up to 20 attempts are stored on this browser, separately from account-synced reading progress.</p>{attempts.length?<ol>{attempts.map((a,i)=><li key={`${a.at}-${i}`}><time dateTime={a.at}>{new Date(a.at).toLocaleString()}</time>: {a.correct}/{a.total}</li>)}</ol>:<p>No saved attempts on this browser.</p>}<button type="button" className="text-button" onClick={()=>{try{localStorage.removeItem('fm-practice-attempts');setAttempts([]);setMessage('Practice history cleared.');}catch{setMessage('Could not clear browser storage.');}}}>Clear practice history</button></section><LinkButton href="/learn/glossary" secondary>Explore the glossary</LinkButton></>;
+ }
+diff --git a/tests/site.test.mjs b/tests/site.test.mjs
+index ead0923..8c8ff2a 100644
+--- a/tests/site.test.mjs
++++ b/tests/site.test.mjs
+@@ -16,8 +16,8 @@ test('canonical origins reject local addresses, credentials and accidental paths
+  for(const value of ['http://financemeta.org','https://localhost','https://127.0.0.1','https://[::1]','https://user:password@financemeta.org','https://financemeta.org/path','https://financemeta.org/?query=1','https://financemeta.org/#fragment'])assert.throws(()=>publicSiteOrigin(value));
+ });
+ 
+-test('all 166 public routes have unique paths and emitted files',()=>{
+- assert.equal(routes.length,166);assert.equal(publicPaths.size,routes.length);
++test('all 172 public routes have unique paths and emitted files',()=>{
++ assert.equal(routes.length,172);assert.equal(publicPaths.size,routes.length);
+  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
+ });
+ test('all public pages contain one H1 and meaningful metadata before JavaScript runs',()=>{
+@@ -62,9 +62,9 @@ test('the complete FinanceMeta portfolio has one public control page per canonic
+   assert.match(htmlFor(path),/class="portfolio-record-header"/,path);
+  }
+ });
+-test('legacy research projects and all four real explainers are preserved',()=>{
++test('legacy research projects and the expanded explainer library have complete text',()=>{
+  for(const slug of ['fi-jepa','eigen-jepa','eigenfinance','lgwm','finimmunity','iy-ern','portal','inflation-observatory','digital-payments-access','youth-expectations-panel','public-company-lab','finance-meta-global'])assert.ok(projects.some(p=>p.slug===slug));
+- assert.equal(publications.length,4);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
++ assert.equal(publications.length,10);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
+  const iyern=htmlFor('/research/projects/iy-ern');assert.match(iyern,/href="https:\/\/iy-ern\.vercel\.app"/);assert.match(iyern,/Open project website/);
+  assert.match(iyern,/project-spotlight/);
+ });

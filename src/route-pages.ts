@@ -3,6 +3,10 @@ export async function loadRoutePage(rawPath: string) {
   const path = rawPath.replace(/\/+$/, '');
   if (path === '') return (await import('./landing-home')).InstitutionHome;
   if (path === '/union') return (await import('./union-page')).UnionPage;
+  if (path === '/open/courses' || path === '/open/courses/financial-systems') {
+    const pages = await import('./course-pages');
+    return path === '/open/courses' ? pages.Courses : pages.Course;
+  }
   if (path === '/join') return (await import('./join-page')).Join;
   if (path === '/reading-list') return (await import('./reading-list-page')).ReadingListPage;
   if (path === '/learn/glossary' || path === '/learn/practice') {

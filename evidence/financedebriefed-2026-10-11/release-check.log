@@ -1,0 +1,1104 @@
+
+> finance4all-landing@1.0.0 release:check
+> npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build && npm test && node scripts/verify-release.mjs
+
+
+> finance4all-landing@1.0.0 source:check
+> node scripts/verify-source-completion.mjs
+
+FinanceMeta source completion check passed: no TODO/FIXME/pseudocode/stub/scaffold markers in executable source.
+
+> finance4all-landing@1.0.0 accessibility:check
+> node scripts/verify-accessibility.mjs
+
+FinanceMeta accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.
+Research navigation, forms, live result counts, focus, and reduced-motion source contracts passed.
+
+> finance4all-landing@1.0.0 funnel:check
+> node scripts/verify-funnel.mjs
+
+FinanceMeta funnel check passed: 8 CTAs are inventoried; handoff and analytics contracts are bounded.
+
+> finance4all-landing@1.0.0 lint
+> tsc --noEmit --noUnusedLocals --noUnusedParameters && node scripts/lint-source.mjs
+
+Source lint passed for 42 TypeScript modules: explicit button types, link safety, and no raw HTML/eval/debugger.
+
+> finance4all-landing@1.0.0 prebuild
+> node --experimental-strip-types scripts/prepare-content.mjs
+
+Prepared 10 article summaries; verified the committed PNG social card.
+
+> finance4all-landing@1.0.0 build
+> npm run typecheck && vite build && vite build --ssr src/prerender.tsx --outDir .site-build && node --experimental-strip-types scripts/validate-content.mjs && node scripts/prerender.mjs && node scripts/write-release-revision.mjs
+
+
+> finance4all-landing@1.0.0 typecheck
+> tsc --noEmit
+
+vite v8.3.1 building client environment for production...
+transforming...
+✓ 462 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                              0.62 kB │ gzip:  0.39 kB
+dist/.vite/manifest.json                     4.55 kB │ gzip:  0.80 kB
+dist/assets/features-DM6UTEHn.css            1.16 kB │ gzip:  0.53 kB
+dist/assets/union-page-DzFbztFi.css          8.83 kB │ gzip:  2.12 kB
+dist/assets/landing-home-CJbL-sMt.css       17.69 kB │ gzip:  4.27 kB
+dist/assets/landing-DxGlVWX-.css            24.11 kB │ gzip:  6.36 kB
+dist/assets/src-lz7kGrHw.css                66.02 kB │ gzip: 13.55 kB
+dist/assets/reading-CcEKN--Z.js              0.55 kB │ gzip:  0.36 kB
+dist/assets/member-handoff-BsF3FcW0.js       2.18 kB │ gzip:  1.01 kB
+dist/assets/curricula-CzNaarTk.js            3.02 kB │ gzip:  1.43 kB
+dist/assets/reading-list-page-D20qBhz5.js    3.43 kB │ gzip:  1.44 kB
+dist/assets/join-page-o1ebtKj0.js            8.50 kB │ gzip:  3.28 kB
+dist/assets/portfolio-pages-C3fwgAzP.js      8.50 kB │ gzip:  2.39 kB
+dist/assets/feature-pages-DYorhM7w.js       11.17 kB │ gzip:  4.24 kB
+dist/assets/learning-practice-DhOqWxVu.js   12.80 kB │ gzip:  4.72 kB
+dist/assets/union-page-CiZ771Nu.js          17.11 kB │ gzip:  5.37 kB
+dist/assets/landing-home-DtWBe8O-.js        21.78 kB │ gzip:  6.64 kB
+dist/assets/components-BYeOw1_4.js          22.78 kB │ gzip:  6.72 kB
+dist/assets/portfolio-DJQEE1Rj.js           25.09 kB │ gzip:  6.50 kB
+dist/assets/reading-list-QCTZf9fc.js        28.63 kB │ gzip: 10.00 kB
+dist/assets/editorial-CE1PGLQh.js           80.63 kB │ gzip: 28.66 kB
+dist/assets/site-DQVsf1f_.js               120.03 kB │ gzip: 32.60 kB
+dist/assets/landing-DFwJTe6i.js            145.21 kB │ gzip: 46.80 kB
+dist/assets/index-CWxVF2ec.js              145.28 kB │ gzip: 47.58 kB
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-motion-value.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-motion-value.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-max.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/dom/features-max.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-min.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/dom/features-min.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-motion-template.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-motion-template.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-transform.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-transform.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-follow-value.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-follow-value.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-spring.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-spring.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-time.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-time.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-scroll.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-scroll.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-animation.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/dom/features-animation.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-force-update.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-force-update.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-will-change/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-will-change/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-velocity.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-velocity.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionContext/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/MotionContext/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/PresenceContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/PresenceContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-cycle.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-cycle.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-in-view.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-in-view.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-constant.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-constant.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/events/use-dom-event.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/events/use-dom-event.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/LazyContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/LazyContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-computed.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-computed.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-combine-values.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/value/use-combine-values.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/Reorder/Group.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/Reorder/Group.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/index.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/motion/index.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/Reorder/Item.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/components/Reorder/Item.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/ReorderContext.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/ReorderContext.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionContext/create.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/context/MotionContext/create.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/use-render.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/dom/use-render.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/svg/use-props.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/svg/use-props.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+[33m[MODULE_LEVEL_DIRECTIVE] [0mThe semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/html/use-props.mjs" may not be preserved when bundling.
+   [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m node_modules/framer-motion/dist/es/render/html/use-props.mjs:1:1 [38;5;246m][0m
+   [38;5;246m│[0m
+ [38;5;246m1 │[0m "use client";
+ [38;5;240m  │[0m ──────┬──────  
+ [38;5;240m  │[0m       ╰──────── module level directive may not be preserved
+ [38;5;240m  │[0m 
+ [38;5;240m  │[0m [38;5;115mHelp[0m: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+[38;5;246m───╯[0m
+
+✓ built in 1.80s
+vite v8.3.1 building ssr environment for production...
+transforming...
+✓ 43 modules transformed.
+rendering chunks...
+computing gzip size...
+.site-build/.vite/manifest.json    0.19 kB │ gzip:   0.13 kB
+.site-build/prerender.js         472.11 kB │ gzip: 122.51 kB
+
+✓ built in 648ms
+Content relationships, release evidence, dates and external URL contracts verified.
+Prerendered 172 public routes, 404 page, sitemap, and 11 legacy redirects.
+Wrote immutable release revision 54f2dbc7e13b198aab31e1670342187039eea110
+
+> finance4all-landing@1.0.0 test
+> node --experimental-strip-types --test tests/*.test.mjs
+
+TAP version 13
+# Subtest: postcss-selector-parser stays on the patched 6.x security release
+ok 1 - postcss-selector-parser stays on the patched 6.x security release
+  ---
+  duration_ms: 71.13925
+  type: 'test'
+  ...
+# Subtest: growth uses effective annual rates and end-of-month contributions
+ok 2 - growth uses effective annual rates and end-of-month contributions
+  ---
+  duration_ms: 1.36875
+  type: 'test'
+  ...
+# Subtest: amortization handles zero rates and extra payments without negative balances
+ok 3 - amortization handles zero rates and extra payments without negative balances
+  ---
+  duration_ms: 0.671958
+  type: 'test'
+  ...
+# Subtest: bond par price, zero coupon duration and inverse yield sensitivity
+ok 4 - bond par price, zero coupon duration and inverse yield sensitivity
+  ---
+  duration_ms: 0.21925
+  type: 'test'
+  ...
+# Subtest: purchasing power, correlation limits and finite-horizon valuation
+ok 5 - purchasing power, correlation limits and finite-horizon valuation
+  ---
+  duration_ms: 0.250583
+  type: 'test'
+  ...
+# Subtest: invalid numerical assumptions fail before calculating
+ok 6 - invalid numerical assumptions fail before calculating
+  ---
+  duration_ms: 0.375
+  type: 'test'
+  ...
+# Subtest: CSV retains raw values for independent recalculation
+ok 7 - CSV retains raw values for independent recalculation
+  ---
+  duration_ms: 0.189083
+  type: 'test'
+  ...
+# Subtest: multiword queries match across fields and combine with filters
+ok 8 - multiword queries match across fields and combine with filters
+  ---
+  duration_ms: 6.876625
+  type: 'test'
+  ...
+# Subtest: filter and sort URLs round trip without dropping other parameters or mutating data
+ok 9 - filter and sort URLs round trip without dropping other parameters or mutating data
+  ---
+  duration_ms: 59.618833
+  type: 'test'
+  ...
+# Subtest: unknown filters and unbounded queries cannot create broken select states
+ok 10 - unknown filters and unbounded queries cannot create broken select states
+  ---
+  duration_ms: 4.60875
+  type: 'test'
+  ...
+# Subtest: event default status and explicit All survive URL serialization
+ok 11 - event default status and explicit All survive URL serialization
+  ---
+  duration_ms: 0.672875
+  type: 'test'
+  ...
+# Subtest: article contents use stable unique anchors even for repeated headings
+ok 12 - article contents use stable unique anchors even for repeated headings
+  ---
+  duration_ms: 3.071834
+  type: 'test'
+  ...
+# Subtest: reading progress rejects stale, duplicated, and malformed saved records
+ok 13 - reading progress rejects stale, duplicated, and malformed saved records
+  ---
+  duration_ms: 0.362917
+  type: 'test'
+  ...
+# Subtest: cost calculator uses one-way turnover and preserves negative returns
+ok 14 - cost calculator uses one-way turnover and preserves negative returns
+  ---
+  duration_ms: 0.813667
+  type: 'test'
+  ...
+# Subtest: application context resolves real labels and rejects unknown query identifiers
+ok 15 - application context resolves real labels and rejects unknown query identifiers
+  ---
+  duration_ms: 0.488125
+  type: 'test'
+  ...
+# Subtest: catalog validates and rejects unsupported claims, unsafe links and broken relationships
+ok 16 - catalog validates and rejects unsupported claims, unsafe links and broken relationships
+  ---
+  duration_ms: 8.090583
+  type: 'test'
+  ...
+# Subtest: empty directories have archive routes without invented entries
+ok 17 - empty directories have archive routes without invented entries
+  ---
+  duration_ms: 56.655833
+  type: 'test'
+  ...
+# Subtest: proposed cohorts contain staged deliverables and project protocols remain drafts
+ok 18 - proposed cohorts contain staged deliverables and project protocols remain drafts
+  ---
+  duration_ms: 47.158167
+  type: 'test'
+  ...
+# Subtest: BibTeX does not invent authors or original publication dates
+ok 19 - BibTeX does not invent authors or original publication dates
+  ---
+  duration_ms: 0.446375
+  type: 'test'
+  ...
+# Subtest: calendar export respects instants and escapes line injection
+ok 20 - calendar export respects instants and escapes line injection
+  ---
+  duration_ms: 4.253334
+  type: 'test'
+  ...
+# Subtest: unknown addresses hydrate the same recovery markup as the prerendered 404
+ok 21 - unknown addresses hydrate the same recovery markup as the prerendered 404
+  ---
+  duration_ms: 3.848625
+  type: 'test'
+  ...
+# Subtest: FinanceMeta links its public research network without merging product identities
+ok 22 - FinanceMeta links its public research network without merging product identities
+  ---
+  duration_ms: 1.207375
+  type: 'test'
+  ...
+# Subtest: navigation exposes the canonical project-page directory
+ok 23 - navigation exposes the canonical project-page directory
+  ---
+  duration_ms: 0.317583
+  type: 'test'
+  ...
+# Subtest: reading list rejects broken storage and unexpected shapes
+ok 24 - reading list rejects broken storage and unexpected shapes
+  ---
+  duration_ms: 18.1395
+  type: 'test'
+  ...
+# Subtest: restores valid read states and discards duplicates, unsafe links and removed records
+ok 25 - restores valid read states and discards duplicates, unsafe links and removed records
+  ---
+  duration_ms: 0.407833
+  type: 'test'
+  ...
+# Subtest: release revision accepts only immutable lowercase 40-character Git SHAs
+ok 26 - release revision accepts only immutable lowercase 40-character Git SHAs
+  ---
+  duration_ms: 18.108333
+  type: 'test'
+  ...
+# Subtest: exact source binding wins over the synthetic GitHub pull-request merge SHA
+ok 27 - exact source binding wins over the synthetic GitHub pull-request merge SHA
+  ---
+  duration_ms: 0.371167
+  type: 'test'
+  ...
+# Subtest: source and Vercel deployment identities must agree when both are declared
+ok 28 - source and Vercel deployment identities must agree when both are declared
+  ---
+  duration_ms: 7.308
+  type: 'test'
+  ...
+# Subtest: GitHub SHA and then git HEAD are bounded fallbacks only when stronger identities are absent
+ok 29 - GitHub SHA and then git HEAD are bounded fallbacks only when stronger identities are absent
+  ---
+  duration_ms: 3.784167
+  type: 'test'
+  ...
+# Subtest: release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04
+ok 30 - release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04
+  ---
+  duration_ms: 2.502041
+  type: 'test'
+  ...
+# Subtest: canonical origins reject local addresses, credentials and accidental paths
+ok 31 - canonical origins reject local addresses, credentials and accidental paths
+  ---
+  duration_ms: 2.100667
+  type: 'test'
+  ...
+# Subtest: all 172 public routes have unique paths and emitted files
+ok 32 - all 172 public routes have unique paths and emitted files
+  ---
+  duration_ms: 16.274125
+  type: 'test'
+  ...
+# Subtest: all public pages contain one H1 and meaningful metadata before JavaScript runs
+ok 33 - all public pages contain one H1 and meaningful metadata before JavaScript runs
+  ---
+  duration_ms: 17.954708
+  type: 'test'
+  ...
+# Subtest: every rendered internal link resolves to a route, alias, fragment, or real public file
+ok 34 - every rendered internal link resolves to a route, alias, fragment, or real public file
+  ---
+  duration_ms: 43.501
+  type: 'test'
+  ...
+# Subtest: lab, cohort, and project relations retain complete denominators
+ok 35 - lab, cohort, and project relations retain complete denominators
+  ---
+  duration_ms: 0.781417
+  type: 'test'
+  ...
+# Subtest: the complete FinanceMeta portfolio has one public control page per canonical record
+ok 36 - the complete FinanceMeta portfolio has one public control page per canonical record
+  ---
+  duration_ms: 10.105834
+  type: 'test'
+  ...
+# Subtest: legacy research projects and the expanded explainer library have complete text
+ok 37 - legacy research projects and the expanded explainer library have complete text
+  ---
+  duration_ms: 0.657166
+  type: 'test'
+  ...
+# Subtest: no invented publication, episode, event, or chapter output is shown
+ok 38 - no invented publication, episode, event, or chapter output is shown
+  ---
+  duration_ms: 0.604166
+  type: 'test'
+  ...
+# Subtest: published resource downloads exist and unsafe protocols are absent
+ok 39 - published resource downloads exist and unsafe protocols are absent
+  ---
+  duration_ms: 12.657375
+  type: 'test'
+  ...
+# Subtest: navigation, search, join forms, and honest submission state are implemented
+ok 40 - navigation, search, join forms, and honest submission state are implemented
+  ---
+  duration_ms: 2.1045
+  type: 'test'
+  ...
+# Subtest: a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite
+ok 41 - a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite
+  ---
+  duration_ms: 11.837583
+  type: 'test'
+  ...
+# Subtest: member guard and original education experience remain isolated
+ok 42 - member guard and original education experience remain isolated
+  ---
+  duration_ms: 0.31275
+  type: 'test'
+  ...
+# Subtest: prerender includes only the new design system before hydration
+ok 43 - prerender includes only the new design system before hydration
+  ---
+  duration_ms: 0.499834
+  type: 'test'
+  ...
+# Subtest: article navigation, downloads and canonical records retain full content
+ok 44 - article navigation, downloads and canonical records retain full content
+  ---
+  duration_ms: 2.019416
+  type: 'test'
+  ...
+# Subtest: shared script budget excludes the article text and local diagnostics
+ok 45 - shared script budget excludes the article text and local diagnostics
+  ---
+  duration_ms: 32.285417
+  type: 'test'
+  ...
+# Subtest: public pages do not skip heading levels after the page title
+ok 46 - public pages do not skip heading levels after the page title
+  ---
+  duration_ms: 14.511709
+  type: 'test'
+  ...
+# Subtest: Union styles load with server-rendered HTML before interactive hydration
+ok 47 - Union styles load with server-rendered HTML before interactive hydration
+  ---
+  duration_ms: 0.786834
+  type: 'test'
+  ...
+# Subtest: homepage styles render before hydration without loading on other routes
+ok 48 - homepage styles render before hydration without loading on other routes
+  ---
+  duration_ms: 0.448291
+  type: 'test'
+  ...
+# Subtest: starting route validates untrusted URL choices and preserves unrelated parameters
+ok 49 - starting route validates untrusted URL choices and preserves unrelated parameters
+  ---
+  duration_ms: 9.656625
+  type: 'test'
+  ...
+# Subtest: saved route requires supported version and complete valid choices
+ok 50 - saved route requires supported version and complete valid choices
+  ---
+  duration_ms: 2.520791
+  type: 'test'
+  ...
+# Subtest: every goal/pace produces a usable route, never a claim of admission
+ok 51 - every goal/pace produces a usable route, never a claim of admission
+  ---
+  duration_ms: 6.608792
+  type: 'test'
+  ...
+# Subtest: Union has no unverified production affiliations
+ok 52 - Union has no unverified production affiliations
+  ---
+  duration_ms: 2.054667
+  type: 'test'
+  ...
+# Subtest: publication excludes expired, unapproved, duplicate and unsafe records
+ok 53 - publication excludes expired, unapproved, duplicate and unsafe records
+  ---
+  duration_ms: 4.307541
+  type: 'test'
+  ...
+# Subtest: deadline closure respects explicit status and UTC calendar date
+ok 54 - deadline closure respects explicit status and UTC calendar date
+  ---
+  duration_ms: 0.327833
+  type: 'test'
+  ...
+# Subtest: public handoffs reject private and credential-bearing destinations
+ok 55 - public handoffs reject private and credential-bearing destinations
+  ---
+  duration_ms: 0.279583
+  type: 'test'
+  ...
+# Subtest: brief preserves the selected area and user wording without implying submission
+ok 56 - brief preserves the selected area and user wording without implying submission
+  ---
+  duration_ms: 0.772791
+  type: 'test'
+  ...
+# Subtest: brief rejects whitespace-only, undersized and oversized fields before export
+ok 57 - brief rejects whitespace-only, undersized and oversized fields before export
+  ---
+  duration_ms: 0.825
+  type: 'test'
+  ...
+# Subtest: canonical target accepts only the exact clean production origin
+ok 58 - canonical target accepts only the exact clean production origin
+  ---
+  duration_ms: 1.517625
+  type: 'test'
+  ...
+# Subtest: root response headers must match the hardened production contract
+ok 59 - root response headers must match the hardened production contract
+  ---
+  duration_ms: 2.882875
+  type: 'test'
+  ...
+# Subtest: deployed HTML must retain canonical, social and mobile metadata
+ok 60 - deployed HTML must retain canonical, social and mobile metadata
+  ---
+  duration_ms: 4.997625
+  type: 'test'
+  ...
+# Subtest: release revision response must identify the exact immutable source
+ok 61 - release revision response must identify the exact immutable source
+  ---
+  duration_ms: 0.731792
+  type: 'test'
+  ...
+# Subtest: social asset requires PNG content type and exact committed bytes
+ok 62 - social asset requires PNG content type and exact committed bytes
+  ---
+  duration_ms: 1.500625
+  type: 'test'
+  ...
+# Subtest: release-critical remote GitHub Actions are immutable SHA-pinned
+ok 63 - release-critical remote GitHub Actions are immutable SHA-pinned
+  ---
+  duration_ms: 4.888791
+  type: 'test'
+  ...
+1..63
+# tests 63
+# suites 0
+# pass 63
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 982.673083
+FinanceMeta release check passed: exact source revision, metadata, social image, routes and security headers verified.

@@ -21,42 +21,28 @@ test('release revision accepts only immutable lowercase 40-character Git SHAs', 
   }
 });
 
-test('exact source binding wins over the synthetic GitHub pull-request merge SHA', () => {
-  assert.equal(
-    resolveReleaseRevision({
-      env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B },
-      gitHead: () => SHA_B,
-    }),
-    SHA_A,
-  );
+test('clean checkout identity overrides event metadata but must match declared source', () => {
+  const clean = () => ({ head: SHA_A, status: '' });
+  assert.equal(resolveReleaseRevision({ env: { GITHUB_SHA: SHA_B }, gitState: clean }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B }, gitState: clean }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: {}, gitState: clean }), SHA_A);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_B }, gitState: clean }), /does not match/);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: clean }), /environment disagrees/);
+  assert.throws(() => resolveReleaseRevision({ env: {}, gitState: () => ({ head: 'main', status: '' }) }), /git HEAD must be/);
 });
 
-test('source and Vercel deployment identities must agree when both are declared', () => {
-  assert.equal(
-    resolveReleaseRevision({
-      env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_A, GITHUB_SHA: SHA_B },
-      gitHead: () => SHA_B,
-    }),
-    SHA_A,
-  );
-
-  assert.throws(
-    () =>
-      resolveReleaseRevision({
-        env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B },
-        gitHead: () => SHA_A,
-      }),
-    /release revision environment disagrees/,
-  );
+test('modified, staged and untracked files reject release even with a declared SHA', () => {
+  for (const status of [' M src/main.tsx', 'M  package.json', '?? src/new.ts']) {
+    assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A }, gitState: () => ({ head: SHA_A, status }) }), /clean checkout/);
+  }
 });
 
-test('GitHub SHA and then git HEAD are bounded fallbacks only when stronger identities are absent', () => {
-  assert.equal(resolveReleaseRevision({ env: { GITHUB_SHA: SHA_A }, gitHead: () => SHA_B }), SHA_A);
-  assert.equal(resolveReleaseRevision({ env: {}, gitHead: () => SHA_B }), SHA_B);
-  assert.throws(
-    () => resolveReleaseRevision({ env: {}, gitHead: () => 'main' }),
-    /git HEAD must be an immutable lowercase 40-character Git SHA/,
-  );
+test('source archives require an explicit consistent source identity', () => {
+  const archive = () => null;
+  for (const env of [{}, { GITHUB_SHA: SHA_A }]) assert.throws(() => resolveReleaseRevision({ env, gitState: archive }), /archive requires/);
+  assert.equal(resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B }, gitState: archive }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: { VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: archive }), SHA_B);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: archive }), /environment disagrees/);
 });
 
 test('release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04', () => {

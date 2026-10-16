@@ -1,0 +1,100 @@
+[
+  {
+    "file": "2b3eabc0a8b28f9b.json",
+    "path": "/",
+    "width": 1600,
+    "theme": "dark",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "2b4dd05fa5536af6.json",
+    "path": "/search",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": []
+  },
+  {
+    "file": "47d5d7cfdde552fe.json",
+    "path": "/research",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "56636527ca4e0940.json",
+    "path": "/",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "974878923be247b7.json",
+    "path": "/open/courses/financial-systems",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "9e3d28f3ddaaea8f.json",
+    "path": "/open/tools",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "a17e8bfdd8633505.json",
+    "path": "/",
+    "width": 320,
+    "theme": "dark",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "ae143c9f7ba17731.json",
+    "path": "/programs/compare",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "ca3f86ffd5a5771c.json",
+    "path": "/join",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  },
+  {
+    "file": "e022023eb66935c0.json",
+    "path": "/publications/financedebriefed/how-interest-rates-move-through-the-economy",
+    "width": 320,
+    "theme": "light",
+    "violations": 0,
+    "manualReviewRules": [
+      "color-contrast"
+    ]
+  }
+]

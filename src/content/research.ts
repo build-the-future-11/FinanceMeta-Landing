@@ -41,7 +41,7 @@ const legacyQuestions: Record<string,string> = {
 };
 for (const project of projects) if (legacyQuestions[project.slug]) project.question = legacyQuestions[project.slug];
 
-export const publications: Publication[] = editorialExplainers.map((p,i)=>({slug:p.slug,title:p.title,authors:[],date:p.reviewedAt,lab:labs[[4,2,3,1][i]??1].slug,abstract:p.dek,tags:[['Markets','Explainers'],['Economics','Explainers'],['Financial systems','Explainers'],['Research','Explainers']][i]??['Explainers'],type:'FinanceDebriefed',status:'Available explainer',body:'',readMinutes:p.readMinutes,limitations:'An educational explainer from the existing Finance for All library. It is not an empirical research finding or personalized financial advice. An individual author and original publication date are not recorded; the date shown is the editorial review date.'}));
+export const publications: Publication[] = editorialExplainers.map((p,i)=>({slug:p.slug,title:p.title,authors:[],date:p.reviewedAt,lab:p.lab??labs[[4,2,3,1][i]??1].slug,abstract:p.dek,tags:p.tags??[['Markets','Explainers'],['Economics','Explainers'],['Financial systems','Explainers'],['Research','Explainers']][i]??['Explainers'],type:'FinanceDebriefed',status:'Available explainer',body:'',readMinutes:p.readMinutes,limitations:'An educational explainer from the existing Finance for All library. It is not an empirical research finding or personalized financial advice. An individual author and original publication date are not recorded; the date shown is the editorial review date.'}));
 export const episodes: Episode[] = [];
 export const events: ResearchEvent[] = [];
 export const chapters: Chapter[] = [];

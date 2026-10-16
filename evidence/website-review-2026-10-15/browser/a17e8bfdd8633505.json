@@ -1,0 +1,172 @@
+{
+  "recordedAt": "2026-10-16T02:52:58.686Z",
+  "path": "/",
+  "width": 320,
+  "theme": "dark",
+  "scenario": "page",
+  "axeVersion": "4.13.0",
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "target": [
+            ".hero-caption > span[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "target": [
+            "text[y=\"164\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[y=\"187\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[x=\"248\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[y=\"65\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[y=\"145\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[y=\"225\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            "text[x=\"32\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it is overlapped by another element"
+        },
+        {
+          "target": [
+            ".route-actions > button:nth-child(3) > span[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "target": [
+            ".reading-cover-2 > strong"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        },
+        {
+          "target": [
+            "a[download=\"research-protocol.md\"] > span[aria-hidden=\"true\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content contains only non-text characters"
+        }
+      ]
+    }
+  ],
+  "passes": 46,
+  "measurements": {
+    "navigationMs": 289.59999999403954,
+    "fcpMs": 328,
+    "lcpMs": 328,
+    "cumulativeLayoutShift": 0.029011136831275722,
+    "shifts": [
+      {
+        "value": 0.029011136831275722,
+        "time": 971
+      }
+    ],
+    "resources": [
+      {
+        "name": "/assets/src-eei0pKxc.css",
+        "duration": 34.20000001788139,
+        "transferSize": 67474,
+        "encodedBodySize": 67174
+      },
+      {
+        "name": "/assets/landing-home-Ds__TAas.css",
+        "duration": 35.400000005960464,
+        "transferSize": 17663,
+        "encodedBodySize": 17363
+      },
+      {
+        "name": "/assets/site-D0MjxkEa.js",
+        "duration": 36.70000001788139,
+        "transferSize": 118004,
+        "encodedBodySize": 117704
+      },
+      {
+        "name": "/theme.js",
+        "duration": 36.400000005960464,
+        "transferSize": 587,
+        "encodedBodySize": 287
+      },
+      {
+        "name": "/assets/index-CasMAo1M.js",
+        "duration": 38.400000005960464,
+        "transferSize": 145821,
+        "encodedBodySize": 145521
+      },
+      {
+        "name": "/assets/reading-list-DCZy2axl.js",
+        "duration": 4.199999988079071,
+        "transferSize": 26884,
+        "encodedBodySize": 26584
+      },
+      {
+        "name": "/assets/components-DihpvgJx.js",
+        "duration": 5,
+        "transferSize": 24807,
+        "encodedBodySize": 24507
+      },
+      {
+        "name": "/assets/member-handoff-IMwYBKZ8.js",
+        "duration": 8.400000005960464,
+        "transferSize": 3118,
+        "encodedBodySize": 2818
+      },
+      {
+        "name": "/assets/reading-CcEKN--Z.js",
+        "duration": 9.699999988079071,
+        "transferSize": 856,
+        "encodedBodySize": 556
+      },
+      {
+        "name": "/assets/curricula-CzNaarTk.js",
+        "duration": 10.5,
+        "transferSize": 3322,
+        "encodedBodySize": 3022
+      },
+      {
+        "name": "/assets/application-routes-BDWDZ00N.js",
+        "duration": 13,
+        "transferSize": 1482,
+        "encodedBodySize": 1182
+      },
+      {
+        "name": "/assets/landing-home-DHoBNX4n.js",
+        "duration": 12.099999994039536,
+        "transferSize": 22358,
+        "encodedBodySize": 22058
+      }
+    ]
+  }
+}

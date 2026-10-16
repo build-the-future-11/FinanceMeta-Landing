@@ -1,3 +1,4 @@
+import { editorialSeries } from './editorial-series.ts';
 type ExplainerCard = { id: string; slug: string; title: string; summary: string; difficulty: string; relatedTerms: string[]; body: string; [key: string]: unknown };
 
 export type EditorialExplainer = ExplainerCard & {
@@ -6,6 +7,8 @@ export type EditorialExplainer = ExplainerCard & {
   sourceLabel: string;
   reviewedAt: string;
   featured?: boolean;
+  lab?: string;
+  tags?: string[];
 };
 
 const editorialDrafts: EditorialExplainer[] = [
@@ -329,7 +332,7 @@ This guide is a starting checklist, not a substitute for reviewing the underlyin
   },
 ];
 
-export const editorialExplainers = editorialDrafts.map(article => ({ ...article, readMinutes: Math.max(1, Math.ceil(article.body.split(/\s+/).length / 220)) }));
+export const editorialExplainers = [...editorialDrafts, ...editorialSeries].map(article => ({ ...article, readMinutes: Math.max(1, Math.ceil(article.body.split(/\s+/).length / 220)) }));
 export const featuredExplainers = editorialExplainers.filter((article) => article.featured);
 
 export function findEditorialExplainer(slug: string | undefined) {

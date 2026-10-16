@@ -25,7 +25,10 @@
     "release:package": "npm run release:check && node scripts/package-release.mjs",
     "social:generate": "node scripts/render-social.mjs",
     "live:verify": "node scripts/verify-live.mjs",
-    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs tests/dependency-security.test.mjs"
+    "live:contract:test": "node --test tests/verify-live.test.mjs tests/release-revision.test.mjs tests/workflow-action-pins.test.mjs tests/dependency-security.test.mjs",
+    "prebuild:dev": "node --experimental-strip-types scripts/prepare-content.mjs",
+    "build:dev": "npm run typecheck && vite build && vite build --ssr src/prerender.tsx --outDir .site-build && node --experimental-strip-types scripts/validate-content.mjs && node scripts/prerender.mjs",
+    "check:local": "npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build:dev && npm test"
   },
   "dependencies": {
     "framer-motion": "^13.4.4",

@@ -6,6 +6,7 @@ import { directorySearch, readDirectoryState, selectDirectoryItems, filterValues
 import type { DirectoryItem, DirectoryState, FilterKey } from './lib/directory';
 export type { DirectoryItem } from './lib/directory';
 import { trackLandingEvent } from './analytics';
+import { navigationGroups, navigationForPath, currentSectionLink } from './lib/navigation';
 import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from './member-handoff';
 
 export const Arrow = () => <span aria-hidden="true">↗</span>;
@@ -18,29 +19,29 @@ export function EmptyState({title,description,href='/join',action='Get involved'
 export function CTA({title='Good research starts with a better question.',description='Bring your curiosity, your methods, or a problem worth investigating.',href='/join',action='Find your place'}: {title?:string;description?:string;href?:string;action?:string}) {return <section className="cta"><div><p className="eyebrow">Contribute to the next question</p><h2>{title}</h2><p>{description}</p></div><LinkButton href={href}>{action}</LinkButton></section>;}
 export function Breadcrumbs({path}: {path:string}) {const parts=path.split('/').filter(Boolean);return <nav className="breadcrumbs" aria-label="Breadcrumb"><a href="/">Home</a>{parts.map((s,i)=><React.Fragment key={s}><span aria-hidden="true">/</span>{i===parts.length-1?<span aria-current="page">{s.replaceAll('-',' ')}</span>:<a href={'/'+parts.slice(0,i+1).join('/')}>{s.replaceAll('-',' ')}</a>}</React.Fragment>)}</nav>;}
 
-export const publicNavigation = [
-  ['Research', '/research'], ['Projects', '/projects'], ['Labs', '/labs'], ['Programs', '/programs'],
-  ['Markets', '/markets'], ['Learn', '/learn'], ['Events', '/events'], ['Podcast', '/podcast'],
-];
+export const publicNavigation = navigationGroups.map(group => [group.label, group.href]);
 export function Navbar({path}: {path:string}) {
   const [mobile,setMobile]=useState(false);
   const [dark,setDark]=useState(false);
   const trigger=useRef<HTMLButtonElement>(null);
   useEffect(()=>{setDark(document.documentElement.dataset.theme==='dark');},[]);
   useEffect(()=>{const media=window.matchMedia('(min-width: 1201px)');const reset=()=>setMobile(false);media.addEventListener('change',reset);return()=>media.removeEventListener('change',reset);},[]);
-  const active=(href:string)=>href==='/labs'?path.startsWith('/research/labs')||path==='/labs':href==='/research'?path.startsWith('/research')&&!path.startsWith('/research/labs'):path===href||path.startsWith(href+'/');
+  const group=navigationForPath(path);
+  const sectionLink=group?currentSectionLink(path,group):undefined;
+  const active=(href:string)=>path===href?'page' as const:group?.href===href?'location' as const:undefined;
   const toggleTheme=()=>{const next=!dark;setDark(next);document.documentElement.dataset.theme=next?'dark':'light';try{localStorage.setItem('financemeta-theme',next?'dark':'light');}catch{/* Session preference remains available. */}};
   return <header className="site-header institution-header" onKeyDown={e=>{if(e.key==='Escape'&&mobile){setMobile(false);trigger.current?.focus();}}} onBlur={e=>{if(!e.currentTarget.contains(e.relatedTarget as Node))setMobile(false);}}>
     <div className="header-inner">
       <a className="brand" href="/" aria-label="Finance4All home"><span className="brand-icon" aria-hidden="true">f<span>a</span></span><span>Finance4All<small>THE FINANCEMETA NETWORK</small></span></a>
-      <nav className="desktop-nav" aria-label="Primary navigation">{publicNavigation.map(([label,href])=><a key={href} href={href} aria-current={active(href)?'page':undefined}>{label}</a>)}</nav>
-      <div className="header-actions"><ReadingListLink/><a href="/search" className="search-link" aria-label="Search Finance4All">⌕</a><button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={dark?'Switch to light theme':'Switch to dark theme'} aria-pressed={dark}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{dark?<><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></>:<path d="M20.6 13.1A8.6 8.6 0 0 1 10.9 3.4a8.6 8.6 0 1 0 9.7 9.7Z"/>}</svg></button><span className="header-signin"><MemberLink>Sign In</MemberLink></span><a href="/join" className="join-link">Join</a><button ref={trigger} className="mobile-trigger" type="button" aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(!mobile)}>{mobile?'Close':'Menu'}</button></div>
+      <nav className="desktop-nav" aria-label="Primary navigation">{publicNavigation.map(([label,href])=><a key={href} href={href} aria-current={active(href)}>{label}</a>)}</nav>
+      <div className="header-actions"><ReadingListLink/><a href="/search" className="search-link" aria-label="Search Finance4All"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg></a><button type="button" className="theme-toggle" onClick={toggleTheme} aria-label={dark?'Switch to light theme':'Switch to dark theme'} aria-pressed={dark}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{dark?<><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.4 1.4m11.2 11.2L19 19M5 19l1.4-1.4M17.6 6.4 19 5"/></>:<path d="M20.6 13.1A8.6 8.6 0 0 1 10.9 3.4a8.6 8.6 0 1 0 9.7 9.7Z"/>}</svg></button><span className="header-signin"><MemberLink>Sign In</MemberLink></span><a href="/join" className="join-link">Join</a><button ref={trigger} className="mobile-trigger" type="button" aria-expanded={mobile} aria-controls="mobile-navigation" onClick={()=>setMobile(!mobile)}>{mobile?'Close':'Menu'}</button></div>
     </div>
-    <nav id="mobile-navigation" hidden={!mobile} className="mobile-nav" aria-label="Mobile navigation">{publicNavigation.map(([label,href])=><a key={href} href={href} aria-current={active(href)?'page':undefined}>{label}<Arrow/></a>)}<a href="/union" aria-current={path==='/union'?'page':undefined}>Union Project<Arrow/></a><a href="/search">Search<Arrow/></a><a href="/reading-list">Reading list<Arrow/></a><MemberLink>Sign In</MemberLink></nav>
+    <nav id="mobile-navigation" hidden={!mobile} className="mobile-nav" aria-label="Mobile navigation">{publicNavigation.map(([label,href])=><a key={href} href={href} aria-current={active(href)}>{label}<Arrow/></a>)}<a href="/union" aria-current={path==='/union'?'page':undefined}>Union Project<Arrow/></a><a href="/search">Search<Arrow/></a><a href="/reading-list">Reading list<Arrow/></a><MemberLink>Sign In</MemberLink></nav>
+    {group&&<nav className="context-nav" aria-label={`${group.label} navigation`}>{group.links.map(([label,href])=><a key={href} href={href} aria-current={sectionLink===href?(path===href?'page':'location'):undefined}>{label}</a>)}</nav>}
   </header>;
 }
 export function MemberLink({children='Member sign in'}: {children?:React.ReactNode}) {const [href,setHref]=useState('/signin');useEffect(()=>{if(hasConfiguredMemberHandoff())setHref(getMemberHandoffUrl('/login'));},[]);return <a href={href} onClick={()=>trackLandingEvent('member_handoff_started',{surface:'research_website',action:'member_login',destination:href.startsWith('http')?'/login':'contact'})}>{children}</a>;}
-export function Footer(){return <footer className="site-footer" itemScope itemType="https://schema.org/Organization"><div className="footer-masthead"><a className="brand" href="/" itemProp="url"><span itemProp="name">FinanceMeta</span></a><p>Financial systems.<br/>Better questions.</p></div><div className="footer-columns">{[
+export function Footer(){return <footer className="site-footer" itemScope itemType="https://schema.org/Organization"><div className="footer-masthead"><a className="brand" href="/" itemProp="url"><span>Finance4All</span></a><p>The public learning and research website<br/>of <span itemProp="name">FinanceMeta</span>.</p></div><div className="footer-columns">{[
  ['Research',['Labs','/research/labs'],['All 48 projects','/projects'],['Research index','/research/projects'],['IYERN','https://iy-ern.vercel.app'],['Cohorts','/research/cohorts'],['Standards','/research/standards']],
  ['Publications',['FinanceDebriefed','/publications/financedebriefed'],['Research notes','/publications/research-notes'],['Working papers','/publications/working-papers'],['IyERJ','/publications/iyerj']],
  ['Programs',['Fellowship','/research/fellowship'],['SISTER','/research/sister'],['Studio','/studio'],['Challenges','/challenges']],
