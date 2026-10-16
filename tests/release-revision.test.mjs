@@ -1,8 +1,33 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 
-import { equivalentVercelConfig, resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+import { equivalentVercelConfig, readGitState, resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+
+test('hosted normalization cannot hide source changes or local dirty configuration', () => {
+  const cwd = mkdtempSync(join(tmpdir(), 'fm-release-'));
+  const git = args => execFileSync('git', args, {cwd, stdio:'pipe'});
+  const config = {buildCommand:'npm run release:check'};
+  try {
+    git(['init']);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify(config));
+    writeFileSync(join(cwd,'source.js'), 'export const value = 1;');
+    git(['add','.']);
+    git(['-c','user.name=Release test','-c','user.email=release-test@example.invalid','commit','-m','fixture']);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify(config,null,2));
+    assert.notEqual(readGitState(cwd,{}).status, '');
+    assert.equal(readGitState(cwd,{VERCEL:'1'}).status, '');
+    writeFileSync(join(cwd,'source.js'), 'export const value = 2;');
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /source\.js/);
+    writeFileSync(join(cwd,'new.js'), 'new source');
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /new\.js/);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify({...config,headers:[]}));
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /vercel\.json/);
+  } finally { rmSync(cwd,{recursive:true,force:true}); }
+});
 
 test('hosted configuration normalization permits formatting only', () => {
   const config = { buildCommand: 'npm run release:check', headers: [{ source: '/(.*)', headers: [{key:'X-Frame-Options', value:'DENY'}] }] };

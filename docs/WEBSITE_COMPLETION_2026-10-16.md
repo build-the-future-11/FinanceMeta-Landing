@@ -113,3 +113,19 @@ scrolls clipped links into view. Mobile focus outlines are now inset, and the ra
 has an explicit background and complete accessible description. These targeted checks do
 not constitute a full WCAG certification. The earlier local-only disposition above is
 retained as history; the subsequent deployment receipt establishes live status separately.
+
+### Hosted release repair and dependency review
+
+The initial Vercel preview correctly failed because Vercel reserialized `vercel.json`.
+The release gate now accepts only JSON-equivalent formatting changes in Vercel builds;
+changed settings, source, and untracked files still fail, with regression coverage.
+The repaired preview passed the Vercel build and GitHub release checks.
+
+Updated the pinned selector parser to 7.1.6 and source-map-js to 1.2.2 after reviewing
+[the selector-parser advisory](https://github.com/advisories/GHSA-rj75-hqrm-r3gf) and
+[the source-map advisory](https://github.com/advisories/GHSA-68fv-2mgg-jv7q).
+The remaining five development-only audit entries trace to one
+[unpatched braces advisory](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)
+through Tailwind's fixed, repository-controlled build patterns. No runtime dependency
+advisories were reported. A forced Tailwind major-version migration was not used as an
+unreviewed deployment shortcut. Raw before/after audits are retained with the release evidence.
