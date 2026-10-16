@@ -68,8 +68,9 @@ jobs:
         shell: bash
         run: |
           set -uo pipefail
-          mkdir -p live-evidence
-          log='live-evidence/live-verify.log'
+          # Keep live probe output outside the checkout so the exact-source
+          # clean-worktree contract remains valid during verification.
+          log="${RUNNER_TEMP}/finance-meta-live-verify.log"
           checked_at="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
           passed=0
 
@@ -112,6 +113,6 @@ jobs:
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
         with:
           name: finance-meta-production-health-${{ github.run_id }}
-          path: live-evidence/live-verify.log
+          path: ${{ runner.temp }}/finance-meta-live-verify.log
           if-no-files-found: error
           retention-days: 14
