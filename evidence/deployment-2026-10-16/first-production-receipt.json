@@ -1,0 +1,15 @@
+{
+  "origin": "https://finance-meta-landing.vercel.app",
+  "revision": "6bc930f8836aa2a743f781d02aec5ee7cdd2e554",
+  "pullRequest": "https://github.com/build-the-future-11/FinanceMeta-Landing/pull/113",
+  "deployment": "https://finance-meta-landing-5znlqacfy-build-the-future-11s-projects.vercel.app",
+  "status": "Ready",
+  "localTests": 75,
+  "liveRoutesVerified": 172,
+  "liveRevisionMetadataHeadersSocialAsset": "PASS",
+  "mobileJoinWidth": 256,
+  "mobileJoinDocumentWidth": 256,
+  "mobileEscape": "closed menu and restored focus to Menu",
+  "rollbackReference": "https://finance-meta-landing-gkxue2osm-build-the-future-11s-projects.vercel.app",
+  "followup": "Production-health workflow must pass expected SHA explicitly after writing its evidence directory."
+}

@@ -1,0 +1,1233 @@
+{
+  "checkedAt": "2026-10-16T03:13:12.639Z",
+  "origin": "https://finance-meta-landing.vercel.app",
+  "routeCount": 172,
+  "failures": [],
+  "missingStatus": 404,
+  "redirects": [
+    {
+      "from": "/fellowship",
+      "status": 308,
+      "location": "/research/fellowship",
+      "pass": true
+    },
+    {
+      "from": "/financedebriefed",
+      "status": 308,
+      "location": "/publications/financedebriefed",
+      "pass": true
+    },
+    {
+      "from": "/chapters",
+      "status": 308,
+      "location": "/network/chapters",
+      "pass": true
+    }
+  ],
+  "results": [
+    {
+      "path": "/learn/quantitative-finance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/union",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/investing",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/markets",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/financial-modeling",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/economics",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/reading-list",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/glossary",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn/practice",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/tools",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/labs",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/signin",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/programs/compare",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/markets",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/learn",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/apply",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/privacy",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/participation",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/programs",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/library",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/podcast/episodes",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/podcast/guests",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/podcast/topics",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/network/chapters/start",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/standards",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/fellowship",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/partner-programs",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/map",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/special-projects",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/research-notes",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/working-papers",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/iyerj",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio/visualization",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/media",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/iyerj/submissions",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/podcast",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/events",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/library",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/resources",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/courses",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/courses/financial-systems",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/challenges",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/network",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/network/chapters",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/network/partners",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/ventures",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/about",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/about/team",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/about/partners",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/about/contact",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/search",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/join",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-01",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/finance-for-all",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-03",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-02",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-04",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-07",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-05",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-06",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-08",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-09",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-10",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-11",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-12",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-13",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-14",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-15",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-18",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-16",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-19",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-17",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-20",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-21",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-22",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-23",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-24",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-25",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-26",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-27",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-28",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-29",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-30",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-31",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-33",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-34",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-36",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-32",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-35",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-37",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-38",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-39",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-41",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-40",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-42",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-43",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-44",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-46",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-47",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-48",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/projects/f4a-45",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/quantitative-finance-asset-pricing",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/financial-econometrics-causal-inference",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/macro-monetary-financial-economics",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/market-microstructure-financial-systems",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/corporate-finance-private-markets",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/machine-learning-for-finance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/labs/behavioral-household-finance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/realitycheck",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/market-frictions",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/causal-finance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/macrocast",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/capitallab",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/finml-benchmark",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/finance-meta-global",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/eigen-jepa",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/fi-jepa",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/eigenfinance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/finimmunity",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/lgwm",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/portal",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/iy-ern",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/digital-payments-access",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/inflation-observatory",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/public-company-lab",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/realitycheck",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/projects/youth-expectations-panel",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/causal-finance",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/macrocast",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/market-frictions",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/capitallab",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/cohorts/finml-benchmark",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/ipo-from-private-company-to-public-market",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/how-interest-rates-move-through-the-economy",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/upi-payments-and-the-economics-of-a-network",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/reading-an-economic-claim-without-getting-fooled",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/lower-inflation-does-not-mean-lower-prices",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/why-bond-prices-fall-when-yields-rise",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/how-a-profitable-company-runs-short-of-cash",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/what-a-weaker-currency-changes",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/a-stock-split-does-not-make-a-company-cheaper",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/publications/financedebriefed/a-rising-stock-index-is-not-the-whole-economy",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/sister",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/partner-programs/yel",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/research/industry-projects",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio/zenipath",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio/research-engineering",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio/fintech",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/studio/data",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/media/videos",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/open/workshops",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/media/interviews",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/challenges/global-research-challenge",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/challenges/essay-prize",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/challenges/economics-olympiad",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/ventures/axiom-pathways",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/challenges/investment-case",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/ventures/founder-network",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/ventures/venture-research",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/network/community",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/about/mission",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    },
+    {
+      "path": "/ventures/startup-diligence",
+      "status": 200,
+      "statusPass": true,
+      "hashPass": true,
+      "h1Count": 1
+    }
+  ]
+}
