@@ -4,27 +4,113 @@
     "title": "The complete guide to an IPO",
     "dek": "An IPO is not just a stock-market debut. It is a months-long transfer of information, ownership, and risk between a private company and public investors.",
     "reviewedAt": "2026-09-20",
-    "readMinutes": 5
+    "readMinutes": 5,
+    "lab": null,
+    "tags": null
   },
   {
     "slug": "how-interest-rates-move-through-the-economy",
     "title": "How interest rates move through the economy",
     "dek": "A policy-rate change is a starting signal. Banks, borrowers, investors, firms, and governments determine how far and how quickly it travels.",
     "reviewedAt": "2026-09-20",
-    "readMinutes": 6
+    "readMinutes": 6,
+    "lab": null,
+    "tags": null
   },
   {
     "slug": "upi-payments-and-the-economics-of-a-network",
     "title": "UPI and the economics of a payment network",
     "dek": "The visible app is only the front door. A payment network is a layered institution built from standards, incentives, identity, dispute rules, and shared infrastructure.",
     "reviewedAt": "2026-09-20",
-    "readMinutes": 5
+    "readMinutes": 5,
+    "lab": null,
+    "tags": null
   },
   {
     "slug": "reading-an-economic-claim-without-getting-fooled",
     "title": "How to read an economic claim without getting fooled",
     "dek": "Good economic reasoning starts by asking what was measured, compared with what, over which period, and what result would disprove the story.",
     "reviewedAt": "2026-09-20",
-    "readMinutes": 5
+    "readMinutes": 5,
+    "lab": null,
+    "tags": null
+  },
+  {
+    "slug": "lower-inflation-does-not-mean-lower-prices",
+    "title": "Why lower inflation does not mean lower prices",
+    "dek": "Inflation can fall while your weekly shop gets more expensive. The missing distinction is between how high prices are and how quickly they are rising.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 6,
+    "lab": "macro-monetary-financial-economics",
+    "tags": [
+      "Economics",
+      "Inflation",
+      "Explainers"
+    ]
+  },
+  {
+    "slug": "why-bond-prices-fall-when-yields-rise",
+    "title": "Why bond prices fall when yields rise",
+    "dek": "A bond can keep paying exactly the same coupon while its market price falls. The changing price is how an old promise competes with new interest rates.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 5,
+    "lab": "quantitative-finance-asset-pricing",
+    "tags": [
+      "Markets",
+      "Bonds",
+      "Explainers"
+    ]
+  },
+  {
+    "slug": "how-a-profitable-company-runs-short-of-cash",
+    "title": "How a profitable company can run short of cash",
+    "dek": "Profit records economic activity under accounting rules. Cash determines whether the next payment can be made. A growing business can have one and run short of the other.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 6,
+    "lab": "corporate-finance-private-markets",
+    "tags": [
+      "Companies",
+      "Financial statements",
+      "Explainers"
+    ]
+  },
+  {
+    "slug": "what-a-weaker-currency-changes",
+    "title": "What a weaker currency changes",
+    "dek": "A weaker currency changes the price of crossing a border. Who benefits depends on what they buy, what they sell and which currency their contracts use.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 5,
+    "lab": "macro-monetary-financial-economics",
+    "tags": [
+      "Economics",
+      "Currencies",
+      "Explainers"
+    ]
+  },
+  {
+    "slug": "a-stock-split-does-not-make-a-company-cheaper",
+    "title": "A stock split does not make a company cheaper",
+    "dek": "More shares at a lower price can represent exactly the same ownership. Follow the numerator and denominator before calling a stock split a bargain.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 6,
+    "lab": "corporate-finance-private-markets",
+    "tags": [
+      "Companies",
+      "Markets",
+      "Explainers"
+    ]
+  },
+  {
+    "slug": "a-rising-stock-index-is-not-the-whole-economy",
+    "title": "Why a rising stock index is not the whole economy",
+    "dek": "An index compresses selected market prices into one number. To understand what it says, inspect the companies, weights and return convention behind it.",
+    "reviewedAt": "2026-10-11",
+    "readMinutes": 6,
+    "lab": "quantitative-finance-asset-pricing",
+    "tags": [
+      "Markets",
+      "Indices",
+      "Explainers"
+    ]
   }
 ]

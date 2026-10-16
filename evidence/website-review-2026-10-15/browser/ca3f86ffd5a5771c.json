@@ -1,0 +1,125 @@
+{
+  "recordedAt": "2026-10-16T02:49:07.682Z",
+  "path": "/join",
+  "width": 320,
+  "theme": "light",
+  "scenario": "page",
+  "axeVersion": "4.13.0",
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "target": [
+            "a[href$=\"apply\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "target": [
+            ".context-nav > a[href$=\"network\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "target": [
+            "a[href$=\"events\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        },
+        {
+          "target": [
+            "a[href$=\"podcast\"]"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element's background color could not be determined because it's partially obscured by another element"
+        }
+      ]
+    }
+  ],
+  "passes": 44,
+  "measurements": {
+    "navigationMs": 286.19999998807907,
+    "fcpMs": 296,
+    "lcpMs": 296,
+    "cumulativeLayoutShift": 0,
+    "shifts": [],
+    "resources": [
+      {
+        "name": "/assets/src-eei0pKxc.css",
+        "duration": 54.5,
+        "transferSize": 67474,
+        "encodedBodySize": 67174
+      },
+      {
+        "name": "/assets/site-D0MjxkEa.js",
+        "duration": 56.900000005960464,
+        "transferSize": 118004,
+        "encodedBodySize": 117704
+      },
+      {
+        "name": "/theme.js",
+        "duration": 57.69999998807907,
+        "transferSize": 587,
+        "encodedBodySize": 287
+      },
+      {
+        "name": "/assets/index-CasMAo1M.js",
+        "duration": 60.099999994039536,
+        "transferSize": 145821,
+        "encodedBodySize": 145521
+      },
+      {
+        "name": "/assets/reading-list-DCZy2axl.js",
+        "duration": 6.0999999940395355,
+        "transferSize": 26884,
+        "encodedBodySize": 26584
+      },
+      {
+        "name": "/assets/member-handoff-IMwYBKZ8.js",
+        "duration": 13.300000011920929,
+        "transferSize": 3118,
+        "encodedBodySize": 2818
+      },
+      {
+        "name": "/assets/components-DihpvgJx.js",
+        "duration": 11.300000011920929,
+        "transferSize": 24807,
+        "encodedBodySize": 24507
+      },
+      {
+        "name": "/assets/reading-CcEKN--Z.js",
+        "duration": 14.400000005960464,
+        "transferSize": 856,
+        "encodedBodySize": 556
+      },
+      {
+        "name": "/assets/curricula-CzNaarTk.js",
+        "duration": 14.600000023841858,
+        "transferSize": 3322,
+        "encodedBodySize": 3022
+      },
+      {
+        "name": "/assets/application-routes-BDWDZ00N.js",
+        "duration": 15.599999994039536,
+        "transferSize": 1482,
+        "encodedBodySize": 1182
+      },
+      {
+        "name": "/assets/join-page-DspI9eGo.js",
+        "duration": 10.800000011920929,
+        "transferSize": 8008,
+        "encodedBodySize": 7708
+      },
+      {
+        "name": "/favicon.ico",
+        "duration": 2.4000000059604645,
+        "transferSize": 75650,
+        "encodedBodySize": 75350
+      }
+    ]
+  }
+}

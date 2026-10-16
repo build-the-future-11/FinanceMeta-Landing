@@ -16,8 +16,8 @@ test('canonical origins reject local addresses, credentials and accidental paths
  for(const value of ['http://financemeta.org','https://localhost','https://127.0.0.1','https://[::1]','https://user:password@financemeta.org','https://financemeta.org/path','https://financemeta.org/?query=1','https://financemeta.org/#fragment'])assert.throws(()=>publicSiteOrigin(value));
 });
 
-test('all 166 public routes have unique paths and emitted files',()=>{
- assert.equal(routes.length,166);assert.equal(publicPaths.size,routes.length);
+test('all 172 public routes have unique paths and emitted files',()=>{
+ assert.equal(routes.length,172);assert.equal(publicPaths.size,routes.length);
  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
 });
 test('all public pages contain one H1 and meaningful metadata before JavaScript runs',()=>{
@@ -62,9 +62,9 @@ test('the complete FinanceMeta portfolio has one public control page per canonic
   assert.match(htmlFor(path),/class="portfolio-record-header"/,path);
  }
 });
-test('legacy research projects and all four real explainers are preserved',()=>{
+test('legacy research projects and the expanded explainer library have complete text',()=>{
  for(const slug of ['fi-jepa','eigen-jepa','eigenfinance','lgwm','finimmunity','iy-ern','portal','inflation-observatory','digital-payments-access','youth-expectations-panel','public-company-lab','finance-meta-global'])assert.ok(projects.some(p=>p.slug===slug));
- assert.equal(publications.length,4);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
+ assert.equal(publications.length,10);for(const p of publications){assert.ok(p.body.length>3000);assert.ok(p.readMinutes>0);assert.deepEqual(p.authors,[]);}
  const iyern=htmlFor('/research/projects/iy-ern');assert.match(iyern,/href="https:\/\/iy-ern\.vercel\.app"/);assert.match(iyern,/Open project website/);
  assert.match(iyern,/project-spotlight/);
 });
@@ -83,7 +83,7 @@ test('navigation, search, join forms, and honest submission state are implemente
  const join=htmlFor('/join');assert.match(join,/without creating a FinanceMeta account/);assert.match(join,/Choose journal review or the preprint forum/);assert.doesNotMatch(join,/<form|Prepare email draft|minLength="30"/);assert.match(join,/https:\/\/tally.so\/r\/5B7blP/);
  assert.match(htmlFor('/research/projects'),/Search projects/);assert.match(htmlFor('/research/projects'),/All (?:<!-- -->)?methods/);
  assert.match(htmlFor('/'),/aria-label="Primary navigation"/);assert.match(htmlFor('/'),/Skip to main content/);
- assert.match(htmlFor('/'),/class="home-portfolio-gateway"/);assert.match(textFor('/'),/Open all 48 project records/);assert.match(htmlFor('/'),/href="\/projects"/);
+ assert.match(htmlFor('/'),/class="home-available"/);assert.doesNotMatch(textFor('/'),/HELD GATE|CANONICAL EVIDENCE REQUIRED|activation gate/);assert.match(htmlFor('/'),/href="\/projects"/);
 });
 test('a missing URL renders a real recovery page and deployment has no catch-all 200 rewrite',()=>{
  assert.match(render('/nonexistent'),/404 \/ Page not found/);

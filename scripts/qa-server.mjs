@@ -5,7 +5,7 @@ import {resolve,extname,sep} from 'node:path';
 import {createHash} from 'node:crypto';
 const root=resolve('dist');const port=Number(process.env.QA_PORT||4181);
 const origin=`http://127.0.0.1:${port}`;
-const evidence=resolve('evidence/improvements-2026-09-21/browser-audits');
+const evidence=resolve(process.env.QA_EVIDENCE_DIR||'evidence/browser-audits');
 const config=JSON.parse(readFileSync('vercel.json'));
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.md':'text/markdown; charset=utf-8','.xml':'application/xml','.txt':'text/plain'};
 createServer(async(req,res)=>{

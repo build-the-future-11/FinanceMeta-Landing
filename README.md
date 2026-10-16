@@ -32,7 +32,7 @@ npm run dev
 Set `VITE_SITE_URL` to the verified public HTTPS origin. Set `VITE_MEMBER_APP_URL` only to the verified member application. Leave `VITE_NATIVE_INTAKE_ENABLED=false` until its database migrations and live member journeys are certified. Without those settings, public handoffs use the documented contact/form fallback. Never put a secret or service-role key in a `VITE_` variable.
 
 ```bash
-npm run release:check
+npm run check:local # validates an editable checkout without a release receipt
 npm run preview
 ```
 
@@ -48,7 +48,7 @@ npm run release:check
 npm run audit:prod
 ```
 
-The current results, retained failures and release boundary are in [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md). Older reports describe their own source snapshots and do not override that report.
+The current improvement checklist is in [docs/WEBSITE_STATE.md](docs/WEBSITE_STATE.md), with verification and remaining operational work in [the 16 October completion record](docs/WEBSITE_COMPLETION_2026-10-16.md). Historical release results are retained in [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md). Each report describes its own source snapshot; local completion does not establish production deployment.
 
 Workspace-only database verification requires the portal sibling and `npm install --prefix .scratch/feature-db --no-save @electric-sql/pglite@0.5.8`, then `node scripts/test-feature-database.mjs`. It uses an isolated PostgreSQL engine with service fixtures; it does not certify hosted Supabase. Standalone portal CI runs its SQL authorization suites using Supabase PostgreSQL.
 
@@ -59,3 +59,14 @@ Production origins, Auth redirects, deployed revisions, live RLS, account journe
 ## License
 
 No standalone website license has been granted in this repository. Public source availability is not a grant of reuse rights. The rights holder must select terms before distributing it as an openly licensed package.
+
+## Preview and release identity
+
+Use `npm run check:local` while editing. It runs the source contracts, lint, a production-mode
+preview build, and the test suite. `build:dev` prerenders every route but deliberately emits
+no release-revision receipt. Use `npm run qa:serve` for local browser diagnostics.
+
+After reviewed changes are committed, run `npm run release:check` from a clean checkout.
+Release builds reject modified, staged, and untracked files and mismatched declared SHAs.
+A source archive requires `SOURCE_SHA` or `VERCEL_GIT_COMMIT_SHA`; a GitHub event SHA
+alone cannot identify its contents. A local build is not proof of a production deployment.

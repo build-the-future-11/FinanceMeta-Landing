@@ -10,7 +10,7 @@ import { labs, projects, cohorts, publications, publicationPath } from './conten
 import { programs } from './content/programs';
 import { Breadcrumbs, Navbar, Footer, PageHeader, ProjectCard, ResearchMap } from './components';
 import { LabPage, ProjectPage, CohortPage, ProjectsDirectory, CohortsDirectory, LabsDirectory, Standards, Fellowship, Partners } from './research-pages';
-import { PublicationPage, PublicationDirectory, Debriefed, Journal, JournalSubmissions, Podcast, ProgramPage, ProgramIndex, Frictions, OpenLibrary, Courses, Course, Chapters, Network, Media, About, Team, Contact, Search } from './ecosystem-pages';
+import { PublicationPage, PublicationDirectory, Debriefed, Journal, JournalSubmissions, Podcast, ProgramPage, ProgramIndex, Frictions, OpenLibrary, Chapters, Network, Media, About, Team, Contact, Search } from './ecosystem-pages';
 import { aliases, getRoute, normalizePath } from './routes';
 import { trackLandingEvent } from './analytics';
 function SignInPage(){
@@ -63,8 +63,6 @@ function Page({path,articleBody,routePage: RoutePage}: {path:string;articleBody?
  case '/podcast':return <Podcast/>;
  case '/events':return <EventsCalendar/>;
  case '/open':case '/open/library':case '/open/resources':return <OpenLibrary/>;
- case '/open/courses':return <Courses/>;
- case '/open/courses/financial-systems':return <Course/>;
  case '/network':return <Network/>;
  case '/network/chapters':return <Chapters/>;
  case '/challenges':return <ProgramIndex section="Challenges" title="Put the argument to the test." description="Research, economic reasoning, essays, and financial cases. Proposed programs will open only with published rules, dates, and a transparent review process." prefix="challenges"/>;

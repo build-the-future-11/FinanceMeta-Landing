@@ -7,7 +7,7 @@ The public catalog is typed source under `src/content/`. It is deliberately sepa
 - `models.ts`: projects, protocols, labs, cohorts/curricula, publications, episodes, people, events, chapters and programs.
 - `research.ts`: public records. Empty people, event, episode and chapter arrays mean no verified entry is available; they do not generate invented detail routes.
 - `curricula.ts`: planning curricula for the existing six cohorts and five research/engineering tracks. These are draft expectations, not announced calendars.
-- `editorial.ts`: full educational articles; generated `editorial-index.json` keeps article bodies out of ordinary page bundles.
+- `editorial.ts` and `editorial-series.ts`: full educational articles; generated `editorial-index.json` keeps article bodies out of ordinary page bundles. New articles carry explicit lab and topic tags so their placement does not depend on array position. The public and member repositories both carry the evergreen series; update both copies together and compare their hashes.
 - `programs.ts`: reusable program content and competition governance. Competition rubrics are explicitly drafts until a cycle is announced.
 - `routes.ts`: fixed and generated paths. Events, episodes, people and chapters automatically receive real detail pages when a verified record is added.
 

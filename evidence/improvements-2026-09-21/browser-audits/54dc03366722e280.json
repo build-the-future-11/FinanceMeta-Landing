@@ -1,0 +1,95 @@
+{
+  "recordedAt": "2026-10-16T02:45:24.988Z",
+  "path": "/join",
+  "width": 487,
+  "theme": "light",
+  "scenario": "page",
+  "axeVersion": "4.13.0",
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+      "nodes": [
+        {
+          "target": [
+            ".brand-icon > span"
+          ],
+          "failureSummary": "Fix any of the following:\n  Element content is too short to determine if it is actual text content"
+        }
+      ]
+    }
+  ],
+  "passes": 43,
+  "measurements": {
+    "navigationMs": 80.90000000596046,
+    "fcpMs": 116,
+    "lcpMs": 116,
+    "cumulativeLayoutShift": 0,
+    "shifts": [],
+    "resources": [
+      {
+        "name": "/assets/src-BElKTgzC.css",
+        "duration": 14.600000023841858,
+        "transferSize": 67250,
+        "encodedBodySize": 66950
+      },
+      {
+        "name": "/theme.js",
+        "duration": 17.400000005960464,
+        "transferSize": 587,
+        "encodedBodySize": 287
+      },
+      {
+        "name": "/assets/site-nxB90g_0.js",
+        "duration": 16.5,
+        "transferSize": 121838,
+        "encodedBodySize": 121538
+      },
+      {
+        "name": "/assets/index-BkGWysk8.js",
+        "duration": 19.099999994039536,
+        "transferSize": 145557,
+        "encodedBodySize": 145257
+      },
+      {
+        "name": "/assets/reading-list-CuFmlm8R.js",
+        "duration": 3.800000011920929,
+        "transferSize": 26884,
+        "encodedBodySize": 26584
+      },
+      {
+        "name": "/assets/member-handoff-IMwYBKZ8.js",
+        "duration": 5.5,
+        "transferSize": 3118,
+        "encodedBodySize": 2818
+      },
+      {
+        "name": "/assets/components-BZYuhp7a.js",
+        "duration": 4.4000000059604645,
+        "transferSize": 24559,
+        "encodedBodySize": 24259
+      },
+      {
+        "name": "/assets/curricula-CzNaarTk.js",
+        "duration": 5.9000000059604645,
+        "transferSize": 3322,
+        "encodedBodySize": 3022
+      },
+      {
+        "name": "/assets/application-routes-GQNWrn_D.js",
+        "duration": 7.600000023841858,
+        "transferSize": 2030,
+        "encodedBodySize": 1730
+      },
+      {
+        "name": "/assets/join-page-BzDtstDD.js",
+        "duration": 8.599999994039536,
+        "transferSize": 7973,
+        "encodedBodySize": 7673
+      }
+    ]
+  }
+}

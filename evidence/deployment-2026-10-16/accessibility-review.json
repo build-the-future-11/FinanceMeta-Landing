@@ -1,0 +1,81 @@
+{
+  "contrast": [
+    {
+      "label": "SVG policy",
+      "foreground": "#eff6df",
+      "background": "#173e2e",
+      "ratio": 10.72,
+      "normalTextAA": true
+    },
+    {
+      "label": "SVG rate",
+      "foreground": "#dcf796",
+      "background": "#173e2e",
+      "ratio": 10.08,
+      "normalTextAA": true
+    },
+    {
+      "label": "SVG banks",
+      "foreground": "#173e2e",
+      "background": "#f8f7ef",
+      "ratio": 11.07,
+      "normalTextAA": true
+    },
+    {
+      "label": "SVG labels",
+      "foreground": "#173e2e",
+      "background": "#e7ecd9",
+      "ratio": 9.86,
+      "normalTextAA": true
+    },
+    {
+      "label": "SVG caption",
+      "foreground": "#466351",
+      "background": "#e7ecd9",
+      "ratio": 5.5,
+      "normalTextAA": true
+    },
+    {
+      "label": "Context normal light",
+      "foreground": "#59616e",
+      "background": "#f8f8f3",
+      "ratio": 5.87,
+      "normalTextAA": true
+    },
+    {
+      "label": "Context active light",
+      "foreground": "#21644c",
+      "background": "#f8f8f3",
+      "ratio": 6.59,
+      "normalTextAA": true
+    },
+    {
+      "label": "Context normal dark",
+      "foreground": "#b0b8c7",
+      "background": "#11161e",
+      "ratio": 9.1,
+      "normalTextAA": true
+    },
+    {
+      "label": "Context active dark",
+      "foreground": "#a4dcc0",
+      "background": "#11161e",
+      "ratio": 11.73,
+      "normalTextAA": true
+    }
+  ],
+  "manualDisposition": {
+    "decorativeCharacters": "Non-text decorative arrows and monogram; labeled controls retain accessible names.",
+    "SVG": "Explicit stable background; visible labels checked against their actual backgrounds; descriptive accessible image includes all destinations. Dot pattern does not alter label backgrounds materially.",
+    "scrollNavigation": "Clipped links belong to an intentional horizontal scroll region. Keyboard focus scrolls the selected link into view. Inset focus outline prevents clipping.",
+    "keyboardEvidence": {
+      "viewport": 320,
+      "documentWidth": 320,
+      "focusedLink": "Open resources",
+      "left": 98.97,
+      "right": 191.72,
+      "outlineOffset": -2.5
+    }
+  },
+  "scope": "Manual resolution of the recorded Axe incomplete rules; not a full WCAG certification."
+}

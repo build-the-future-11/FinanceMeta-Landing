@@ -1,0 +1,16 @@
+{
+  "preexistingFilesChanged": [
+    "tests/site.test.mjs"
+  ],
+  "expectedIntentionalOverlap": [
+    "tests/site.test.mjs"
+  ],
+  "releaseSnapshotSourceDrift": [],
+  "dirtyReleaseWriterExit": 1,
+  "dirtyReleaseReceiptExists": false,
+  "cleanSnapshotRevision": "bc669c7cf8935d931628451f4e612f034ed931d7",
+  "cleanSnapshotReceipt": {
+    "service": "finance-meta-landing",
+    "revision": "bc669c7cf8935d931628451f4e612f034ed931d7"
+  }
+}

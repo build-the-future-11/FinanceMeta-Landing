@@ -1,0 +1,12 @@
+file:///Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/scripts/release-revision.mjs:28
+    if (state.status.trim()) throw new Error('Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview.');
+                                   ^
+
+Error: Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview.
+    at resolveReleaseRevision (file:///Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/scripts/release-revision.mjs:28:36)
+    at file:///Volumes/PRO-BLADE/GitHubRepos/Finance4all-Web/FinanceMeta-Landing/scripts/write-release-revision.mjs:11:18
+    at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+    at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:665:26)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+
+Node.js v22.22.0

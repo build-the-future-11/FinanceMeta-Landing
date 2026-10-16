@@ -1,0 +1,194 @@
+{
+  "checkedAt": "2026-10-11T13:15:32.041Z",
+  "origin": "http://127.0.0.1:4186",
+  "scope": "Local production build only; no deployment",
+  "checks": [
+    {
+      "path": "/publications/financedebriefed/lower-inflation-does-not-mean-lower-prices",
+      "width": 1440,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/why-bond-prices-fall-when-yields-rise",
+      "width": 1440,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/how-a-profitable-company-runs-short-of-cash",
+      "width": 1440,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/what-a-weaker-currency-changes",
+      "width": 1440,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-stock-split-does-not-make-a-company-cheaper",
+      "width": 1440,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-rising-stock-index-is-not-the-whole-economy",
+      "width": 1440,
+      "status": "pass",
+      "sources": 4,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed",
+      "width": 1440,
+      "status": "pass",
+      "allSixDiscoverable": true,
+      "search": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/lower-inflation-does-not-mean-lower-prices",
+      "width": 1024,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/why-bond-prices-fall-when-yields-rise",
+      "width": 1024,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/how-a-profitable-company-runs-short-of-cash",
+      "width": 1024,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/what-a-weaker-currency-changes",
+      "width": 1024,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-stock-split-does-not-make-a-company-cheaper",
+      "width": 1024,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-rising-stock-index-is-not-the-whole-economy",
+      "width": 1024,
+      "status": "pass",
+      "sources": 4,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed",
+      "width": 1024,
+      "status": "pass",
+      "allSixDiscoverable": true,
+      "search": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/lower-inflation-does-not-mean-lower-prices",
+      "width": 390,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/why-bond-prices-fall-when-yields-rise",
+      "width": 390,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/how-a-profitable-company-runs-short-of-cash",
+      "width": 390,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/what-a-weaker-currency-changes",
+      "width": 390,
+      "status": "pass",
+      "sources": 2,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-stock-split-does-not-make-a-company-cheaper",
+      "width": 390,
+      "status": "pass",
+      "sources": 3,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed/a-rising-stock-index-is-not-the-whole-economy",
+      "width": 390,
+      "status": "pass",
+      "sources": 4,
+      "download": true,
+      "keyboardToc": true,
+      "overflow": false
+    },
+    {
+      "path": "/publications/financedebriefed",
+      "width": 390,
+      "status": "pass",
+      "allSixDiscoverable": true,
+      "search": true,
+      "overflow": false
+    }
+  ],
+  "consoleErrors": []
+}

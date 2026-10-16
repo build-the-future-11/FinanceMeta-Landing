@@ -1,0 +1,752 @@
+Vercel CLI 59.5.0 (Node.js 26.8.2)
+Fetching deployment "dpl_4PG9GfzfqM89oCfvqdwg6TH2vtLZ" in build-the-future-11s-projects
+2026-10-16T03:07:07.442Z  Running build in Washington, D.C., USA (East) – iad1
+2026-10-16T03:07:07.443Z  Build machine configuration: 2 cores, 8 GB
+2026-10-16T03:07:07.585Z  Cloning github.com/build-the-future-11/FinanceMeta-Landing (Branch: release/website-completion-20261016, Commit: 05be3c1)
+2026-10-16T03:07:08.077Z  Cloning completed: 492.000ms
+2026-10-16T03:07:08.240Z  Restored build cache from previous deployment (Fp1cVxwLZbS7tbv3DavTaAWbSy2C)
+2026-10-16T03:07:08.658Z  Running "vercel build"
+2026-10-16T03:07:08.672Z  Vercel CLI 64.0.2
+2026-10-16T03:07:09.565Z  Warning: Due to "engines": { "node": ">=22.22.0 <23" } in your `package.json` file, the Node.js Version defined in your Project Settings ("24.x") will not apply, Node.js Version "22.x" will be used instead. Learn More: https://vercel.link/node-version
+2026-10-16T03:07:09.573Z  Running "install" command: `npm ci`...
+2026-10-16T03:07:15.990Z  
+2026-10-16T03:07:15.991Z  added 114 packages, and audited 115 packages in 6s
+2026-10-16T03:07:15.994Z  
+2026-10-16T03:07:15.995Z  29 packages are looking for funding
+2026-10-16T03:07:15.995Z  run `npm fund` for details
+2026-10-16T03:07:16.111Z  
+2026-10-16T03:07:16.111Z  8 vulnerabilities (2 moderate, 6 high)
+2026-10-16T03:07:16.111Z  
+2026-10-16T03:07:16.111Z  To address issues that do not require attention, run:
+2026-10-16T03:07:16.111Z  npm audit fix
+2026-10-16T03:07:16.111Z  
+2026-10-16T03:07:16.111Z  To address all issues (including breaking changes), run:
+2026-10-16T03:07:16.111Z  npm audit fix --force
+2026-10-16T03:07:16.111Z  
+2026-10-16T03:07:16.111Z  Run `npm audit` for details.
+2026-10-16T03:07:16.559Z  
+2026-10-16T03:07:16.559Z  > finance4all-landing@1.0.0 release:check
+2026-10-16T03:07:16.559Z  > npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build && npm test && node scripts/verify-release.mjs
+2026-10-16T03:07:16.559Z  
+2026-10-16T03:07:16.770Z  
+2026-10-16T03:07:16.771Z  > finance4all-landing@1.0.0 source:check
+2026-10-16T03:07:16.771Z  > node scripts/verify-source-completion.mjs
+2026-10-16T03:07:16.771Z  
+2026-10-16T03:07:16.877Z  FinanceMeta source completion check passed: no TODO/FIXME/pseudocode/stub/scaffold markers in executable source.
+2026-10-16T03:07:17.088Z  
+2026-10-16T03:07:17.090Z  > finance4all-landing@1.0.0 accessibility:check
+2026-10-16T03:07:17.091Z  > node scripts/verify-accessibility.mjs
+2026-10-16T03:07:17.091Z  
+2026-10-16T03:07:17.176Z  FinanceMeta accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.
+2026-10-16T03:07:17.177Z  Research navigation, forms, live result counts, focus, and reduced-motion source contracts passed.
+2026-10-16T03:07:17.410Z  
+2026-10-16T03:07:17.411Z  > finance4all-landing@1.0.0 funnel:check
+2026-10-16T03:07:17.411Z  > node scripts/verify-funnel.mjs
+2026-10-16T03:07:17.411Z  
+2026-10-16T03:07:17.503Z  FinanceMeta funnel check passed: 8 CTAs are inventoried; handoff and analytics contracts are bounded.
+2026-10-16T03:07:17.760Z  
+2026-10-16T03:07:17.760Z  > finance4all-landing@1.0.0 lint
+2026-10-16T03:07:17.760Z  > tsc --noEmit --noUnusedLocals --noUnusedParameters && node scripts/lint-source.mjs
+2026-10-16T03:07:17.760Z  
+2026-10-16T03:07:18.745Z  Source lint passed for 46 TypeScript modules: explicit button types, link safety, and no raw HTML/eval/debugger.
+2026-10-16T03:07:18.919Z  
+2026-10-16T03:07:18.920Z  > finance4all-landing@1.0.0 prebuild
+2026-10-16T03:07:18.920Z  > node --experimental-strip-types scripts/prepare-content.mjs
+2026-10-16T03:07:18.920Z  
+2026-10-16T03:07:19.184Z  Prepared 10 article summaries; verified the committed PNG social card.
+2026-10-16T03:07:19.191Z  
+2026-10-16T03:07:19.192Z  > finance4all-landing@1.0.0 build
+2026-10-16T03:07:19.192Z  > npm run typecheck && vite build && vite build --ssr src/prerender.tsx --outDir .site-build && node --experimental-strip-types scripts/validate-content.mjs && node scripts/prerender.mjs && node scripts/write-release-revision.mjs
+2026-10-16T03:07:19.192Z  
+2026-10-16T03:07:19.413Z  
+2026-10-16T03:07:19.414Z  > finance4all-landing@1.0.0 typecheck
+2026-10-16T03:07:19.414Z  > tsc --noEmit
+2026-10-16T03:07:19.414Z  
+2026-10-16T03:07:20.973Z  vite v8.3.1 building client environment for production...
+2026-10-16T03:07:20.993Z  transforming...
+2026-10-16T03:07:22.770Z  ✓ 466 modules transformed.
+2026-10-16T03:07:22.888Z  rendering chunks...
+2026-10-16T03:07:22.967Z  computing gzip size...
+2026-10-16T03:07:22.980Z  dist/index.html                               0.62 kB │ gzip:  0.39 kB
+2026-10-16T03:07:22.982Z  dist/.vite/manifest.json                      4.97 kB │ gzip:  0.85 kB
+2026-10-16T03:07:22.982Z  dist/assets/features-DM6UTEHn.css             1.16 kB │ gzip:  0.53 kB
+2026-10-16T03:07:22.982Z  dist/assets/union-page-DzFbztFi.css           8.83 kB │ gzip:  2.12 kB
+2026-10-16T03:07:22.982Z  dist/assets/landing-home-Ds__TAas.css        17.36 kB │ gzip:  4.12 kB
+2026-10-16T03:07:22.983Z  dist/assets/landing-DxGlVWX-.css             24.11 kB │ gzip:  6.36 kB
+2026-10-16T03:07:22.983Z  dist/assets/src-Aj51j2xu.css                 67.25 kB │ gzip: 13.81 kB
+2026-10-16T03:07:22.983Z  dist/assets/reading-CcEKN--Z.js               0.55 kB │ gzip:  0.36 kB
+2026-10-16T03:07:22.983Z  dist/assets/application-routes-BDWDZ00N.js    1.18 kB │ gzip:  0.64 kB
+2026-10-16T03:07:22.983Z  dist/assets/member-handoff-B3f66ECa.js        2.90 kB │ gzip:  1.21 kB
+2026-10-16T03:07:22.983Z  dist/assets/curricula-CzNaarTk.js             3.02 kB │ gzip:  1.43 kB
+2026-10-16T03:07:22.983Z  dist/assets/reading-list-page-vuOu_Ooi.js     3.43 kB │ gzip:  1.44 kB
+2026-10-16T03:07:22.984Z  dist/assets/course-pages-z_gxRCma.js          4.43 kB │ gzip:  1.86 kB
+2026-10-16T03:07:22.985Z  dist/assets/join-page-C-mA_Qgn.js             7.70 kB │ gzip:  2.92 kB
+2026-10-16T03:07:22.985Z  dist/assets/feature-pages-S378lUbE.js        11.17 kB │ gzip:  4.24 kB
+2026-10-16T03:07:22.985Z  dist/assets/learning-practice-neiNDE54.js    12.80 kB │ gzip:  4.72 kB
+2026-10-16T03:07:22.985Z  dist/assets/union-page-Cd9dEzgz.js           17.11 kB │ gzip:  5.38 kB
+2026-10-16T03:07:22.985Z  dist/assets/landing-home-Do9xurWW.js         22.14 kB │ gzip:  6.48 kB
+2026-10-16T03:07:22.985Z  dist/assets/components-CEjaQ4Uf.js           24.50 kB │ gzip:  7.21 kB
+2026-10-16T03:07:22.985Z  dist/assets/reading-list-BokbB8sN.js         26.58 kB │ gzip:  9.48 kB
+2026-10-16T03:07:22.985Z  dist/assets/portfolio-pages-BwiLVdtq.js      33.51 kB │ gzip:  8.58 kB
+2026-10-16T03:07:22.985Z  dist/assets/editorial-CE1PGLQh.js            80.63 kB │ gzip: 28.66 kB
+2026-10-16T03:07:22.985Z  dist/assets/site-D4VWG6P_.js                117.70 kB │ gzip: 32.04 kB
+2026-10-16T03:07:22.986Z  dist/assets/landing-Czd_7-eu.js             145.21 kB │ gzip: 46.80 kB
+2026-10-16T03:07:22.986Z  dist/assets/index-BK6BdZn3.js               145.52 kB │ gzip: 47.66 kB
+2026-10-16T03:07:22.986Z  
+2026-10-16T03:07:22.986Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.987Z  ╭─[ node_modules/framer-motion/dist/es/motion/utils/use-visual-state.mjs:1:1 ]
+2026-10-16T03:07:22.987Z  │
+2026-10-16T03:07:22.987Z  1 │ "use client";
+2026-10-16T03:07:22.988Z  │ ──────┬──────
+2026-10-16T03:07:22.988Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.988Z  │
+2026-10-16T03:07:22.988Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.988Z  ───╯
+2026-10-16T03:07:22.989Z  
+2026-10-16T03:07:22.989Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-constant.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.990Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-constant.mjs:1:1 ]
+2026-10-16T03:07:22.990Z  │
+2026-10-16T03:07:22.990Z  1 │ "use client";
+2026-10-16T03:07:22.990Z  │ ──────┬──────
+2026-10-16T03:07:22.990Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.990Z  │
+2026-10-16T03:07:22.991Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.991Z  ───╯
+2026-10-16T03:07:22.991Z  
+2026-10-16T03:07:22.991Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.991Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-unmount-effect.mjs:1:1 ]
+2026-10-16T03:07:22.992Z  │
+2026-10-16T03:07:22.992Z  1 │ "use client";
+2026-10-16T03:07:22.992Z  │ ──────┬──────
+2026-10-16T03:07:22.992Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.992Z  │
+2026-10-16T03:07:22.993Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.993Z  ───╯
+2026-10-16T03:07:22.993Z  
+2026-10-16T03:07:22.993Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-animation.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.994Z  ╭─[ node_modules/framer-motion/dist/es/render/dom/features-animation.mjs:1:1 ]
+2026-10-16T03:07:22.994Z  │
+2026-10-16T03:07:22.994Z  1 │ "use client";
+2026-10-16T03:07:22.994Z  │ ──────┬──────
+2026-10-16T03:07:22.994Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.994Z  │
+2026-10-16T03:07:22.994Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.994Z  ───╯
+2026-10-16T03:07:22.994Z  
+2026-10-16T03:07:22.994Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-max.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.994Z  ╭─[ node_modules/framer-motion/dist/es/render/dom/features-max.mjs:1:1 ]
+2026-10-16T03:07:22.994Z  │
+2026-10-16T03:07:22.994Z  1 │ "use client";
+2026-10-16T03:07:22.994Z  │ ──────┬──────
+2026-10-16T03:07:22.994Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.994Z  │
+2026-10-16T03:07:22.995Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.995Z  ───╯
+2026-10-16T03:07:22.995Z  
+2026-10-16T03:07:22.995Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/features-min.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.995Z  ╭─[ node_modules/framer-motion/dist/es/render/dom/features-min.mjs:1:1 ]
+2026-10-16T03:07:22.995Z  │
+2026-10-16T03:07:22.995Z  1 │ "use client";
+2026-10-16T03:07:22.995Z  │ ──────┬──────
+2026-10-16T03:07:22.995Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.995Z  │
+2026-10-16T03:07:22.995Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.995Z  ───╯
+2026-10-16T03:07:22.995Z  
+2026-10-16T03:07:22.995Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs" may not be preserved when bundling.
+2026-10-16T03:07:22.995Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-motion-value-event.mjs:1:1 ]
+2026-10-16T03:07:22.995Z  │
+2026-10-16T03:07:22.996Z  1 │ "use client";
+2026-10-16T03:07:22.996Z  │ ──────┬──────
+2026-10-16T03:07:22.998Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:22.999Z  │
+2026-10-16T03:07:22.999Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:22.999Z  ───╯
+2026-10-16T03:07:22.999Z  
+2026-10-16T03:07:23.001Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.002Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimatePresence/index.mjs:1:1 ]
+2026-10-16T03:07:23.002Z  │
+2026-10-16T03:07:23.002Z  1 │ "use client";
+2026-10-16T03:07:23.002Z  │ ──────┬──────
+2026-10-16T03:07:23.002Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.002Z  │
+2026-10-16T03:07:23.003Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.003Z  ───╯
+2026-10-16T03:07:23.003Z  
+2026-10-16T03:07:23.003Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.003Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimatePresence/PopChild.mjs:1:1 ]
+2026-10-16T03:07:23.004Z  │
+2026-10-16T03:07:23.004Z  1 │ "use client";
+2026-10-16T03:07:23.004Z  │ ──────┬──────
+2026-10-16T03:07:23.004Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.004Z  │
+2026-10-16T03:07:23.004Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.005Z  ───╯
+2026-10-16T03:07:23.005Z  
+2026-10-16T03:07:23.005Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.005Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimatePresence/PresenceChild.mjs:1:1 ]
+2026-10-16T03:07:23.006Z  │
+2026-10-16T03:07:23.006Z  1 │ "use client";
+2026-10-16T03:07:23.006Z  │ ──────┬──────
+2026-10-16T03:07:23.006Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.006Z  │
+2026-10-16T03:07:23.006Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.006Z  ───╯
+2026-10-16T03:07:23.007Z  
+2026-10-16T03:07:23.007Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-motion-template.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.007Z  ╭─[ node_modules/framer-motion/dist/es/value/use-motion-template.mjs:1:1 ]
+2026-10-16T03:07:23.007Z  │
+2026-10-16T03:07:23.007Z  1 │ "use client";
+2026-10-16T03:07:23.008Z  │ ──────┬──────
+2026-10-16T03:07:23.008Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.009Z  │
+2026-10-16T03:07:23.009Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.009Z  ───╯
+2026-10-16T03:07:23.009Z  
+2026-10-16T03:07:23.010Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-combine-values.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.010Z  ╭─[ node_modules/framer-motion/dist/es/value/use-combine-values.mjs:1:1 ]
+2026-10-16T03:07:23.010Z  │
+2026-10-16T03:07:23.014Z  1 │ "use client";
+2026-10-16T03:07:23.015Z  │ ──────┬──────
+2026-10-16T03:07:23.015Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.015Z  │
+2026-10-16T03:07:23.016Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.016Z  ───╯
+2026-10-16T03:07:23.016Z  
+2026-10-16T03:07:23.016Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.016Z  ╭─[ node_modules/framer-motion/dist/es/components/LayoutGroup/index.mjs:1:1 ]
+2026-10-16T03:07:23.016Z  │
+2026-10-16T03:07:23.017Z  1 │ "use client";
+2026-10-16T03:07:23.017Z  │ ──────┬──────
+2026-10-16T03:07:23.017Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.017Z  │
+2026-10-16T03:07:23.017Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.018Z  ───╯
+2026-10-16T03:07:23.018Z  
+2026-10-16T03:07:23.018Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-motion-value.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.018Z  ╭─[ node_modules/framer-motion/dist/es/value/use-motion-value.mjs:1:1 ]
+2026-10-16T03:07:23.018Z  │
+2026-10-16T03:07:23.018Z  1 │ "use client";
+2026-10-16T03:07:23.019Z  │ ──────┬──────
+2026-10-16T03:07:23.019Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.019Z  │
+2026-10-16T03:07:23.019Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.019Z  ───╯
+2026-10-16T03:07:23.019Z  
+2026-10-16T03:07:23.019Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.020Z  ╭─[ node_modules/framer-motion/dist/es/components/LazyMotion/index.mjs:1:1 ]
+2026-10-16T03:07:23.020Z  │
+2026-10-16T03:07:23.020Z  1 │ "use client";
+2026-10-16T03:07:23.020Z  │ ──────┬──────
+2026-10-16T03:07:23.020Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.020Z  │
+2026-10-16T03:07:23.020Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.020Z  ───╯
+2026-10-16T03:07:23.020Z  
+2026-10-16T03:07:23.020Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-scroll.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.021Z  ╭─[ node_modules/framer-motion/dist/es/value/use-scroll.mjs:1:1 ]
+2026-10-16T03:07:23.021Z  │
+2026-10-16T03:07:23.021Z  1 │ "use client";
+2026-10-16T03:07:23.021Z  │ ──────┬──────
+2026-10-16T03:07:23.021Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.022Z  │
+2026-10-16T03:07:23.022Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.022Z  ───╯
+2026-10-16T03:07:23.022Z  
+2026-10-16T03:07:23.022Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.022Z  ╭─[ node_modules/framer-motion/dist/es/components/MotionConfig/index.mjs:1:1 ]
+2026-10-16T03:07:23.023Z  │
+2026-10-16T03:07:23.023Z  1 │ "use client";
+2026-10-16T03:07:23.023Z  │ ──────┬──────
+2026-10-16T03:07:23.023Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.023Z  │
+2026-10-16T03:07:23.023Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.023Z  ───╯
+2026-10-16T03:07:23.023Z  
+2026-10-16T03:07:23.023Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-follow-value.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.023Z  ╭─[ node_modules/framer-motion/dist/es/value/use-follow-value.mjs:1:1 ]
+2026-10-16T03:07:23.023Z  │
+2026-10-16T03:07:23.023Z  1 │ "use client";
+2026-10-16T03:07:23.023Z  │ ──────┬──────
+2026-10-16T03:07:23.023Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.024Z  │
+2026-10-16T03:07:23.025Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.025Z  ───╯
+2026-10-16T03:07:23.025Z  
+2026-10-16T03:07:23.025Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-spring.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.025Z  ╭─[ node_modules/framer-motion/dist/es/value/use-spring.mjs:1:1 ]
+2026-10-16T03:07:23.025Z  │
+2026-10-16T03:07:23.025Z  1 │ "use client";
+2026-10-16T03:07:23.025Z  │ ──────┬──────
+2026-10-16T03:07:23.025Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.025Z  │
+2026-10-16T03:07:23.025Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.025Z  ───╯
+2026-10-16T03:07:23.025Z  
+2026-10-16T03:07:23.025Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-time.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.025Z  ╭─[ node_modules/framer-motion/dist/es/value/use-time.mjs:1:1 ]
+2026-10-16T03:07:23.025Z  │
+2026-10-16T03:07:23.025Z  1 │ "use client";
+2026-10-16T03:07:23.025Z  │ ──────┬──────
+2026-10-16T03:07:23.025Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.025Z  │
+2026-10-16T03:07:23.025Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.025Z  ───╯
+2026-10-16T03:07:23.025Z  
+2026-10-16T03:07:23.026Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-transform.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.026Z  ╭─[ node_modules/framer-motion/dist/es/value/use-transform.mjs:1:1 ]
+2026-10-16T03:07:23.027Z  │
+2026-10-16T03:07:23.027Z  1 │ "use client";
+2026-10-16T03:07:23.027Z  │ ──────┬──────
+2026-10-16T03:07:23.028Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.028Z  │
+2026-10-16T03:07:23.028Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.028Z  ───╯
+2026-10-16T03:07:23.028Z  
+2026-10-16T03:07:23.029Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-computed.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.029Z  ╭─[ node_modules/framer-motion/dist/es/value/use-computed.mjs:1:1 ]
+2026-10-16T03:07:23.029Z  │
+2026-10-16T03:07:23.029Z  1 │ "use client";
+2026-10-16T03:07:23.029Z  │ ──────┬──────
+2026-10-16T03:07:23.029Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.029Z  │
+2026-10-16T03:07:23.029Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.029Z  ───╯
+2026-10-16T03:07:23.030Z  
+2026-10-16T03:07:23.030Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-velocity.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.030Z  ╭─[ node_modules/framer-motion/dist/es/value/use-velocity.mjs:1:1 ]
+2026-10-16T03:07:23.030Z  │
+2026-10-16T03:07:23.030Z  1 │ "use client";
+2026-10-16T03:07:23.030Z  │ ──────┬──────
+2026-10-16T03:07:23.031Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.031Z  │
+2026-10-16T03:07:23.031Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.031Z  ───╯
+2026-10-16T03:07:23.031Z  
+2026-10-16T03:07:23.031Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-will-change/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.031Z  ╭─[ node_modules/framer-motion/dist/es/value/use-will-change/index.mjs:1:1 ]
+2026-10-16T03:07:23.031Z  │
+2026-10-16T03:07:23.032Z  1 │ "use client";
+2026-10-16T03:07:23.032Z  │ ──────┬──────
+2026-10-16T03:07:23.032Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.032Z  │
+2026-10-16T03:07:23.032Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.032Z  ───╯
+2026-10-16T03:07:23.032Z  
+2026-10-16T03:07:23.033Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.033Z  ╭─[ node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion.mjs:1:1 ]
+2026-10-16T03:07:23.033Z  │
+2026-10-16T03:07:23.033Z  1 │ "use client";
+2026-10-16T03:07:23.033Z  │ ──────┬──────
+2026-10-16T03:07:23.033Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.034Z  │
+2026-10-16T03:07:23.036Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.037Z  ───╯
+2026-10-16T03:07:23.037Z  
+2026-10-16T03:07:23.037Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-force-update.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.037Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-force-update.mjs:1:1 ]
+2026-10-16T03:07:23.037Z  │
+2026-10-16T03:07:23.037Z  1 │ "use client";
+2026-10-16T03:07:23.038Z  │ ──────┬──────
+2026-10-16T03:07:23.038Z  │       ╰────���─── module level directive may not be preserved
+2026-10-16T03:07:23.038Z  │
+2026-10-16T03:07:23.038Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.038Z  ───╯
+2026-10-16T03:07:23.038Z  
+2026-10-16T03:07:23.038Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.038Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-is-mounted.mjs:1:1 ]
+2026-10-16T03:07:23.038Z  │
+2026-10-16T03:07:23.039Z  1 │ "use client";
+2026-10-16T03:07:23.039Z  │ ──────┬──────
+2026-10-16T03:07:23.039Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.039Z  │
+2026-10-16T03:07:23.039Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.039Z  ───╯
+2026-10-16T03:07:23.039Z  
+2026-10-16T03:07:23.039Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.039Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-isomorphic-effect.mjs:1:1 ]
+2026-10-16T03:07:23.039Z  │
+2026-10-16T03:07:23.039Z  1 │ "use client";
+2026-10-16T03:07:23.039Z  │ ──────┬──────
+2026-10-16T03:07:23.039Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.039Z  │
+2026-10-16T03:07:23.039Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.039Z  ───╯
+2026-10-16T03:07:23.039Z  
+2026-10-16T03:07:23.039Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.039Z  ╭─[ node_modules/framer-motion/dist/es/utils/reduced-motion/use-reduced-motion-config.mjs:1:1 ]
+2026-10-16T03:07:23.040Z  │
+2026-10-16T03:07:23.040Z  1 │ "use client";
+2026-10-16T03:07:23.040Z  │ ──────┬──────
+2026-10-16T03:07:23.040Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.040Z  │
+2026-10-16T03:07:23.040Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.040Z  ───╯
+2026-10-16T03:07:23.040Z  
+2026-10-16T03:07:23.040Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.040Z  ╭─[ node_modules/framer-motion/dist/es/animation/hooks/use-animate.mjs:1:1 ]
+2026-10-16T03:07:23.040Z  │
+2026-10-16T03:07:23.040Z  1 │ "use client";
+2026-10-16T03:07:23.040Z  │ ──────┬──────
+2026-10-16T03:07:23.040Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.040Z  │
+2026-10-16T03:07:23.040Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.040Z  ───╯
+2026-10-16T03:07:23.040Z  
+2026-10-16T03:07:23.040Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.040Z  ╭─[ node_modules/framer-motion/dist/es/animation/hooks/use-animate-style.mjs:1:1 ]
+2026-10-16T03:07:23.040Z  │
+2026-10-16T03:07:23.040Z  1 │ "use client";
+2026-10-16T03:07:23.041Z  │ ──────┬──────
+2026-10-16T03:07:23.041Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.041Z  │
+2026-10-16T03:07:23.041Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.041Z  ───╯
+2026-10-16T03:07:23.041Z  
+2026-10-16T03:07:23.041Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.041Z  ╭─[ node_modules/framer-motion/dist/es/animation/hooks/use-animation.mjs:1:1 ]
+2026-10-16T03:07:23.041Z  │
+2026-10-16T03:07:23.041Z  1 │ "use client";
+2026-10-16T03:07:23.044Z  │ ──────┬──────
+2026-10-16T03:07:23.044Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.044Z  │
+2026-10-16T03:07:23.044Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.044Z  ───╯
+2026-10-16T03:07:23.044Z  
+2026-10-16T03:07:23.044Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.045Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence-data.mjs:1:1 ]
+2026-10-16T03:07:23.045Z  │
+2026-10-16T03:07:23.045Z  1 │ "use client";
+2026-10-16T03:07:23.045Z  │ ──────┬──────
+2026-10-16T03:07:23.045Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.045Z  │
+2026-10-16T03:07:23.045Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.045Z  ───╯
+2026-10-16T03:07:23.045Z  
+2026-10-16T03:07:23.045Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/events/use-dom-event.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.047Z  ╭─[ node_modules/framer-motion/dist/es/events/use-dom-event.mjs:1:1 ]
+2026-10-16T03:07:23.047Z  │
+2026-10-16T03:07:23.047Z  1 │ "use client";
+2026-10-16T03:07:23.048Z  │ ──────┬──────
+2026-10-16T03:07:23.048Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.048Z  │
+2026-10-16T03:07:23.048Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.048Z  ───╯
+2026-10-16T03:07:23.049Z  
+2026-10-16T03:07:23.049Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.049Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-animation-frame.mjs:1:1 ]
+2026-10-16T03:07:23.049Z  │
+2026-10-16T03:07:23.049Z  1 │ "use client";
+2026-10-16T03:07:23.049Z  │ ──────┬──────
+2026-10-16T03:07:23.049Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.049Z  │
+2026-10-16T03:07:23.049Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.049Z  ───╯
+2026-10-16T03:07:23.049Z  
+2026-10-16T03:07:23.049Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-cycle.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.049Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-cycle.mjs:1:1 ]
+2026-10-16T03:07:23.049Z  │
+2026-10-16T03:07:23.049Z  1 │ "use client";
+2026-10-16T03:07:23.049Z  │ ──────┬──────
+2026-10-16T03:07:23.049Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.049Z  │
+2026-10-16T03:07:23.049Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.049Z  ───╯
+2026-10-16T03:07:23.050Z  
+2026-10-16T03:07:23.050Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-in-view.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.050Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-in-view.mjs:1:1 ]
+2026-10-16T03:07:23.050Z  │
+2026-10-16T03:07:23.050Z  1 │ "use client";
+2026-10-16T03:07:23.050Z  │ ──────┬──────
+2026-10-16T03:07:23.050Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.050Z  │
+2026-10-16T03:07:23.050Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.050Z  ───╯
+2026-10-16T03:07:23.050Z  
+2026-10-16T03:07:23.050Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.050Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-instant-transition.mjs:1:1 ]
+2026-10-16T03:07:23.050Z  │
+2026-10-16T03:07:23.050Z  1 │ "use client";
+2026-10-16T03:07:23.050Z  │ ──────┬──────
+2026-10-16T03:07:23.050Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.050Z  │
+2026-10-16T03:07:23.050Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.050Z  ───╯
+2026-10-16T03:07:23.050Z  
+2026-10-16T03:07:23.053Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.054Z  ╭─[ node_modules/framer-motion/dist/es/utils/use-page-in-view.mjs:1:1 ]
+2026-10-16T03:07:23.054Z  │
+2026-10-16T03:07:23.054Z  1 │ "use client";
+2026-10-16T03:07:23.054Z  │ ──────┬──────
+2026-10-16T03:07:23.054Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.054Z  │
+2026-10-16T03:07:23.054Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.054Z  ───╯
+2026-10-16T03:07:23.054Z  
+2026-10-16T03:07:23.055Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.055Z  ╭─[ node_modules/framer-motion/dist/es/context/LayoutGroupContext.mjs:1:1 ]
+2026-10-16T03:07:23.056Z  │
+2026-10-16T03:07:23.056Z  1 │ "use client";
+2026-10-16T03:07:23.056Z  │ ──────┬──────
+2026-10-16T03:07:23.057Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.058Z  │
+2026-10-16T03:07:23.058Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.058Z  ───╯
+2026-10-16T03:07:23.059Z  
+2026-10-16T03:07:23.059Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.059Z  ╭─[ node_modules/framer-motion/dist/es/context/MotionConfigContext.mjs:1:1 ]
+2026-10-16T03:07:23.059Z  │
+2026-10-16T03:07:23.059Z  1 │ "use client";
+2026-10-16T03:07:23.059Z  │ ──────┬──────
+2026-10-16T03:07:23.059Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.060Z  │
+2026-10-16T03:07:23.061Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.061Z  ───╯
+2026-10-16T03:07:23.061Z  
+2026-10-16T03:07:23.061Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionContext/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.061Z  ╭─[ node_modules/framer-motion/dist/es/context/MotionContext/index.mjs:1:1 ]
+2026-10-16T03:07:23.062Z  │
+2026-10-16T03:07:23.062Z  1 │ "use client";
+2026-10-16T03:07:23.062Z  │ ──────┬──────
+2026-10-16T03:07:23.062Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.062Z  │
+2026-10-16T03:07:23.063Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.063Z  ───╯
+2026-10-16T03:07:23.063Z  
+2026-10-16T03:07:23.063Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/PresenceContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.063Z  ╭─[ node_modules/framer-motion/dist/es/context/PresenceContext.mjs:1:1 ]
+2026-10-16T03:07:23.063Z  │
+2026-10-16T03:07:23.063Z  1 │ "use client";
+2026-10-16T03:07:23.064Z  │ ──────┬──────
+2026-10-16T03:07:23.064Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.064Z  │
+2026-10-16T03:07:23.064Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.064Z  ───╯
+2026-10-16T03:07:23.064Z  
+2026-10-16T03:07:23.064Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.064Z  ╭─[ node_modules/framer-motion/dist/es/context/SwitchLayoutGroupContext.mjs:1:1 ]
+2026-10-16T03:07:23.064Z  │
+2026-10-16T03:07:23.065Z  1 │ "use client";
+2026-10-16T03:07:23.066Z  │ ──────┬──────
+2026-10-16T03:07:23.066Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.066Z  │
+2026-10-16T03:07:23.066Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.066Z  ───╯
+2026-10-16T03:07:23.066Z  
+2026-10-16T03:07:23.066Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.066Z  ╭─[ node_modules/framer-motion/dist/es/animation/hooks/use-animated-state.mjs:1:1 ]
+2026-10-16T03:07:23.066Z  │
+2026-10-16T03:07:23.066Z  1 │ "use client";
+2026-10-16T03:07:23.066Z  │ ──────┬──────
+2026-10-16T03:07:23.066Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.066Z  │
+2026-10-16T03:07:23.066Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.066Z  ───╯
+2026-10-16T03:07:23.066Z  
+2026-10-16T03:07:23.066Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.066Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimateSharedLayout.mjs:1:1 ]
+2026-10-16T03:07:23.066Z  │
+2026-10-16T03:07:23.066Z  1 │ "use client";
+2026-10-16T03:07:23.068Z  │ ──────┬──────
+2026-10-16T03:07:23.068Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.068Z  │
+2026-10-16T03:07:23.068Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.068Z  ───╯
+2026-10-16T03:07:23.068Z  
+2026-10-16T03:07:23.068Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.068Z  ╭─[ node_modules/framer-motion/dist/es/context/DeprecatedLayoutGroupContext.mjs:1:1 ]
+2026-10-16T03:07:23.068Z  │
+2026-10-16T03:07:23.070Z  1 │ "use client";
+2026-10-16T03:07:23.070Z  │ ──────┬──────
+2026-10-16T03:07:23.070Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.070Z  │
+2026-10-16T03:07:23.070Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.070Z  ───╯
+2026-10-16T03:07:23.070Z  
+2026-10-16T03:07:23.070Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.070Z  ╭─[ node_modules/framer-motion/dist/es/value/use-inverted-scale.mjs:1:1 ]
+2026-10-16T03:07:23.071Z  │
+2026-10-16T03:07:23.072Z  1 │ "use client";
+2026-10-16T03:07:23.073Z  │ ──────┬──────
+2026-10-16T03:07:23.073Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.073Z  │
+2026-10-16T03:07:23.073Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.073Z  ───╯
+2026-10-16T03:07:23.073Z  
+2026-10-16T03:07:23.073Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/Reorder/Item.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.073Z  ╭─[ node_modules/framer-motion/dist/es/components/Reorder/Item.mjs:1:1 ]
+2026-10-16T03:07:23.074Z  │
+2026-10-16T03:07:23.074Z  1 │ "use client";
+2026-10-16T03:07:23.074Z  │ ──────┬──────
+2026-10-16T03:07:23.074Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.074Z  │
+2026-10-16T03:07:23.074Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.074Z  ───╯
+2026-10-16T03:07:23.074Z  
+2026-10-16T03:07:23.074Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.074Z  ╭─[ node_modules/framer-motion/dist/es/components/AnimatePresence/use-presence.mjs:1:1 ]
+2026-10-16T03:07:23.075Z  │
+2026-10-16T03:07:23.075Z  1 │ "use client";
+2026-10-16T03:07:23.075Z  │ ──────┬──────
+2026-10-16T03:07:23.075Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.075Z  │
+2026-10-16T03:07:23.075Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.075Z  ───╯
+2026-10-16T03:07:23.075Z  
+2026-10-16T03:07:23.075Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.075Z  ╭─[ node_modules/framer-motion/dist/es/motion/features/layout/MeasureLayout.mjs:1:1 ]
+2026-10-16T03:07:23.075Z  │
+2026-10-16T03:07:23.075Z  1 │ "use client";
+2026-10-16T03:07:23.075Z  │ ──────┬──────
+2026-10-16T03:07:23.075Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.075Z  │
+2026-10-16T03:07:23.076Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.076Z  ───╯
+2026-10-16T03:07:23.076Z  
+2026-10-16T03:07:23.076Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/LazyContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.076Z  ╭─[ node_modules/framer-motion/dist/es/context/LazyContext.mjs:1:1 ]
+2026-10-16T03:07:23.076Z  │
+2026-10-16T03:07:23.076Z  1 │ "use client";
+2026-10-16T03:07:23.076Z  │ ──────┬──────
+2026-10-16T03:07:23.076Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.077Z  │
+2026-10-16T03:07:23.077Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.077Z  ───╯
+2026-10-16T03:07:23.078Z  
+2026-10-16T03:07:23.078Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/index.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.079Z  ╭─[ node_modules/framer-motion/dist/es/motion/index.mjs:1:1 ]
+2026-10-16T03:07:23.079Z  │
+2026-10-16T03:07:23.079Z  1 │ "use client";
+2026-10-16T03:07:23.079Z  │ ──────┬──────
+2026-10-16T03:07:23.079Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.080Z  │
+2026-10-16T03:07:23.080Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.080Z  ───╯
+2026-10-16T03:07:23.080Z  
+2026-10-16T03:07:23.080Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.080Z  ╭─[ node_modules/framer-motion/dist/es/motion/utils/use-visual-element.mjs:1:1 ]
+2026-10-16T03:07:23.081Z  │
+2026-10-16T03:07:23.081Z  1 │ "use client";
+2026-10-16T03:07:23.081Z  │ ──────┬──────
+2026-10-16T03:07:23.081Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.081Z  │
+2026-10-16T03:07:23.081Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.082Z  ───╯
+2026-10-16T03:07:23.082Z  
+2026-10-16T03:07:23.082Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/components/Reorder/Group.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.082Z  ╭─[ node_modules/framer-motion/dist/es/components/Reorder/Group.mjs:1:1 ]
+2026-10-16T03:07:23.083Z  │
+2026-10-16T03:07:23.083Z  1 │ "use client";
+2026-10-16T03:07:23.083Z  │ ──────┬──────
+2026-10-16T03:07:23.084Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.084Z  │
+2026-10-16T03:07:23.084Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.084Z  ───╯
+2026-10-16T03:07:23.084Z  
+2026-10-16T03:07:23.084Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/ReorderContext.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.085Z  ╭─[ node_modules/framer-motion/dist/es/context/ReorderContext.mjs:1:1 ]
+2026-10-16T03:07:23.085Z  │
+2026-10-16T03:07:23.085Z  1 │ "use client";
+2026-10-16T03:07:23.085Z  │ ──────┬──────
+2026-10-16T03:07:23.085Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.085Z  │
+2026-10-16T03:07:23.086Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.086Z  ───╯
+2026-10-16T03:07:23.086Z  
+2026-10-16T03:07:23.086Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/context/MotionContext/create.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.086Z  ╭─[ node_modules/framer-motion/dist/es/context/MotionContext/create.mjs:1:1 ]
+2026-10-16T03:07:23.086Z  │
+2026-10-16T03:07:23.087Z  1 │ "use client";
+2026-10-16T03:07:23.087Z  │ ──────┬──────
+2026-10-16T03:07:23.087Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.087Z  │
+2026-10-16T03:07:23.087Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.088Z  ───╯
+2026-10-16T03:07:23.088Z  
+2026-10-16T03:07:23.088Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/dom/use-render.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.088Z  ╭─[ node_modules/framer-motion/dist/es/render/dom/use-render.mjs:1:1 ]
+2026-10-16T03:07:23.088Z  │
+2026-10-16T03:07:23.088Z  1 │ "use client";
+2026-10-16T03:07:23.089Z  │ ──────┬──────
+2026-10-16T03:07:23.089Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.089Z  │
+2026-10-16T03:07:23.089Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.089Z  ───╯
+2026-10-16T03:07:23.089Z  
+2026-10-16T03:07:23.089Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/svg/use-props.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.089Z  ╭─[ node_modules/framer-motion/dist/es/render/svg/use-props.mjs:1:1 ]
+2026-10-16T03:07:23.089Z  │
+2026-10-16T03:07:23.089Z  1 │ "use client";
+2026-10-16T03:07:23.089Z  │ ──────┬──────
+2026-10-16T03:07:23.089Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.089Z  │
+2026-10-16T03:07:23.089Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.090Z  ───╯
+2026-10-16T03:07:23.090Z  
+2026-10-16T03:07:23.090Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.090Z  ╭─[ node_modules/framer-motion/dist/es/render/html/use-html-visual-state.mjs:1:1 ]
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  1 │ "use client";
+2026-10-16T03:07:23.090Z  │ ──────┬──────
+2026-10-16T03:07:23.090Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.090Z  ───╯
+2026-10-16T03:07:23.090Z  
+2026-10-16T03:07:23.090Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.090Z  ╭─[ node_modules/framer-motion/dist/es/render/svg/use-svg-visual-state.mjs:1:1 ]
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  1 │ "use client";
+2026-10-16T03:07:23.090Z  │ ──────┬──────
+2026-10-16T03:07:23.090Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.090Z  ───╯
+2026-10-16T03:07:23.090Z  
+2026-10-16T03:07:23.090Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.090Z  ╭─[ node_modules/framer-motion/dist/es/motion/utils/use-motion-ref.mjs:1:1 ]
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  1 │ "use client";
+2026-10-16T03:07:23.090Z  │ ──────┬──────
+2026-10-16T03:07:23.090Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.090Z  │
+2026-10-16T03:07:23.090Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.091Z  ───╯
+2026-10-16T03:07:23.091Z  
+2026-10-16T03:07:23.091Z  [MODULE_LEVEL_DIRECTIVE] The semantics of the module level directive "use client" in "node_modules/framer-motion/dist/es/render/html/use-props.mjs" may not be preserved when bundling.
+2026-10-16T03:07:23.091Z  ╭─[ node_modules/framer-motion/dist/es/render/html/use-props.mjs:1:1 ]
+2026-10-16T03:07:23.091Z  │
+2026-10-16T03:07:23.091Z  1 │ "use client";
+2026-10-16T03:07:23.091Z  │ ──────┬──────
+2026-10-16T03:07:23.091Z  │       ╰──────── module level directive may not be preserved
+2026-10-16T03:07:23.091Z  │
+2026-10-16T03:07:23.091Z  │ Help: For more information, see https://rolldown.rs/in-depth/directives#other-directives
+2026-10-16T03:07:23.091Z  ───╯
+2026-10-16T03:07:23.092Z  
+2026-10-16T03:07:23.093Z  ✓ built in 2.02s
+2026-10-16T03:07:23.459Z  vite v8.3.1 building ssr environment for production...
+2026-10-16T03:07:23.478Z  transforming...
+2026-10-16T03:07:24.135Z  ✓ 47 modules transformed.
+2026-10-16T03:07:24.163Z  rendering chunks...
+2026-10-16T03:07:24.183Z  computing gzip size...
+2026-10-16T03:07:24.193Z  .site-build/.vite/manifest.json    0.19 kB │ gzip:   0.13 kB
+2026-10-16T03:07:24.193Z  .site-build/prerender.js         477.41 kB │ gzip: 123.28 kB
+2026-10-16T03:07:24.193Z  
+2026-10-16T03:07:24.194Z  ✓ built in 733ms
+2026-10-16T03:07:24.414Z  Content relationships, release evidence, dates and external URL contracts verified.
+2026-10-16T03:07:25.185Z  Prerendered 172 public routes, 404 page, sitemap, and 11 legacy redirects.
+2026-10-16T03:07:25.329Z  file:///vercel/path0/scripts/release-revision.mjs:28
+2026-10-16T03:07:25.329Z  if (state.status.trim()) throw new Error(`Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview. Changed paths:\n${state.status}`);
+2026-10-16T03:07:25.330Z  ^
+2026-10-16T03:07:25.330Z  
+2026-10-16T03:07:25.330Z  Error: Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview. Changed paths:
+2026-10-16T03:07:25.330Z  M vercel.json
+2026-10-16T03:07:25.330Z  at resolveReleaseRevision (file:///vercel/path0/scripts/release-revision.mjs:28:36)
+2026-10-16T03:07:25.330Z  at file:///vercel/path0/scripts/write-release-revision.mjs:11:18
+2026-10-16T03:07:25.331Z  at ModuleJob.run (node:internal/modules/esm/module_job:343:25)
+2026-10-16T03:07:25.331Z  at async onImport.tracePromise.__proto__ (node:internal/modules/esm/loader:681:26)
+2026-10-16T03:07:25.331Z  at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+2026-10-16T03:07:25.331Z  
+2026-10-16T03:07:25.331Z  Node.js v22.23.2
+2026-10-16T03:07:25.368Z  Error: [BUILD_UTILS_SPAWN_1] Command "npm run release:check" exited with 1
+status	● Error

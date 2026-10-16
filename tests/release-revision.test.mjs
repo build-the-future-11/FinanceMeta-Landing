@@ -1,8 +1,41 @@
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, mkdtempSync, writeFileSync, rmSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
 import test from 'node:test';
 
-import { resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+import { equivalentVercelConfig, readGitState, resolveReleaseRevision, validateReleaseRevision } from '../scripts/release-revision.mjs';
+
+test('hosted normalization cannot hide source changes or local dirty configuration', () => {
+  const cwd = mkdtempSync(join(tmpdir(), 'fm-release-'));
+  const git = args => execFileSync('git', args, {cwd, stdio:'pipe'});
+  const config = {buildCommand:'npm run release:check'};
+  try {
+    git(['init']);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify(config));
+    writeFileSync(join(cwd,'source.js'), 'export const value = 1;');
+    git(['add','.']);
+    git(['-c','user.name=Release test','-c','user.email=release-test@example.invalid','commit','-m','fixture']);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify(config,null,2));
+    assert.notEqual(readGitState(cwd,{}).status, '');
+    assert.equal(readGitState(cwd,{VERCEL:'1'}).status, '');
+    writeFileSync(join(cwd,'source.js'), 'export const value = 2;');
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /source\.js/);
+    writeFileSync(join(cwd,'new.js'), 'new source');
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /new\.js/);
+    writeFileSync(join(cwd,'vercel.json'), JSON.stringify({...config,headers:[]}));
+    assert.match(readGitState(cwd,{VERCEL:'1'}).status, /vercel\.json/);
+  } finally { rmSync(cwd,{recursive:true,force:true}); }
+});
+
+test('hosted configuration normalization permits formatting only', () => {
+  const config = { buildCommand: 'npm run release:check', headers: [{ source: '/(.*)', headers: [{key:'X-Frame-Options', value:'DENY'}] }] };
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify(config, null, 4)), true);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify({...config, buildCommand:'npm run build:dev'})), false);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), JSON.stringify({...config, headers:[]})), false);
+  assert.equal(equivalentVercelConfig(JSON.stringify(config), '{'), false);
+});
 
 const SHA_A = '0123456789abcdef0123456789abcdef01234567';
 const SHA_B = '89abcdef0123456789abcdef0123456789abcdef';
@@ -21,42 +54,28 @@ test('release revision accepts only immutable lowercase 40-character Git SHAs', 
   }
 });
 
-test('exact source binding wins over the synthetic GitHub pull-request merge SHA', () => {
-  assert.equal(
-    resolveReleaseRevision({
-      env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B },
-      gitHead: () => SHA_B,
-    }),
-    SHA_A,
-  );
+test('clean checkout identity overrides event metadata but must match declared source', () => {
+  const clean = () => ({ head: SHA_A, status: '' });
+  assert.equal(resolveReleaseRevision({ env: { GITHUB_SHA: SHA_B }, gitState: clean }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B }, gitState: clean }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: {}, gitState: clean }), SHA_A);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_B }, gitState: clean }), /does not match/);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: clean }), /environment disagrees/);
+  assert.throws(() => resolveReleaseRevision({ env: {}, gitState: () => ({ head: 'main', status: '' }) }), /git HEAD must be/);
 });
 
-test('source and Vercel deployment identities must agree when both are declared', () => {
-  assert.equal(
-    resolveReleaseRevision({
-      env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_A, GITHUB_SHA: SHA_B },
-      gitHead: () => SHA_B,
-    }),
-    SHA_A,
-  );
-
-  assert.throws(
-    () =>
-      resolveReleaseRevision({
-        env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B },
-        gitHead: () => SHA_A,
-      }),
-    /release revision environment disagrees/,
-  );
+test('modified, staged and untracked files reject release even with a declared SHA', () => {
+  for (const status of [' M src/main.tsx', 'M  package.json', '?? src/new.ts']) {
+    assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A }, gitState: () => ({ head: SHA_A, status }) }), /clean checkout/);
+  }
 });
 
-test('GitHub SHA and then git HEAD are bounded fallbacks only when stronger identities are absent', () => {
-  assert.equal(resolveReleaseRevision({ env: { GITHUB_SHA: SHA_A }, gitHead: () => SHA_B }), SHA_A);
-  assert.equal(resolveReleaseRevision({ env: {}, gitHead: () => SHA_B }), SHA_B);
-  assert.throws(
-    () => resolveReleaseRevision({ env: {}, gitHead: () => 'main' }),
-    /git HEAD must be an immutable lowercase 40-character Git SHA/,
-  );
+test('source archives require an explicit consistent source identity', () => {
+  const archive = () => null;
+  for (const env of [{}, { GITHUB_SHA: SHA_A }]) assert.throws(() => resolveReleaseRevision({ env, gitState: archive }), /archive requires/);
+  assert.equal(resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, GITHUB_SHA: SHA_B }, gitState: archive }), SHA_A);
+  assert.equal(resolveReleaseRevision({ env: { VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: archive }), SHA_B);
+  assert.throws(() => resolveReleaseRevision({ env: { SOURCE_SHA: SHA_A, VERCEL_GIT_COMMIT_SHA: SHA_B }, gitState: archive }), /environment disagrees/);
 });
 
 test('release-critical workflows stay pinned to the repository Node runtime and Ubuntu 24.04', () => {
