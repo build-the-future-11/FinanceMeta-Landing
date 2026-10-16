@@ -82,7 +82,9 @@ jobs:
 
           for attempt in 1 2 3 4 5 6; do
             echo "[production-health] Attempt ${attempt}/6" | tee -a "$log"
-            if SOURCE_SHA="${SOURCE_SHA}" npm run live:verify 2>&1 | tee -a "$log"; then
+            # The source SHA was checked above. The evidence directory is now
+            # intentionally untracked, so pass the expected deployed SHA directly.
+            if npm run live:verify -- https://finance-meta-landing.vercel.app/ "${SOURCE_SHA}" 2>&1 | tee -a "$log"; then
               passed=1
               break
             fi
