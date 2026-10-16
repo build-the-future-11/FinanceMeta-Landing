@@ -25,7 +25,7 @@ export const resolveReleaseRevision = ({ env = process.env, gitState = readGitSt
   const declared = sourceSha || vercelSha;
   const state = gitState();
   if (state) {
-    if (state.status.trim()) throw new Error('Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview.');
+    if (state.status.trim()) throw new Error(`Release requires a clean checkout, including untracked files. Use npm run build:dev for a local preview. Changed paths:\n${state.status}`);
     const head = validateReleaseRevision(state.head, 'git HEAD');
     if (declared && declared !== head) throw new Error('Declared source revision does not match the checked-out git HEAD.');
     return head;
