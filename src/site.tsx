@@ -1,7 +1,7 @@
 import { applicationDestination } from './lib/application-routes';
 import { ReadingProvider, ReadingFeedback } from './reading-list';
 import type { ComponentType } from 'react';
-import { ResearchExplorer, ProgramsDirectory, LearnDirectory, Markets, EventsCalendar } from './product-pages';
+import { ResearchExplorer, LearnDirectory, Markets } from './product-pages';
 import { useEffect, useState } from 'react';
 import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from './member-handoff';
 import { Apply, Privacy, Participation, EpisodeDetail, EpisodeIndex, EventDetail, PersonDetail, ChapterDetail, ChapterStart } from './platform-pages';
@@ -35,7 +35,6 @@ function Page({path,articleBody,routePage: RoutePage}: {path:string;articleBody?
  case '/apply':return <Apply/>;
  case '/privacy':return <Privacy/>;
  case '/participation':return <Participation/>;
- case '/programs':return <ProgramsDirectory/>;
  case '/publications/library':return <PublicationDirectory/>;
  case '/podcast/episodes':case '/podcast/topics':return <EpisodeIndex/>;
  case '/podcast/guests':return <EpisodeIndex guests/>;
@@ -61,7 +60,6 @@ function Page({path,articleBody,routePage: RoutePage}: {path:string;articleBody?
  case '/studio/visualization':return <Frictions/>;
  case '/media':return <Media/>;
  case '/podcast':return <Podcast/>;
- case '/events':return <EventsCalendar/>;
  case '/open':case '/open/library':case '/open/resources':return <OpenLibrary/>;
  case '/network':return <Network/>;
  case '/network/chapters':return <Chapters/>;

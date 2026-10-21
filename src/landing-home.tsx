@@ -10,17 +10,33 @@ const goalLabels = { learn: 'Understand the basics', research: 'Explore research
 const lessonSlugs = { everyday: 'how-interest-rates-move-through-the-economy', markets: 'ipo-from-private-company-to-public-market', evidence: 'reading-an-economic-claim-without-getting-fooled' };
 
 function RateIllustration() {
-  return <svg className="field-illustration" viewBox="0 0 520 340" role="img" aria-labelledby="rate-diagram-title rate-diagram-desc">
-    <title id="rate-diagram-title">One decision. Many connections.</title><desc id="rate-diagram-desc">A conceptual diagram showing a policy-rate change passing through banks to households, businesses and investors. It is not market data.</desc>
-    <defs><pattern id="field-dots" width="20" height="20" patternUnits="userSpaceOnUse"><circle cx="1" cy="1" r="1" fill="#36664f" opacity=".22"/></pattern></defs>
-    <rect width="520" height="340" fill="#e7ecd9"/><rect width="520" height="340" fill="url(#field-dots)"/>
-    <g fill="none" stroke="#43705b" strokeWidth="1.4"><path d="M110 170H204M292 170H407M248 150V90H407M248 190V250H407"/><path d="m399 83 8 7-8 7m0 66 8 7-8 7m0 66 8 7-8 7"/></g>
-    <circle cx="100" cy="170" r="62" fill="#173e2e"/><text x="100" y="164" textAnchor="middle" fill="#eff6df" fontSize="15">POLICY</text><text x="100" y="187" textAnchor="middle" fill="#dcf796" fontFamily="Georgia,serif" fontSize="27">rate</text>
-    <rect x="201" y="144" width="94" height="52" rx="26" fill="#f8f7ef" stroke="#43705b"/><text x="248" y="176" textAnchor="middle" fill="#173e2e" fontSize="16">Banks</text>
-    <g fill="#173e2e" fontSize="15"><text x="335" y="65">Households</text><text x="335" y="145">Businesses</text><text x="335" y="225">Investors</text></g>
-    <g fill="#d0e8b7" stroke="#43705b"><circle cx="426" cy="90" r="18"/><circle cx="426" cy="170" r="18"/><circle cx="426" cy="250" r="18"/></g>
-    <text x="32" y="316" fill="#466351" fontSize="11" letterSpacing="1.8">A FIELD GUIDE TO THE FINANCIAL SYSTEM</text>
-  </svg>;
+  const [paused, setPaused] = useState(false);
+  return <div className={`finance-particles${paused ? ' is-paused' : ''}`}>
+    <svg className="field-illustration" viewBox="0 0 520 360" role="img" aria-labelledby="rate-diagram-title rate-diagram-desc">
+      <title id="rate-diagram-title">One decision. Many connections.</title>
+      <desc id="rate-diagram-desc">Three luminous layers represent policy, banks, and everyday life. A conceptual illustration of how financial decisions connect, not market data.</desc>
+      <defs>
+        <pattern id="finance-particle-grid" width="12" height="12" patternUnits="userSpaceOnUse"><circle cx="6" cy="6" r="1.7" fill="currentColor"/><path d="M0 2V6M-2 4H2M10 4H14M12 2V6" stroke="currentColor" strokeWidth=".7" opacity=".55"/></pattern>
+        <radialGradient id="finance-particle-halo"><stop stopColor="#72d99b" stopOpacity=".2"/><stop offset="1" stopColor="#72d99b" stopOpacity="0"/></radialGradient>
+        <linearGradient id="finance-particle-light" x1="0" y1="0" x2="1" y2="1"><stop stopColor="#8be6a8" stopOpacity=".15"/><stop offset=".5" stopColor="#c6f291"/><stop offset="1" stopColor="#4dbb87" stopOpacity=".3"/></linearGradient>
+        <mask id="finance-particle-mask"><rect x="-126" y="-126" width="252" height="252" fill="url(#finance-particle-grid)" style={{ color: 'white' }}/></mask>
+      </defs>
+      <ellipse cx="260" cy="205" rx="245" ry="155" fill="url(#finance-particle-halo)"/>
+      <g className="particle-connections" stroke="#a8e7a0" strokeWidth="1" strokeDasharray="2 7" opacity=".24"><path d="M48 120V270M260 18V168M472 120V270"/></g>
+      {[{ y: 255, label: 'Everyday life', tone: 'base' }, { y: 180, label: 'Banks', tone: 'middle' }, { y: 105, label: 'Policy', tone: 'top' }].map(({ y, label, tone }) => <g key={tone} transform={`translate(260 ${y})`}>
+        <g className={`particle-layer particle-layer-${tone}`}>
+          <g transform="matrix(.83 .39 -.83 .39 0 0)">
+            <rect x="-126" y="-126" width="252" height="252" fill="#113929" fillOpacity=".4" stroke="#86dca0" strokeOpacity=".16"/>
+            <rect x="-126" y="-126" width="252" height="252" fill="url(#finance-particle-light)" mask="url(#finance-particle-mask)"/>
+            <g mask="url(#finance-particle-mask)"><path className="particle-scan" d="M-115-126V126" stroke="#e0ffb5" strokeWidth="25"/></g>
+          </g>
+          <circle cx="0" cy="0" r="3" fill="#d3ffa7"/>
+        </g>
+        <text x="205" y="-18" textAnchor="end" fill="#c7dfc8" fontSize="10" letterSpacing="1.1">{label.toUpperCase()}</text>
+      </g>)}
+    </svg>
+    <div className="particle-footer"><span>One decision. Many connections.</span><button type="button" aria-pressed={paused} onClick={() => setPaused(!paused)}>{paused ? 'Resume motion' : 'Pause motion'}</button></div>
+  </div>;
 }
 
 function StartingPoint() {
@@ -98,6 +114,14 @@ export function InstitutionHome() {
       <aside className="field-feature" aria-label="Featured open reading"><div className="field-feature-top"><span>THE FIELD GUIDE</span><span>01 / Everyday economics</span></div><RateIllustration/><div className="field-feature-copy"><p className="home-kicker">Start with a better question</p><h2>{featured ? <a href={publicationPath(featured)}>When rates change,<br/>what changes for you?</a> : 'Follow the connections.'}</h2><p>A small change at the centre can travel a long way. Trace it through households, businesses and the wider economy.</p>{featured && <div className="field-feature-bottom"><a href={publicationPath(featured)} className="field-link">Read the explainer <Arrow/></a><span>{featured.readMinutes} min read</span></div>}</div></aside>
     </section>
     <div className="field-principles" role="group" aria-label="Our approach"><p><span aria-hidden="true">01</span> Free to read</p><p><span aria-hidden="true">02</span> Questions before conclusions</p><p><span aria-hidden="true">03</span> Evidence you can inspect</p><a href="/research/standards">Our standards <Arrow/></a></div>
+    <section className="home-available" aria-labelledby="network-discovery-title">
+      <div className="home-section-heading"><div><p className="home-kicker">Across Finance4All & FinanceMeta</p><h2 id="network-discovery-title">Find your people.<br/><em>Find your next question.</em></h2></div><p>From a first workshop to a research contribution. Explore what’s open, what’s being built and what’s coming next.</p></div>
+      <div className="available-grid">
+        <a href="/programs"><span className="home-kicker">22 program records</span><h3>Learn. Research. Contribute.</h3><p>Finance4 Impact, Labs, IYERN, publishing, chapters and more. See who each program is for and how to take part.</p><span className="field-link">Explore all programs <Arrow/></span></a>
+        <a href="/projects"><span className="home-kicker">48 project records</span><h3>Get closer to the work.</h3><p>Explore the full project register, from financial research to learning tools, with current status and next steps.</p><span className="field-link">Browse all projects <Arrow/></span></a>
+        <a href="/events"><span className="home-kicker">7 event plans</span><h3>Something to work toward.</h3><p>Workshops, Open Markets, Quant Arena and the Studio Buildathon. Dates await confirmation; launch holds are shown.</p><span className="field-link">Explore event plans <Arrow/></span></a>
+      </div>
+    </section>
     <section className="home-available" aria-labelledby="available-title">
       <div className="home-section-heading"><div><p className="home-kicker">Ready when you are</p><h2 id="available-title">Something useful.<br/><em>Right now.</em></h2></div><p>Read, practice or explore an assumption. These resources are free to use without an account.</p></div>
       <div className="available-grid">

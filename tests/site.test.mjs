@@ -16,8 +16,8 @@ test('canonical origins reject local addresses, credentials and accidental paths
  for(const value of ['http://financemeta.org','https://localhost','https://127.0.0.1','https://[::1]','https://user:password@financemeta.org','https://financemeta.org/path','https://financemeta.org/?query=1','https://financemeta.org/#fragment'])assert.throws(()=>publicSiteOrigin(value));
 });
 
-test('all 172 public routes have unique paths and emitted files',()=>{
- assert.equal(routes.length,172);assert.equal(publicPaths.size,routes.length);
+test('all 202 public routes have unique paths and emitted files',()=>{
+ assert.equal(routes.length,202);assert.equal(publicPaths.size,routes.length);
  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
 });
 test('all public pages contain one H1 and meaningful metadata before JavaScript runs',()=>{
@@ -71,7 +71,8 @@ test('legacy research projects and the expanded explainer library have complete 
 test('no invented publication, episode, event, or chapter output is shown',()=>{
  assert.match(htmlFor('/publications/working-papers'),/No working papers have been released/);
  assert.match(htmlFor('/podcast'),/first verified episode has not been published/);
- assert.match(htmlFor('/events'),/No confirmed upcoming sessions/);
+ assert.match(htmlFor('/events'),/No scheduled event was verified/);
+ assert.match(htmlFor('/events/calendar'),/No confirmed upcoming sessions/);
  assert.match(htmlFor('/network/chapters'),/No verified operating chapters/);
  assert.match(htmlFor('/research/projects/fi-jepa'),/no real-market performance claim/i);
 });

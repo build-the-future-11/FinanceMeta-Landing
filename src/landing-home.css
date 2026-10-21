@@ -156,3 +156,21 @@
 .resource-actions{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px}
 .resource-actions .field-button{max-width:100%;gap:16px}
 @media(max-width:700px){.home-available{margin-bottom:60px}.available-grid{grid-template-columns:1fr;gap:16px}.available-grid>a{padding:24px}.available-grid h3{margin-top:12px}.home-resource{grid-template-columns:1fr;gap:24px;padding:25px;margin-bottom:60px}.home-resource h2{font-size:32px}.home-resource h2 br{display:none}.resource-actions .field-button{font-size:12px}.home-research-links{display:grid;gap:10px}}
+
+/* A lightweight, original particle stack inspired by the Modal reference. */
+.finance-particles{background:#091b13;position:relative;isolation:isolate;overflow:hidden}
+.finance-particles .field-illustration{width:100%;height:auto;max-height:none;color:#fff}
+.particle-layer{animation:particle-float 7s ease-in-out infinite;transform-origin:center}
+.particle-layer-middle{animation-delay:-2.3s;opacity:.85}
+.particle-layer-base{animation-delay:-4.6s;opacity:.65}
+.particle-scan{animation:particle-sweep 7s ease-in-out infinite;opacity:0}
+.particle-layer-middle .particle-scan{animation-delay:-2.3s}
+.particle-layer-base .particle-scan{animation-delay:-4.6s}
+.particle-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:0 22px 14px;color:#c7dfc8;font-size:10px;line-height:1.5}
+.particle-footer button{font:inherit;color:#d5f4bb;background:transparent;border:1px solid #44634b;border-radius:20px;min-height:44px;padding:8px 12px;cursor:pointer;flex-shrink:0}
+.particle-footer button:hover{background:#1b3928}
+.landing-home .particle-footer button:focus-visible{outline-color:#d5f4bb}
+.finance-particles.is-paused .particle-layer,.finance-particles.is-paused .particle-scan{animation-play-state:paused}
+@keyframes particle-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes particle-sweep{0%,15%{transform:translateX(0);opacity:0}30%{opacity:.65}70%{opacity:.65}85%,100%{transform:translateX(230px);opacity:0}}
+@media(prefers-reduced-motion:reduce){.finance-particles .particle-layer,.finance-particles .particle-scan{animation:none}.particle-scan,.particle-footer button{display:none}}
