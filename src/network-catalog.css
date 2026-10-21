@@ -1,0 +1,12 @@
+.catalog-detail{display:grid;grid-template-columns:minmax(0,1fr) minmax(240px,340px);gap:70px;margin:35px 0 65px}
+.catalog-detail aside{border-left:1px solid var(--line);padding-left:28px;align-self:start;overflow-wrap:anywhere}
+.catalog-detail aside h2{font-size:1.5rem;margin-bottom:25px}
+.catalog-detail dt{font-size:.75rem;font-weight:600;margin-top:22px}
+.catalog-detail dd{margin:8px 0 0;font-size:.9rem;line-height:1.7;color:var(--muted)}
+.catalog-detail aside>.text-link{margin-top:25px;font-size:.85rem}
+.catalog-detail .section{padding-top:28px}.catalog-detail .section p+p{margin-top:16px}
+.catalog-detail .button{margin-top:20px}
+.catalog-legacy{border-top:1px solid var(--line);margin:50px 0;padding-top:24px}
+.catalog-legacy>summary{cursor:pointer;min-height:44px;font-size:.95rem}
+.catalog-legacy>summary:focus-visible{outline:2px solid var(--accent);outline-offset:5px}
+@media(max-width:700px){.catalog-detail{grid-template-columns:1fr;gap:35px}.catalog-detail aside{border-left:0;border-top:1px solid var(--line);padding:25px 0 0}.catalog-detail .button{white-space:normal}}

@@ -114,6 +114,14 @@ export function InstitutionHome() {
       <aside className="field-feature" aria-label="Featured open reading"><div className="field-feature-top"><span>THE FIELD GUIDE</span><span>01 / Everyday economics</span></div><RateIllustration/><div className="field-feature-copy"><p className="home-kicker">Start with a better question</p><h2>{featured ? <a href={publicationPath(featured)}>When rates change,<br/>what changes for you?</a> : 'Follow the connections.'}</h2><p>A small change at the centre can travel a long way. Trace it through households, businesses and the wider economy.</p>{featured && <div className="field-feature-bottom"><a href={publicationPath(featured)} className="field-link">Read the explainer <Arrow/></a><span>{featured.readMinutes} min read</span></div>}</div></aside>
     </section>
     <div className="field-principles" role="group" aria-label="Our approach"><p><span aria-hidden="true">01</span> Free to read</p><p><span aria-hidden="true">02</span> Questions before conclusions</p><p><span aria-hidden="true">03</span> Evidence you can inspect</p><a href="/research/standards">Our standards <Arrow/></a></div>
+    <section className="home-available" aria-labelledby="network-discovery-title">
+      <div className="home-section-heading"><div><p className="home-kicker">Across Finance4All & FinanceMeta</p><h2 id="network-discovery-title">Find your people.<br/><em>Find your next question.</em></h2></div><p>From a first workshop to a research contribution. Explore what’s open, what’s being built and what’s coming next.</p></div>
+      <div className="available-grid">
+        <a href="/programs"><span className="home-kicker">22 program records</span><h3>Learn. Research. Contribute.</h3><p>Finance4 Impact, Labs, IYERN, publishing, chapters and more. See who each program is for and how to take part.</p><span className="field-link">Explore all programs <Arrow/></span></a>
+        <a href="/projects"><span className="home-kicker">48 project records</span><h3>Get closer to the work.</h3><p>Explore the full project register, from financial research to learning tools, with current status and next steps.</p><span className="field-link">Browse all projects <Arrow/></span></a>
+        <a href="/events"><span className="home-kicker">7 event plans</span><h3>Something to work toward.</h3><p>Workshops, Open Markets, Quant Arena and the Studio Buildathon. Dates await confirmation; launch holds are shown.</p><span className="field-link">Explore event plans <Arrow/></span></a>
+      </div>
+    </section>
     <section className="home-available" aria-labelledby="available-title">
       <div className="home-section-heading"><div><p className="home-kicker">Ready when you are</p><h2 id="available-title">Something useful.<br/><em>Right now.</em></h2></div><p>Read, practice or explore an assumption. These resources are free to use without an account.</p></div>
       <div className="available-grid">

@@ -1,0 +1,924 @@
+{
+  "reconciledAt": "2026-10-17",
+  "sourceVerifiedAt": "2026-10-16",
+  "programs": [
+    {
+      "aliases": [
+        "Curriculum and Education Resources",
+        "Digital courses"
+      ],
+      "organization": "Finance4All",
+      "status": "Active",
+      "commitment": "Self-paced; choose a topic and return when useful.",
+      "format": "Online, self-directed",
+      "dates": "Ongoing open resources",
+      "eligibility": "Open educational reading. No paid membership is required.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "resource",
+        "label": "Start learning",
+        "href": "/finance-for-all",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Finance Debriefed",
+          "href": "/publications/financedebriefed"
+        }
+      ],
+      "source": {
+        "title": "Open learning library",
+        "href": "/learn"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "financial-foundations",
+      "title": "Financial Foundations",
+      "family": "Education",
+      "summary": "Open learning in money, markets, economics, financial systems and evidence.",
+      "purpose": "Build the vocabulary and source-reading habits needed to make sense of everyday financial decisions.",
+      "deliverable": "Self-directed reading and practice; no course certificate or completion is implied.",
+      "readiness": "Open educational pages are available. A staffed cohort, schedule and admission cycle are not confirmed.",
+      "audience": "Students and independent learners; educators selecting introductory resources."
+    },
+    {
+      "aliases": [
+        "Financial Literacy Workshops",
+        "School and Community Pilots",
+        "School visits",
+        "Global literacy outreach"
+      ],
+      "organization": "Finance4All",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Learning resources",
+          "href": "/learn"
+        },
+        {
+          "label": "Events",
+          "href": "/events"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "finance4-impact",
+      "title": "Finance4 Impact",
+      "family": "Education",
+      "summary": "Small school and community pilots built around useful financial decisions.",
+      "purpose": "Connect a defined audience and learning need with a facilitator, suitable curriculum and measured follow-up.",
+      "deliverable": "A scoped workshop plan, permissions, learning evidence and a post-session review before repeat delivery.",
+      "readiness": "Interest only. Facilitator capacity, local permissions, safeguarding and measurement must be confirmed before a pilot.",
+      "audience": "Schools, educators, community organizers and volunteers."
+    },
+    {
+      "aliases": [
+        "Clubs and chapters",
+        "School clubs"
+      ],
+      "organization": "Finance4All",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Global chapter directory",
+          "href": "/network/chapters"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "chapters",
+      "title": "International Chapters & Affiliate Clubs",
+      "family": "Education",
+      "summary": "Propose a locally useful finance learning community with an accountable organizer.",
+      "purpose": "Support recurring local activity with permission, a starter plan, transparent evidence and central approval.",
+      "deliverable": "A first verified activity, an accepted owner and an operating record before active chapter status.",
+      "readiness": "A city pin or form submission is an expression of interest. Affiliation and activation require separate review.",
+      "audience": "School, university and community teams with a prospective local organizer."
+    },
+    {
+      "aliases": [],
+      "organization": "FinanceMeta",
+      "status": "Active",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [
+        "fi-jepa",
+        "eigen-jepa",
+        "eigenfinance"
+      ],
+      "related": [
+        {
+          "label": "Research directory",
+          "href": "/research"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "finance-meta-labs",
+      "title": "FinanceMeta Labs",
+      "family": "Research",
+      "summary": "The research division connecting explicit questions, frozen evaluation and reviewable artifacts.",
+      "purpose": "Organize empirical research around provenance, baselines, falsification and independent review.",
+      "deliverable": "A protocol, reproducible artifact, limitations and review record.",
+      "readiness": "The operating plan records active Labs work with incomplete control-role capacity. Broad cohort activation remains gated.",
+      "audience": "Researchers, students, research engineers and qualified reviewers."
+    },
+    {
+      "aliases": [],
+      "organization": "FinanceMeta",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [
+        "quantitative-markets",
+        "eigenfinance"
+      ],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "quantitative-markets",
+      "title": "Quantitative Markets & Microstructure",
+      "family": "Research",
+      "summary": "Market structure, volatility, forecasting, execution and robust backtesting.",
+      "purpose": "Evaluate market hypotheses under realistic information timing, costs and chronological validation.",
+      "deliverable": "A bounded reproducible analysis with leakage checks and preserved null results.",
+      "readiness": "Cohort activation awaits leakage-sensitive split and boundary repairs, owners and review capacity. Interest intake remains available.",
+      "audience": "Contributors comfortable with quantitative reasoning and reproducible analysis."
+    },
+    {
+      "aliases": [],
+      "organization": "FinanceMeta",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [
+        "financial-systems-policy",
+        "digital-payments-access"
+      ],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "financial-systems-policy",
+      "title": "Financial Systems, Access & Policy",
+      "family": "Research",
+      "summary": "Study payments, credit, financial inclusion and the institutions shaping access.",
+      "purpose": "Separate adoption from reliability, consumer protection and measurable access.",
+      "deliverable": "A source-led research note with explicit scope, privacy controls and causal-claim limits.",
+      "readiness": "The lane remains bounded until staffing and artifact gates are accepted; no new cohort is promised.",
+      "audience": "Economics, public-policy and data researchers."
+    },
+    {
+      "aliases": [
+        "Open Markets Challenge 001",
+        "Open Markets Lab",
+        "Quant Arena 2026 (unconfirmed event concept)"
+      ],
+      "organization": "FinanceMeta",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Request launch updates",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [
+        "open-markets"
+      ],
+      "related": [
+        {
+          "label": "Event schedule and holds",
+          "href": "/events"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "open-markets",
+      "title": "Open Markets Lab / Challenge 001",
+      "family": "Competitions",
+      "summary": "A scoped markets research challenge with an operating specification and an unresolved launch gate.",
+      "purpose": "Build and test a market hypothesis with documented data and point-in-time controls.",
+      "deliverable": "A reproducible research artifact assessed under a frozen rubric.",
+      "readiness": "Evaluator and reviewer team, dates, licensed data provisioning and public rules remain unconfirmed. An existing registration form does not lift this hold.",
+      "audience": "Prospective student research teams; final eligibility is pending."
+    },
+    {
+      "aliases": [
+        "Replication notes",
+        "Negative-results research",
+        "Research tools and open-source contributions"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Research standards",
+          "href": "/research/standards"
+        },
+        {
+          "label": "Preprint pathway",
+          "href": "/programs/preprint-forum"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "methods-reproducibility",
+      "title": "Research Methods & Reproducibility",
+      "family": "Research",
+      "summary": "Learn to make a research claim inspectable, repeatable and open to correction.",
+      "purpose": "Prepare methods notes, replications and negative-result reports with an explicit evidence boundary.",
+      "deliverable": "Versioned code and data provenance, a reproduction guide and a limitations statement.",
+      "readiness": "Public evidence standards are available; contributor assignments and review capacity are confirmed individually.",
+      "audience": "Students, researchers and contributors interested in evaluation or research engineering."
+    },
+    {
+      "aliases": [
+        "Member research participation"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Public projects",
+          "href": "/research"
+        },
+        {
+          "label": "My Research (sign in required)",
+          "href": "https://finance4all-global-reach.vercel.app/portal/my-research"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "student-research",
+      "title": "Student Research Projects",
+      "family": "Research",
+      "summary": "Match a specific contribution to a question, owner and reviewer.",
+      "purpose": "Help contributors move from general interest to a bounded first artifact.",
+      "deliverable": "An agreed research note, analysis, code contribution or replication with review.",
+      "readiness": "Matching interest is open. A member account or application is not a project assignment.",
+      "audience": "Students and early researchers able to propose a concrete contribution."
+    },
+    {
+      "aliases": [
+        "IYERJ",
+        "Economics journal"
+      ],
+      "organization": "IYERN / FinanceMeta",
+      "status": "Applications open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Submission cutoff and first-issue date are unconfirmed. December 1, 2026 is an unresolved planning milestone, not a deadline.",
+      "eligibility": "All authors must approve submission and have rights to share materials. Guardian permission is required for authors under 18 where applicable.",
+      "selection": "Initial screening is followed by editorial decisions, independent review and revision where commissioned. No acceptance, DOI, ISSN or mentorship placement is guaranteed.",
+      "action": {
+        "kind": "screening",
+        "label": "Submit for editorial screening",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Journal and author guidance",
+          "href": "/publications/iyerj"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "iyer-journal",
+      "title": "IYER Journal",
+      "family": "Publishing",
+      "summary": "A journal pathway for careful economics and finance research, subject to editorial screening and independent review.",
+      "purpose": "Build an authorized publication record for empirical work, theory, replications, null results and methods notes.",
+      "deliverable": "A manuscript with author contributions, references, methods, limitations and permissions.",
+      "readiness": "Manuscript screening intake is available. No articles are authorized in this site's journal archive; publication and review operations remain separate gates.",
+      "audience": "Authors of economics and finance research; institutional affiliation is not required."
+    },
+    {
+      "aliases": [],
+      "organization": "IYERN",
+      "status": "Applications open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Coauthor consent, rights to share and confidentiality clearance are required. Follow the form's guardian-permission instructions where relevant.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "screening",
+        "label": "Submit a preprint for screening",
+        "href": "https://tally.so/r/RGXXLJ",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Preprint archive and guidelines",
+          "href": "https://finance4all-global-reach.vercel.app/iyern/forum"
+        }
+      ],
+      "source": {
+        "title": "Official IYERN preprint submission form",
+        "href": "https://tally.so/r/RGXXLJ"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "preprint-forum",
+      "title": "IYERN Preprint Forum",
+      "family": "Publishing",
+      "summary": "Working papers, replications, methods notes and negative results, screened before public posting.",
+      "purpose": "Give early research a clearly labeled place for discussion and revision.",
+      "deliverable": "A versioned manuscript, abstract, sources, author permission and declared limitations.",
+      "readiness": "Screening intake is open. Preprints are not peer-reviewed journal publications and posting is never automatic.",
+      "audience": "Authors with a working economics or finance manuscript."
+    },
+    {
+      "aliases": [],
+      "organization": "IYERN / FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "research-fellowship",
+      "title": "IYERN Research Fellowship",
+      "family": "Research",
+      "summary": "A future cohort focused on producing a defensible research artifact.",
+      "purpose": "Connect research tracks, project matching and a structured revision process.",
+      "deliverable": "A reproducible final research artifact; the approved cohort specification is pending.",
+      "readiness": "Future cohort interest only. Dates, selection criteria, time commitment and mentoring capacity are not confirmed.",
+      "audience": "Emerging researchers interested in quantitative finance, development, computation or policy."
+    },
+    {
+      "aliases": [],
+      "organization": "IYERN / FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Request challenge updates",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Challenge information",
+          "href": "https://finance4all-global-reach.vercel.app/iyern/challenge"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "global-research-challenge",
+      "title": "IYERN Global Research Challenge",
+      "family": "Competitions",
+      "summary": "A proposed international challenge for falsifiable questions and transparent research.",
+      "purpose": "Reward careful methods, useful evidence and honest limitations.",
+      "deliverable": "A research submission under rules that must be finalized before entries open.",
+      "readiness": "Updates only. Eligibility, dates, judges, prizes and partner arrangements are not announced.",
+      "audience": "Prospective economics and finance research participants."
+    },
+    {
+      "aliases": [],
+      "organization": "IYERN",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Expertise, confidentiality, conflicts and capacity are assessed before a trial or appointment.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "editorial-reviewers",
+      "title": "Founding Editors & Reviewer Pool",
+      "family": "Publishing",
+      "summary": "Interest in methods review, editorial production and research-integrity work.",
+      "purpose": "Develop a small review cell with expertise, capacity and conflict checks.",
+      "deliverable": "A bounded review or editorial trial assessed before appointment.",
+      "readiness": "Interest only. No editorial-board membership or reviewer appointment is automatic.",
+      "audience": "Qualified reviewers, editors and research-integrity contributors."
+    },
+    {
+      "aliases": [
+        "Investment / Quantitative Competition",
+        "Finance / Investment Case Challenge"
+      ],
+      "organization": "Finance4All",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Request rules and launch updates",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "investment-model-challenge",
+      "title": "Global Investment Model Challenge 2026",
+      "family": "Competitions",
+      "summary": "A proposed challenge for a transparent financial decision model, including spreadsheets.",
+      "purpose": "Assess assumptions, sources, baseline comparisons, sensitivity and reproducibility.",
+      "deliverable": "A model or notebook with source timing, risks and clear limits; final rules are pending.",
+      "readiness": "Submission form remains a draft. Rules, deadlines, judging and eligibility are not frozen.",
+      "audience": "Prospective individual or team entrants; a spreadsheet is an intended option."
+    },
+    {
+      "aliases": [],
+      "organization": "FinanceMeta Labs",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Request challenge updates",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [
+        "backtest-falsification"
+      ],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "backtest-falsification",
+      "title": "Backtest Falsification Challenge",
+      "family": "Competitions",
+      "summary": "Test whether a market claim survives the controls that backtests can omit.",
+      "purpose": "Investigate leakage, survivorship, information timing, transaction costs and regime changes.",
+      "deliverable": "A reproducible falsification or robustness report; null results count.",
+      "readiness": "Reviewer capacity, licensed sources, fixed rubric and dates remain gates. The dedicated application form is a draft.",
+      "audience": "Prospective research teams interested in robust evaluation."
+    },
+    {
+      "aliases": [
+        "Point-in-Time Market Data Integrity Toolkit",
+        "Studio 01",
+        "Approved finance technology projects",
+        "Research Engineering",
+        "Data Infrastructure",
+        "FinTech Studio Buildathon (unconfirmed event concept)"
+      ],
+      "organization": "FinanceMeta",
+      "status": "On hold",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Methods and reproducibility",
+          "href": "/programs/methods-reproducibility"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "fintech-studio",
+      "title": "FinTech Studio",
+      "family": "Build",
+      "summary": "One priority build: a deterministic, read-only historical market-data integrity checker.",
+      "purpose": "Detect malformed or suspicious OHLCV files before downstream research begins.",
+      "deliverable": "A reproducible toolkit and frozen benchmark. It does not repair data, forecast, trade or certify universal point-in-time safety.",
+      "readiness": "The first brief is scoped. Studio leadership, builders, independent review and a canonical repository remain staffing/release gates.",
+      "audience": "Research engineers, data-tool builders, testers and independent reviewers."
+    },
+    {
+      "aliases": [],
+      "organization": "FinanceMeta",
+      "status": "Planned",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "resource",
+        "label": "Explore member opportunities",
+        "href": "https://finance4all-global-reach.vercel.app/portal/pathways",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "FinanceMeta program evidence registry",
+        "href": "https://github.com/build-the-future-11/FinanceMeta-Global/blob/main/registry/programs.json"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "axiom-pathways",
+      "title": "Axiom Pathways",
+      "family": "Community & growth",
+      "summary": "Explore research, education and project opportunities with explicit provider requirements.",
+      "purpose": "Connect interests with a practical next contribution while keeping selection and acceptance separate.",
+      "deliverable": "An evidence-based opportunity shortlist or application; no admission, employment or funding promise.",
+      "readiness": "The member opportunity board exists. A complete pathway syllabus and completion standard have not been verified.",
+      "audience": "Members exploring their next research or learning step."
+    },
+    {
+      "aliases": [
+        "FinanceMeta Debrief",
+        "Finance Debriefs"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Applications open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "screening",
+        "label": "Submit an editorial proposal",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [
+        {
+          "label": "Read Finance Debriefed",
+          "href": "/publications/financedebriefed"
+        }
+      ],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "debriefed-contributors",
+      "title": "Finance Debriefed Contributors",
+      "family": "Publishing",
+      "summary": "Contribute independently sourced explanations of economics, financial systems and research.",
+      "purpose": "Translate complex claims into readable work that survives factual and research review.",
+      "deliverable": "A draft, claim/source ledger, attribution and corrections history.",
+      "readiness": "Editorial proposals are accepted for review. Submission does not authorize publication; Issue 001 remains under review gates.",
+      "audience": "Writers, research explainers, fact-checkers and editorial contributors."
+    },
+    {
+      "aliases": [
+        "Industry research projects",
+        "Live industry projects",
+        "Founder Network"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Propose a collaboration",
+        "href": "https://tally.so/r/obWxvN",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "Official research, programs and partnership intake",
+        "href": "https://tally.so/r/obWxvN"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "union-collaborations",
+      "title": "The Union & Scoped Collaborations",
+      "family": "Community & growth",
+      "summary": "Develop a written, bounded collaboration around an actual problem and useful output.",
+      "purpose": "Agree responsibility, source rights, review and delivery before naming an institutional relationship.",
+      "deliverable": "An approved scope, documented exchange and reviewable handover.",
+      "readiness": "Collaboration proposals are considered individually. Prospective contacts are not partners.",
+      "audience": "Educators, institutions, researchers and organizations with a concrete need."
+    },
+    {
+      "aliases": [
+        "Verified leadership opportunities",
+        "Program operations"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Interest open",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": {
+        "kind": "interest",
+        "label": "Express interest",
+        "href": "https://tally.so/r/kbayyj",
+        "verifiedAt": "2026-10-16",
+        "available": true
+      },
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "Official FinanceMeta / Finance4All / IYERN intake",
+        "href": "https://tally.so/r/kbayyj"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "mentors-and-leadership",
+      "title": "Mentors, Speakers & Program Contributors",
+      "family": "Community & growth",
+      "summary": "Offer bounded expertise in teaching, review, public discussion or program operations.",
+      "purpose": "Build capacity through explicit responsibilities and evidence-based trials.",
+      "deliverable": "An agreed review, talk, learning resource or operational artifact.",
+      "readiness": "Interest only. Mentorship capacity and leadership appointments require acceptance and an agreed scope.",
+      "audience": "Educators, professionals, reviewers and experienced contributors."
+    },
+    {
+      "aliases": [
+        "SISTER",
+        "Zenipath",
+        "Student podcast",
+        "Economics Olympiad pathway",
+        "FinanceMeta Essay Prize",
+        "Venture Research",
+        "Startup Diligence",
+        "Interviews",
+        "Videos",
+        "Women in Finance (future pathway)"
+      ],
+      "organization": "FinanceMeta",
+      "status": "Planned",
+      "commitment": "Not announced; agree a bounded scope before participating.",
+      "format": "Online interest intake; delivery arrangements are confirmed separately.",
+      "dates": "Not announced",
+      "eligibility": "Final age, location and participation terms are not announced. Guardian or school permission is required where applicable.",
+      "selection": "Interest is reviewed for fit and available capacity. Submission is not acceptance, a role, or a confirmed place.",
+      "action": null,
+      "research": [],
+      "related": [],
+      "source": {
+        "title": "FinanceMeta program architecture",
+        "href": "https://finance-meta-landing.vercel.app/"
+      },
+      "verifiedAt": "2026-10-16",
+      "slug": "queued-directions",
+      "title": "Future Program Directions",
+      "family": "Community & growth",
+      "summary": "A consolidated record of earlier program concepts retained for continuity.",
+      "purpose": "Keep the summer institute, learning-game, podcast, competition-preparation and venture-research ideas visible without presenting new operating programs.",
+      "deliverable": "Each concept needs an accepted owner, a bounded brief and review capacity before activation.",
+      "readiness": "These are queued concepts. No cohort, playable game, recordings, confirmed competition, investment offering or named roster is verified.",
+      "audience": "Readers researching the wider FinanceMeta program architecture."
+    }
+  ],
+  "events": [
+    {
+      "slug": "finance4-impact-pilots",
+      "title": "Finance4 Impact · financial literacy pilots",
+      "summary": "Small school and community workshops in budgeting, saving and everyday financial decisions.",
+      "status": "Awaiting schedule",
+      "type": "workshop",
+      "host": "Finance4All",
+      "program": "finance4-impact",
+      "readiness": "Host, facilitator, permissions, safeguarding and delivery dates must be confirmed.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "open-markets-challenge-001",
+      "title": "FinanceMeta Open Markets Challenge 001",
+      "summary": "Investigate a market hypothesis using documented data, transparent methods and point-in-time controls.",
+      "status": "On hold",
+      "type": "competition",
+      "host": "FinanceMeta Labs",
+      "program": "open-markets",
+      "readiness": "The existing registration form does not lift the operational hold. Evaluator capacity, licensed data provisioning and dates remain unconfirmed.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "investment-model-challenge-2026",
+      "title": "Global Investment Model Challenge 2026",
+      "summary": "A proposed modeling challenge rewarding explicit assumptions, reproducibility, risk checks and clear limitations.",
+      "status": "On hold",
+      "type": "competition",
+      "host": "Finance4All",
+      "program": "investment-model-challenge",
+      "readiness": "Rules, eligibility, submission deadline, timezone and judging team are not frozen. No competition registration is offered.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "backtest-falsification-challenge",
+      "title": "Backtest Falsification Challenge",
+      "summary": "A proposed challenge examining leakage, costs, survivorship and other reasons backtests fail. Defensible negative results count.",
+      "status": "On hold",
+      "type": "competition",
+      "host": "FinanceMeta Labs",
+      "program": "backtest-falsification",
+      "readiness": "Released data, licensing, evaluation rules, reviewer capacity and schedule are required before launch.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "iyern-global-research-challenge",
+      "title": "IYERN Global Research Challenge",
+      "summary": "A proposed research challenge in economics, finance and transparent research methods.",
+      "status": "Awaiting schedule",
+      "type": "competition",
+      "host": "IYERN / FinanceMeta",
+      "program": "global-research-challenge",
+      "readiness": "Early interest only. No confirmed competition dates, judges, prizes or partner relationship are announced.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "quant-arena-2026",
+      "title": "FinanceMeta Quant Arena 2026",
+      "summary": "A planned markets competition centered on evidence, reasoning, risk and defending a decision under changing information.",
+      "status": "On hold",
+      "type": "competition",
+      "host": "FinanceMeta",
+      "program": "quantitative-markets",
+      "readiness": "The fall launch plan proposes a format, but a frozen round calendar, rules, judges and authorized signup were not verified.",
+      "verifiedAt": "2026-10-16"
+    },
+    {
+      "slug": "fintech-studio-buildathon",
+      "title": "FinTech Studio Buildathon",
+      "summary": "A planned build sprint for functional finance tools with testable artifacts and honest evaluation.",
+      "status": "On hold",
+      "type": "competition",
+      "host": "FinanceMeta",
+      "program": "fintech-studio",
+      "readiness": "November 2026 is a planning window, not a confirmed schedule. Exact dates, rules and management approval remain pending.",
+      "verifiedAt": "2026-10-16"
+    }
+  ]
+}

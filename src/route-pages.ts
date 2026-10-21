@@ -7,6 +7,10 @@ export async function loadRoutePage(rawPath: string) {
     const pages = await import('./course-pages');
     return path === '/open/courses' ? pages.Courses : pages.Course;
   }
+  if (path === '/programs' || (path.startsWith('/programs/') && path !== '/programs/compare') || path === '/events' || path.startsWith('/events/')) {
+    const page = (await import('./network-pages')).networkPageFor(path);
+    if (page) return page;
+  }
   if (path === '/join') return (await import('./join-page')).Join;
   if (path === '/reading-list') return (await import('./reading-list-page')).ReadingListPage;
   if (path === '/learn/glossary' || path === '/learn/practice') {

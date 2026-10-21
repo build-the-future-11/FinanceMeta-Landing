@@ -1,3 +1,4 @@
+import { networkRoutes } from './content/network-routes';
 import { learningTracks } from './content/learning';
 import { labs, projects, cohorts, publications, publicationPath, episodes, events, people, chapters } from './content/research';
 import { programs } from './content/programs';
@@ -16,7 +17,7 @@ const fixed: [string,string,string][] = [
  ['/apply','Applications & submissions','Research, cohort interest, chapter proposals and contribution intake.'],
  ['/privacy','Privacy information','How browsing, account and submission data are handled.'],
  ['/participation','Participation expectations','Research integrity, contribution permissions and community conduct.'],
- ['/programs','Research programs','Five research and engineering participation tracks with proposed curricula.'],
+ ['/programs','Programs across FinanceMeta and Finance4All','Education, research, publishing, competitions, building and community programs with availability and participation details.'],
  ['/publications/library','Research library','Research papers, reports, studies, datasets and benchmarks.'],
  ['/podcast/episodes','Episode archive','Verified podcast recordings and source notes.'],
  ['/podcast/guests','Podcast guests','People and ideas in released conversations.'],
@@ -63,7 +64,7 @@ const fixed: [string,string,string][] = [
  ['/finance-for-all','Finance for All','The financial-education initiative within FinanceMeta.'],
 ];
 const portfolioRoutes:RouteRecord[]=Array.from({length:48},(_,index)=>{const id=`F4A-${String(index+1).padStart(2,'0')}`;return {path:`/projects/${id.toLowerCase()}`,title:`FinanceMeta project ${id}`,description:'FinanceMeta portfolio planning and execution-control record.'};});
-export const routes:RouteRecord[]=[...learningTracks.map(t=>({path:'/learn/'+t.slug,title:t.title,description:t.description})),...episodes.map(e=>({path:`/podcast/${e.slug}`,title:e.title,description:e.summary})),...events.map(e=>({path:`/events/${e.slug}`,title:e.title,description:e.description})),...people.map(p=>({path:`/about/team/${p.slug}`,title:p.name,description:p.bio})),...chapters.map(c=>({path:`/network/chapters/${c.slug}`,title:c.name,description:c.location})),...fixed.map(([path,title,description])=>({path,title,description})),...portfolioRoutes,...labs.map(l=>({path:`/research/labs/${l.slug}`,title:l.title,description:l.thesis})),...projects.map(p=>({path:`/research/projects/${p.slug}`,title:p.name,description:p.question})),...cohorts.map(c=>({path:`/research/cohorts/${c.slug}`,title:c.title,description:c.question})),...publications.map(p=>({path:publicationPath(p),title:p.title,description:p.abstract})),...programs.map(p=>({path:`/${p.slug}`,title:p.title,description:p.summary}))];
+export const routes:RouteRecord[]=[...networkRoutes,{path:'/events/calendar',title:'Confirmed event calendar',description:'Confirmed events and their announced dates.'},...learningTracks.map(t=>({path:'/learn/'+t.slug,title:t.title,description:t.description})),...episodes.map(e=>({path:`/podcast/${e.slug}`,title:e.title,description:e.summary})),...events.map(e=>({path:`/events/${e.slug}`,title:e.title,description:e.description})),...people.map(p=>({path:`/about/team/${p.slug}`,title:p.name,description:p.bio})),...chapters.map(c=>({path:`/network/chapters/${c.slug}`,title:c.name,description:c.location})),...fixed.map(([path,title,description])=>({path,title,description})),...portfolioRoutes,...labs.map(l=>({path:`/research/labs/${l.slug}`,title:l.title,description:l.thesis})),...projects.map(p=>({path:`/research/projects/${p.slug}`,title:p.name,description:p.question})),...cohorts.map(c=>({path:`/research/cohorts/${c.slug}`,title:c.title,description:c.question})),...publications.map(p=>({path:publicationPath(p),title:p.title,description:p.abstract})),...programs.map(p=>({path:`/${p.slug}`,title:p.title,description:p.summary}))];
 export const aliases:Record<string,string>={'/fellowship':'/research/fellowship','/sister':'/research/sister','/fintech-studio':'/studio','/zenipath':'/studio/zenipath','/financedebriefed':'/publications/financedebriefed','/iyerj':'/publications/iyerj','/community':'/network/community','/chapters':'/network/chapters','/learn/debriefs':'/publications/financedebriefed','/learn/five-foundations':'/finance-for-all','/evidence':'/research/standards'};
 export const normalizePath=(path:string)=>path.replace(/\/+$/,'')||'/';
 export const getRoute=(path:string)=>routes.find(r=>r.path===normalizePath(path));
