@@ -31,7 +31,7 @@
     "check:local": "npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build:dev && npm test"
   },
   "dependencies": {
-    "framer-motion": "^13.4.4",
+    "framer-motion": "^14.3.0",
     "react": "18.3.0",
     "react-dom": "18.3.0"
   },
