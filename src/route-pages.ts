@@ -23,7 +23,8 @@ export async function loadRoutePage(rawPath: string) {
   }
   if (path === '/projects' || /^\/projects\/f4a-\d{2}$/.test(path)) {
     const pages = await import('./portfolio-pages');
-    return pages.portfolioPageFor(path);
+    const page = pages.portfolioPageFor(path);
+    if (page) return page;
   }
-  return undefined;
+  return (await import('./route-content')).Page;
 }
