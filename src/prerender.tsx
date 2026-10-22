@@ -9,9 +9,8 @@ import { Glossary, LearningPractice } from './learning-practice';
 import { FinanceTools, ProgramComparison } from './feature-pages';
 import { portfolioPageFor } from './portfolio-pages';
 import type { ComponentType } from 'react';
-import type { RoutePageProps } from './site';
 import { Page } from './route-content';
-const routePages: Record<string, ComponentType<RoutePageProps>> = {'/open/courses': Courses, '/open/courses/financial-systems': Course, '/': InstitutionHome, '/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
+const routePages: Record<string, ComponentType> = {'/open/courses': Courses, '/open/courses/financial-systems': Course, '/': InstitutionHome, '/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
 for (const path of ['/projects',...Array.from({length:48},(_,index)=>`/projects/f4a-${String(index+1).padStart(2,'0')}`)]) {
  const page=portfolioPageFor(path);if(page)routePages[path]=page;
 }
@@ -26,7 +25,7 @@ import { editorialExplainers } from './content/editorial';
 export const publications=summaries.map(p=>({...p,body:editorialExplainers.find(a=>a.slug===p.slug)?.body||p.body}));
 export { labs, projects, cohorts, resources } from './content/research';
 export { portfolioProjects } from './content/portfolio';
-export function render(path:string){return renderToString(<Site path={path} routePage={routePages[path] ?? Page} articleBody={publications.find(p=>path.endsWith('/'+p.slug))?.body}/>);}
+export function render(path:string){const RoutePage=routePages[path];return renderToString(<Site path={path} renderPage={(resolvedPath,articleBody)=>RoutePage?<RoutePage/>:<Page path={resolvedPath} articleBody={articleBody}/>} articleBody={publications.find(p=>path.endsWith('/'+p.slug))?.body}/>);}
 
 import { labs, projects, cohorts, episodes, events, people, chapters } from './content/research';
 export const catalog={labs,projects,cohorts,publications,episodes,events,people,chapters};
