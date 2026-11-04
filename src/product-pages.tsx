@@ -1,6 +1,7 @@
+import { Directory } from './directory';
 import { SaveButton } from './reading-list';
 import { useState } from 'react';
-import { Arrow, CohortCard, Directory, LinkButton, PageHeader, ProjectCard, Section, StatusBadge } from './components';
+import { Arrow, CohortCard, LinkButton, PageHeader, ProjectCard, Section, StatusBadge } from './components';
 import { cohorts, projects, publicationPath, publications } from './content/research';
 import { learningTracks } from './content/learning';
 import type { Project } from './content/models';

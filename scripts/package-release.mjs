@@ -2,7 +2,7 @@ import {existsSync,readdirSync,readFileSync,writeFileSync,mkdirSync,cpSync} from
 import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {execFileSync} from 'node:child_process';
-const roots=['src','public','scripts','tests','package.json','package-lock.json','.nvmrc','.gitignore','index.html','tsconfig.json','postcss.config.js','tailwind.config.js','vercel.json','.env.example','README.md','evidence/cta-matrix.json','docs/IMPROVEMENTS_2026-09-21.md','docs/RELEASE_RUNBOOK_2026-09-21.md'];
+const roots=['src','public','scripts','tests','package.json','package-lock.json','.nvmrc','.gitignore','.github/workflows','index.html','tsconfig.json','vite.config.ts','postcss.config.js','tailwind.config.js','vercel.json','.env.example','README.md','evidence/cta-matrix.json','docs/IMPROVEMENTS_2026-09-21.md','docs/RELEASE_RUNBOOK_2026-09-21.md'];
 const walk=path=>readdirSync(path,{withFileTypes:true}).flatMap(entry=>entry.isDirectory()?walk(join(path,entry.name)):[join(path,entry.name)]);
 const files=roots.flatMap(path=>{if(!existsSync(path))throw new Error(`Release input missing: ${path}`);return readdirIfDirectory(path);});
 function readdirIfDirectory(path){try{return walk(path);}catch(error){if(error.code==='ENOTDIR')return [path];throw error;}}
