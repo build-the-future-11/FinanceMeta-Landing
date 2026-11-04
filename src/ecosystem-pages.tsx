@@ -1,3 +1,4 @@
+import { Directory } from './directory';
 import { SaveButton } from './reading-list';
 import { learningTracks } from './content/learning';
 import { bibtex } from './lib/citations';
@@ -6,7 +7,7 @@ import { publications, episodes, events, chapters, resources, labs, projects, co
 import { articleSections, tradingCosts } from './lib/reading';
 import { programs } from './content/programs';
 import type { Publication, Program } from './content/models';
-import { Arrow, CTA, Directory, EmptyState, LinkButton, MemberLink, PageHeader, PublicationCard, Section, StatusBadge, Tags, EpisodeCard, EventCard, PersonCard, ResourceCard } from './components';
+import { Arrow, CTA, EmptyState, LinkButton, MemberLink, PageHeader, PublicationCard, Section, StatusBadge, Tags, EpisodeCard, EventCard, PersonCard, ResourceCard } from './components';
 import type { DirectoryItem } from './components';
 const partnerForm='https://tally.so/r/2EWxzb';
 

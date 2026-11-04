@@ -1,7 +1,8 @@
+import { Directory } from './directory';
 import { ResearchActions } from './product-pages';
 import { curricula, draftProtocol } from './content/curricula';
 import { labs, projects, cohorts, publications, resources, getLab, publicationPath } from './content/research';
-import { Arrow, CTA, CohortCard, Directory, EmptyState, LabExplorer, LinkButton, MethodPipeline, PageHeader, ProjectCard, PublicationCard, ResearchMap, Section, StatusBadge, Tags } from './components';
+import { Arrow, CTA, CohortCard, EmptyState, LabExplorer, LinkButton, MethodPipeline, PageHeader, ProjectCard, PublicationCard, ResearchMap, Section, StatusBadge, Tags } from './components';
 import type { DirectoryItem } from './components';
 import type { Lab, Project, Cohort } from './content/models';
 
