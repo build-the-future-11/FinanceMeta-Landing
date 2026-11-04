@@ -11,14 +11,15 @@ export function amortize(principal:number,annualPercent:number,years:number,extr
  if(!Number.isInteger(years))throw new Error('Term must be whole years.');
  const rate=annualPercent/1200,n=years*12,logRate=Math.log1p(rate),discount=-Math.expm1(-n*logRate);
  // log1p/expm1 preserve positive rates too small for 1 + rate to distinguish.
- const payment=rate===0?principal/n:principal*rate/discount;
+ // Form ratios before scaling so subnormal rates do not round away principal.
+ const payment=rate===0?principal/n:principal*(rate/discount);
  let balance=principal,totalInterest=0;const rows:ScenarioRow[]=[];
  for(let month=1;month<=n&&balance>0;month++){
   const interest=balance*rate;
   // Value the remaining scheduled payments directly. Repeatedly subtracting
   // payment from balance + interest loses principal at high rates/long terms.
-  const scheduled=rate===0?principal*(n-month)/n:principal*-Math.expm1(-(n-month)*logRate)/discount;
-  const additional=rate===0?extra*month:extra*Math.expm1(month*logRate)/rate;
+  const scheduled=rate===0?principal*(n-month)/n:principal*(-Math.expm1(-(n-month)*logRate)/discount);
+  const additional=rate===0?extra*month:extra*(Math.expm1(month*logRate)/rate);
   balance=Math.max(0,scheduled-additional);
   if(balance<1e-7)balance=0;
   totalInterest+=interest;rows.push({period:month,balance,contributed:principal-balance,interest:totalInterest});

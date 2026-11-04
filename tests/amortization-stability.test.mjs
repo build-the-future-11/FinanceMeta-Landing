@@ -44,3 +44,18 @@ for (const reference of references) {
       (i === 0 || row.balance <= result.rows[i - 1].balance)), 'balances must be finite, non-negative and non-increasing');
   });
 }
+
+test('subnormal positive rates retain fractional principal and extra payments', () => {
+  for (const extra of [0, 0.01, 0.1]) {
+    const result = amortize(1.1, 1e-320, 1, extra);
+    // At this rate the exact correction is below floating-point precision;
+    // the cash flows must converge to their zero-interest values.
+    assert.ok(Math.abs(result.payment - 1.1 / 12) < 1e-15);
+    assert.equal(result.months, Math.ceil(1.1 / (1.1 / 12 + extra)));
+    for (const row of result.rows) {
+      const expected = Math.max(0, 1.1 - row.period * (1.1 / 12 + extra));
+      assert.ok(Math.abs(row.balance - expected) < 1e-14, `month ${row.period} must preserve fractional principal`);
+    }
+    assert.equal(result.rows.at(-1).balance, 0);
+  }
+});
