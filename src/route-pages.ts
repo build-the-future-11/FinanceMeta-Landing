@@ -13,6 +13,10 @@ export async function loadRoutePage(rawPath: string) {
   }
   if (path === '/join') return (await import('./join-page')).Join;
   if (path === '/reading-list') return (await import('./reading-list-page')).ReadingListPage;
+  if (path === '/challenges' || path === '/challenges/prepare') {
+    const pages = await import('./challenge-pages');
+    return path === '/challenges' ? pages.ChallengesDirectory : pages.ChallengePreparation;
+  }
   if (path === '/learn/glossary' || path === '/learn/practice') {
     const pages = await import('./learning-practice');
     return path === '/learn/glossary' ? pages.Glossary : pages.LearningPractice;
