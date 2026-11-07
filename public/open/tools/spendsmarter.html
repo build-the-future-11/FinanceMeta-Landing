@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#164b3d">
+  <meta name="description" content="Practise spending, saving and family money decisions in a playful world with fictional money.">
+  <title>SpendSmarter | Finance4All</title>
+  <link rel="icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/spendsmarter/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#playground">Skip to the game</a>
+  <div class="finance4all-context"><a href="/learn"><span aria-hidden="true">←</span> Finance4All learning</a><span>SpendSmarter · Money practice</span></div>
+  <header class="topbar">
+    <a class="brand" href="/open/tools/spendsmarter.html" aria-label="SpendSmarter home"><span class="brand-mark" aria-hidden="true">s</span><span>Spend<span class="brand-light">Smarter</span></span></a>
+    <div class="top-actions"><span class="practice-pill"><i aria-hidden="true"></i> Just pretend money</span><button class="reset-button" data-action="reset" aria-label="Reset the game and start again">↻ <span>Start again</span></button></div>
+  </header>
+  <main id="playground" class="shell">
+    <section class="intro" aria-labelledby="main-title">
+      <div><p class="eyebrow">YOUR LITTLE MONEY WORLD</p><h1 id="main-title">Small choices.<br><span>Big possibilities.</span></h1><p class="intro-copy">You have <strong>₹600 in pretend pocket money.</strong><br>Spend a little, save for something, and practise making a plan.</p></div>
+      <div class="intro-art" aria-hidden="true"><span class="orbit orbit-one"></span><span class="orbit orbit-two"></span><div class="coin coin-one">₹</div><div class="coin coin-two">₹</div><div class="plant"><span class="stem"></span><span class="leaf leaf-left"></span><span class="leaf leaf-right"></span><span class="pot"></span></div><span class="art-spark spark-one">✦</span><span class="art-spark spark-two">✧</span></div>
+    </section>
+    <div class="game-layout">
+      <aside class="wallet-column" aria-label="Your money overview">
+        <section class="wallet-card">
+          <div class="wallet-heading"><span>Your pocket money</span><span aria-hidden="true">◒</span></div>
+          <p class="balance-label">LEFT TO SPEND</p><div class="wallet-balance" id="available">₹600</div><p class="wallet-caption">Every rupee has a little job.</p>
+          <div id="money-bar" class="money-bar" aria-label="Money allocation"></div>
+          <div class="wallet-lines"><div><span><i class="dot spend-dot"></i>Spent</span><strong id="spent">₹0</strong></div><div><span><i class="dot save-dot"></i>In savings</span><strong id="saved">₹0</strong></div><div><span><i class="dot left-dot"></i>Ready for choices</span><strong id="ready">₹600</strong></div></div>
+          <p class="wallet-total">TOTAL TO START <strong>₹600</strong></p>
+        </section>
+        <section class="mission-card"><p class="eyebrow">THREE LITTLE MISSIONS</p><div id="missions"></div><p class="mission-note" id="mission-note">Try all three. There is room to explore.</p></section>
+        <p class="privacy-note"><span aria-hidden="true">☀</span> No real money or personal details. Your choices stay in this visit.</p>
+      </aside>
+      <div class="play-column">
+        <nav class="steps" aria-label="Game activities"><button class="step active" data-screen="spend" aria-current="step"><span>1</span>Spend</button><button class="step" data-screen="save"><span>2</span>Save</button><button class="step" data-screen="discuss"><span>3</span>Decide together</button></nav>
+        <div id="status" class="status" role="status" aria-live="polite" tabindex="-1">Your fresh week is ready. What will you choose?</div>
+        <section id="screen-spend" class="screen" aria-labelledby="spend-title">
+          <div class="section-heading"><div><p class="eyebrow">WHERE DOES IT ALL GO?</p><h2 id="spend-title">Make a few choices.</h2></div><span class="mini-note">Try things. You can undo.</span></div>
+          <div id="shop" class="shop-grid"></div>
+          <form id="custom-form" class="custom-expense"><label for="custom-amount">Try your own pretend amount</label><div><span class="amount-field"><span aria-hidden="true">₹</span><input id="custom-amount" name="amount" type="number" min="1" max="600" step="1" value="50" inputmode="numeric" aria-label="Pretend expense amount in rupees"></span><select id="custom-category" aria-label="Is this a need or a want?"><option value="need">A need</option><option value="want">A want</option></select><button type="submit" class="button secondary">Add choice</button></div></form>
+          <section class="receipt-card"><div class="receipt-heading"><h3>Your money map</h3><span id="receipt-count">0 choices</span></div><div class="category-totals"><span>Needs <strong id="needs-total">₹0</strong></span><span>Wants <strong id="wants-total">₹0</strong></span></div><div id="receipts"></div></section>
+          <section class="surprise-card" id="surprise"></section>
+          <button class="next-link" data-screen="save">Next, save for something <span aria-hidden="true">→</span></button>
+        </section>
+        <section id="screen-save" class="screen" aria-labelledby="save-title" hidden>
+          <div class="section-heading"><div><p class="eyebrow">A LITTLE NOW. SOMETHING LATER.</p><h2 id="save-title">Give your savings a goal.</h2></div></div>
+          <div id="goal-choices" class="goal-choices"></div>
+          <section class="goal-card"><div class="goal-top"><div><p class="goal-kicker">I'M SAVING FOR</p><h3 id="goal-name">Art kit</h3></div><div id="goal-icon" class="goal-large-icon" aria-hidden="true">🎨</div></div><div class="goal-amounts"><strong id="goal-saved">₹0</strong><span>of <span id="goal-cost">₹600</span></span></div><div class="goal-track"><div id="goal-fill"></div></div><p id="goal-progress">Your first little bit gets it started.</p>
+            <div class="save-buttons"><button class="button primary" data-action="save" data-amount="50">Save ₹50</button><button class="button primary" data-action="save" data-amount="100">Save ₹100</button><button class="button primary" data-action="save" data-amount="200">Save ₹200</button></div><button class="subtle-button" id="withdraw-button" data-action="withdraw">Move savings back to spending</button>
+          </section>
+          <section class="plan-card"><div><label for="weekly-plan"><strong>What could you save each week?</strong></label><output id="weekly-value" for="weekly-plan">₹100</output></div><input id="weekly-plan" type="range" min="0" max="300" step="25" value="100"><div class="range-labels"><span>₹0</span><span>₹300 / week</span></div><p id="weeks-estimate" class="weeks-estimate"></p><p class="small-note">An estimate using your plan, with no interest. Plans can change.</p></section>
+          <div class="learning-note"><span aria-hidden="true">💡</span><p><strong>Saving isn't spending.</strong> It is still your money. You are giving some of it a future job.</p></div>
+          <button class="next-link" data-screen="discuss">Next, talk a choice through <span aria-hidden="true">→</span></button>
+        </section>
+        <section id="screen-discuss" class="screen" aria-labelledby="discuss-title" hidden>
+          <div class="section-heading"><div><p class="eyebrow">“CAN I BUY THIS?”</p><h2 id="discuss-title">Let's think together.</h2></div></div>
+          <p class="screen-copy">Invite a parent or trusted grown-up to share this screen. Pick a purchase, explain your thinking, and decide together. Practising on your own? You can try both sides.</p>
+          <section class="request-card"><label for="request-item">Something I'd like</label><select id="request-item"></select><label for="request-reason">Why I'd like it</label><select id="request-reason"><option value="use">I think I'll use it often</option><option value="joy">It would make me happy</option><option value="gift">I want to do something kind</option></select><div class="conversation"><span class="conversation-icon" aria-hidden="true">☻</span><p id="request-speech"></p></div><div id="request-impact" class="request-impact"></div><section id="choice-comparison" class="choice-comparison" aria-label="Compare two money choices" aria-live="polite" hidden></section></section>
+          <section class="parent-card"><div class="parent-heading"><span class="role-pill">GROWN-UP'S TURN · PRACTICE ONLY</span><span aria-hidden="true">💬</span></div><h3>What would you say?</h3><p>Take turns on the same screen. Ask how the choice fits the savings goal. No message is sent and no real money moves.</p><div class="parent-buttons"><button class="button primary" data-action="approve">Agree to the pretend purchase</button><button class="button secondary" data-action="wait">Let's wait and think</button></div><div id="parent-result"></div></section>
+          <div class="learning-note"><span aria-hidden="true">🤝</span><p><strong>A good conversation has choices.</strong> Ask what matters, check the plan, and agree on a next step together.</p></div>
+          <button class="next-link" data-screen="spend">Back to your money map <span aria-hidden="true">→</span></button>
+        </section>
+      </div>
+    </div>
+    <footer class="footer"><a class="footer-brand" href="/learn">Finance4All · SpendSmarter</a><span>Fictional money. Real practice.</span><button class="subtle-button" data-action="reset">Try another week ↗</button></footer>
+  </main>
+  <noscript><p class="noscript-note">Please enable JavaScript to play this interactive money game.</p></noscript>
+  <script type="module" src="/spendsmarter/app.js"></script>
+</body>
+</html>

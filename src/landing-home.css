@@ -143,6 +143,7 @@
 /* Immediate access to released work; the complete register remains under Research. */
 .home-available{margin-bottom:90px}
 .available-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.available-grid-four{grid-template-columns:repeat(2,minmax(0,1fr))}
 .available-grid>a{display:flex;flex-direction:column;align-items:flex-start;padding:28px;background:var(--surface);border:1px solid var(--line);border-radius:8px}
 .available-grid h3{font:400 28px/1.15 var(--home-serif);letter-spacing:-.025em;margin:20px 0 14px}
 .available-grid p{font-size:15px;line-height:1.75;margin-bottom:20px}

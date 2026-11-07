@@ -47,6 +47,7 @@ export const events: ResearchEvent[] = [];
 export const chapters: Chapter[] = [];
 export const people: Person[] = [];
 export const resources: Resource[] = [
+  {slug:'spendsmarter',title:'SpendSmarter',type:'Visualization',topic:'Everyday money',description:'Practise spending, saving and shared money decisions with ₹600 in pretend pocket money. Three interactive activities; no account or personal details needed.',href:'/open/tools/spendsmarter.html',available:true},
   {slug:'research-protocol',title:'Research protocol worksheet',type:'Template',topic:'Reproducibility',description:'Define the question, baseline, data rights, evaluation, and failure condition before running an experiment.',href:'/resources/research-protocol.md',available:true},
   {slug:'claim-checklist',title:'Before you publish a finding',type:'Guide',topic:'Research integrity',description:'A practical checklist for linking a claim to data, methods, uncertainty, and limitations.',href:'/resources/claim-checklist.md',available:true},
   {slug:'market-frictions',title:'The cost of a trade',type:'Visualization',topic:'Market microstructure',description:'Explore how assumed trading costs and turnover affect a hypothetical gross return.',href:'/studio/visualization',available:true},
