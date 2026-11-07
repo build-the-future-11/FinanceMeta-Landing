@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Arrow, LinkButton, PageHeader, Section, StatusBadge } from './components';
 import catalog from './content/network-catalog.json';
 import { BACKUP_LIMIT, TITLE_LIMIT, SECTION_LIMIT, briefTracks, briefSections, briefBackup, briefMarkdown, hasBriefContent, isBriefTrack, newBrief, readBriefBackup, startedSections } from './lib/challenge-brief';
@@ -49,6 +49,7 @@ function downloadFile(contents: string, filename: string, type: string) {
 
 export function ChallengePreparation() {
   const [draft, setDraft] = useState<ChallengeBrief>(() => newBrief());
+  const importVersion = useRef(0);
   const [savedSnapshot, setSavedSnapshot] = useState('');
   const [pendingImport, setPendingImport] = useState<ChallengeBrief | null>(null);
   const [message, setMessage] = useState('');
@@ -63,6 +64,7 @@ export function ChallengePreparation() {
     const selected = new URLSearchParams(window.location.search).get('track');
     if (isBriefTrack(selected)) setDraft(current => ({ ...current, track: selected }));
     setReady(true);
+    return () => { importVersion.current += 1; };
   }, []);
 
   useEffect(() => {
@@ -91,15 +93,18 @@ export function ChallengePreparation() {
 
   async function importBrief(file: File | undefined) {
     if (!file) return;
+    const version = ++importVersion.current;
     setError('');
     setMessage('');
     setPendingImport(null);
     try {
       if (file.size > BACKUP_LIMIT) throw new Error('Choose a brief backup smaller than 256 KB.');
-      const imported = readBriefBackup(await file.text());
-      setPendingImport(imported);
+      const text = await file.text();
+      // A slower earlier file must not replace the latest selection or its error.
+      if (version !== importVersion.current) return;
+      setPendingImport(readBriefBackup(text));
     } catch (reason) {
-      setError(reason instanceof Error ? reason.message : 'The backup could not be opened. Your current draft has not changed.');
+      if (version === importVersion.current) setError(reason instanceof Error ? reason.message : 'The backup could not be opened. Your current draft has not changed.');
     }
   }
 
