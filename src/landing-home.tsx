@@ -123,8 +123,9 @@ export function InstitutionHome() {
       </div>
     </section>
     <section className="home-available" aria-labelledby="available-title">
-      <div className="home-section-heading"><div><p className="home-kicker">Ready when you are</p><h2 id="available-title">Something useful.<br/><em>Right now.</em></h2></div><p>Read, practice or explore an assumption. These resources are free to use without an account.</p></div>
-      <div className="available-grid">
+      <div className="home-section-heading"><div><p className="home-kicker">Ready when you are</p><h2 id="available-title">Something useful.<br/><em>Right now.</em></h2></div><p>Read, play, practice or explore an assumption. These resources are free to use without an account.</p></div>
+      <div className="available-grid available-grid-four">
+        <a href="/open/tools/spendsmarter.html"><span className="home-kicker">Play / Everyday money</span><h3>Make small choices with SpendSmarter</h3><p>Try spending, saving and talking through a purchase with ₹600 in pretend pocket money.</p><span className="field-link">Play SpendSmarter <Arrow/></span></a>
         <a href="/open/courses/financial-systems"><span className="home-kicker">Read / Four modules</span><h3>Understand financial systems</h3><p>A self-paced introduction to markets, interest rates, payments and economic evidence.</p><span className="field-link">Start the course <Arrow/></span></a>
         <a href="/learn/practice"><span className="home-kicker">Practice / Explained answers</span><h3>Test your reasoning</h3><p>Work through a question, check your answer and see the explanation.</p><span className="field-link">Try a question <Arrow/></span></a>
         <a href="/open/tools"><span className="home-kicker">Explore / Interactive tools</span><h3>Change an assumption</h3><p>Explore growth, loan payments and inflation with clearly stated assumptions.</p><span className="field-link">Open calculators <Arrow/></span></a>
