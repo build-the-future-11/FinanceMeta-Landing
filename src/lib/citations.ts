@@ -8,7 +8,8 @@ export function bibtex(p: Publication) {
 export function eventCalendar(event: ResearchEvent, origin: string) {
  if (!event.startsAt || !event.endsAt) return null;
  const start=parseEventInstant(event.startsAt),end=parseEventInstant(event.endsAt);
- if (start===null || end===null || end<=start) return null;
+ // Export drops fractional seconds, so the serialized end must still follow the start.
+ if (start===null || end===null || Math.floor(end/1000)<=Math.floor(start/1000)) return null;
  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(event.slug) || /[\u0000-\u0020\u007f]/.test(origin)) return null;
  let site:URL;
  try { site=new URL(origin); } catch { return null; }

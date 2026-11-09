@@ -73,3 +73,30 @@ test('real leap days, ordinary month ends, explicit offsets and fractional secon
     assert.equal(calendarValue(eventCalendar(valid, origin), 'DTSTART'), expected);
   }
 });
+
+test('calendar export rejects positive intervals that collapse to one UTC second', () => {
+  for (const [startsAt, endsAt] of [
+    ['2026-11-21T18:00:00.100+05:30', '2026-11-21T18:00:00.900+05:30'],
+    ['1969-12-31T23:59:59.100Z', '1969-12-31T23:59:59.900Z'],
+  ]) assert.equal(eventCalendar({ ...event, startsAt, endsAt }, origin), null);
+});
+
+test('catalog validation rejects intervals that cannot retain an ordered calendar end', () => {
+  for (const [startsAt, endsAt] of [
+    ['2026-11-21T18:00:00.100+05:30', '2026-11-21T18:00:00.900+05:30'],
+    ['1969-12-31T23:59:59.100Z', '1969-12-31T23:59:59.900Z'],
+  ]) assert.ok(errors({ ...event, startsAt, endsAt }).some(message => message.includes('end must follow start')));
+});
+
+test('fractional intervals crossing a UTC second remain valid, including across the epoch', () => {
+  for (const [startsAt, endsAt, expectedStart, expectedEnd] of [
+    ['2026-11-21T18:00:00.900+05:30', '2026-11-21T18:00:01.100+05:30', '20261121T123000Z', '20261121T123001Z'],
+    ['1969-12-31T23:59:59.900Z', '1970-01-01T00:00:00.100Z', '19691231T235959Z', '19700101T000000Z'],
+  ]) {
+    const valid = { ...event, startsAt, endsAt };
+    assert.deepEqual(errors(valid), []);
+    const output = eventCalendar(valid, origin);
+    assert.equal(calendarValue(output, 'DTSTART'), expectedStart);
+    assert.equal(calendarValue(output, 'DTEND'), expectedEnd);
+  }
+});

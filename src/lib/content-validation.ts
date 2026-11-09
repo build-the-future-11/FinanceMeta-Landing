@@ -25,7 +25,8 @@ export function validateCatalog(catalog:Catalog):string[]{
   try{new Intl.DateTimeFormat('en',{timeZone:e.timezone});}catch{errors.push(`${e.slug}: invalid IANA timezone`);}
   const start=e.startsAt?parseEventInstant(e.startsAt):null,end=e.endsAt?parseEventInstant(e.endsAt):null;
   if(e.startsAt)check(start!==null,`${e.slug}: start needs timezone offset and valid calendar fields`);
-  if(e.endsAt){check(end!==null,`${e.slug}: end needs timezone offset and valid calendar fields`);check(start!==null&&end!==null&&end>start,`${e.slug}: end must follow start`);}
+  // Calendar export uses whole UTC seconds; validation must preserve that ordering.
+  if(e.endsAt){check(end!==null,`${e.slug}: end needs timezone offset and valid calendar fields`);check(start!==null&&end!==null&&Math.floor(end/1000)>Math.floor(start/1000),`${e.slug}: end must follow start at calendar-second precision`);}
   [e.registration,e.recording].forEach(url=>link(url,e.slug));e.resources?.forEach(r=>link(r.url,e.slug));
  }
  for(const p of catalog.people){link(p.publicProfile,p.slug);p.projects?.forEach(slug=>check(exists('projects',slug),`${p.slug}: unknown project`));}
