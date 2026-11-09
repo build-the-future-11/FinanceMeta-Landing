@@ -1,4 +1,5 @@
 import type { Publication, ResearchEvent } from '../content/models';
+import { parseEventInstant } from './event-time.ts';
 export function bibtex(p: Publication) {
  const escape=(s:string)=>s.replace(/[\\{}%&#_$]/g,c=>'\\'+c).replace(/[\r\n]+/g,' ');
  const fields=[`title = {${escape(p.title)}}`,...(p.authors.length?[`author = {${p.authors.map(escape).join(' and ')}}`]:[]),`howpublished = {${escape(p.type)}}`,`note = {Editorial review date: ${escape(p.date)}. Original publication date not asserted.}`];
@@ -6,8 +7,8 @@ export function bibtex(p: Publication) {
 }
 export function eventCalendar(event: ResearchEvent, origin: string) {
  if (!event.startsAt || !event.endsAt) return null;
- const start=Date.parse(event.startsAt),end=Date.parse(event.endsAt),offset=/(Z|[+-]\d\d:\d\d)$/;
- if (!offset.test(event.startsAt) || !offset.test(event.endsAt) || !Number.isFinite(start) || !Number.isFinite(end) || end<=start) return null;
+ const start=parseEventInstant(event.startsAt),end=parseEventInstant(event.endsAt);
+ if (start===null || end===null || end<=start) return null;
  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(event.slug) || /[\u0000-\u0020\u007f]/.test(origin)) return null;
  let site:URL;
  try { site=new URL(origin); } catch { return null; }
@@ -28,3 +29,4 @@ export function eventCalendar(event: ResearchEvent, origin: string) {
  };
  return ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//FinanceMeta//Events//EN','BEGIN:VEVENT',`UID:${event.slug}@${site.hostname}`,`DTSTAMP:${stamp(event.startsAt)}`,`DTSTART:${stamp(event.startsAt)}`,`DTEND:${stamp(event.endsAt)}`,`SUMMARY:${escape(event.title)}`,`DESCRIPTION:${escape(event.description)}`,`LOCATION:${escape(event.location||event.mode||'')}`,`URL:${site.origin}/events/${event.slug}`,`STATUS:${event.status==='Cancelled'?'CANCELLED':'CONFIRMED'}`,'END:VEVENT','END:VCALENDAR',''].map(fold).join('\r\n');
 }
+
