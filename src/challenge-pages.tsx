@@ -50,6 +50,7 @@ function downloadFile(contents: string, filename: string, type: string) {
 export function ChallengePreparation() {
   const [draft, setDraft] = useState<ChallengeBrief>(() => newBrief());
   const importVersion = useRef(0);
+  const backupInput = useRef<HTMLInputElement>(null);
   const [savedSnapshot, setSavedSnapshot] = useState('');
   const [pendingImport, setPendingImport] = useState<ChallengeBrief | null>(null);
   const [message, setMessage] = useState('');
@@ -108,13 +109,19 @@ export function ChallengePreparation() {
     }
   }
 
+  function closeImport(message: string) {
+    setPendingImport(null);
+    setMessage(message);
+    // The confirmation buttons disappear; keep focus at their persistent opener.
+    backupInput.current?.focus();
+  }
+
   function acceptImport() {
     if (!pendingImport) return;
     setDraft(pendingImport);
     setSavedSnapshot(briefBackup(pendingImport));
-    setPendingImport(null);
     setError('');
-    setMessage('Backup opened. You can continue editing the brief.');
+    closeImport('Backup opened. You can continue editing the brief.');
   }
 
   return <>
@@ -167,10 +174,10 @@ export function ChallengePreparation() {
           </div>
           <p className="fine-print">The brief is a Markdown text file. The JSON backup can be reopened here. Neither download sends your work to Finance4All.</p>
           <label htmlFor="brief-backup">Open an editable backup</label>
-          <input id="brief-backup" type="file" accept=".json,application/json" disabled={!ready} onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; void importBrief(file); }} />
+          <input ref={backupInput} id="brief-backup" type="file" accept=".json,application/json" disabled={!ready} onChange={event => { const file = event.target.files?.[0]; event.target.value = ''; void importBrief(file); }} />
           {pendingImport && <div className="challenge-import" role="region" aria-label="Confirm backup replacement">
             <p>Open “{pendingImport.title.trim() || 'Untitled research brief'}”? This replaces the text in this tab. Download your current draft first if you want to keep it.</p>
-            <div className="page-actions"><button type="button" className="button secondary" onClick={acceptImport}>Replace current draft</button><button type="button" className="text-button" onClick={() => { setPendingImport(null); setMessage('Import cancelled. Your draft is unchanged.'); }}>Cancel import</button></div>
+            <div className="page-actions"><button type="button" className="button secondary" onClick={acceptImport}>Replace current draft</button><button type="button" className="text-button" onClick={() => closeImport('Import cancelled. Your draft is unchanged.')}>Cancel import</button></div>
           </div>}
           <p role="status" aria-live="polite">{message}</p>
           <p role="alert" className="challenge-error">{error}</p>
