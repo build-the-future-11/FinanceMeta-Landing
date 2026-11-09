@@ -155,6 +155,44 @@ try {
     for (const id of Object.keys(draft.sections)) assert.equal(await page.locator('#brief-' + id).inputValue(), draft.sections[id]);
     assert.equal(await confirmation.count(), 0);
   });
+
+  for (const width of [390, 1024]) for (const action of ['Cancel import', 'Replace current draft']) {
+    await check(`keyboard ${action.toLowerCase()} returns visible focus at ${width}px`, async ({ page, title, confirmation, select, finish }) => {
+      await page.setViewportSize({ width, height: 844 });
+      const question = page.getByLabel('Question and falsifiable claim', { exact: true });
+      await question.fill('Keep my current question');
+      await select('focus.json');
+      await finish('focus.json');
+      const button = page.getByRole('button', { name: action, exact: true });
+      await button.focus();
+      await page.keyboard.press('Enter');
+      await page.waitForFunction(() => !document.querySelector('.challenge-import'));
+      assert.equal(await confirmation.count(), 0);
+      assert.equal(await title.inputValue(), action === 'Cancel import' ? 'Keep my current writing' : 'focus.json');
+      assert.equal(await question.inputValue(), action === 'Cancel import' ? 'Keep my current question' : 'Does the same evidence support the claim?');
+      // The page uses smooth scrolling; wait for the focus target to settle in view.
+      await page.waitForFunction(() => {
+        const element = document.activeElement;
+        const box = element.getBoundingClientRect();
+        return element.id === 'brief-backup' && box.top >= 5 && box.bottom <= innerHeight - 5 && box.left >= 5 && box.right <= innerWidth - 5;
+      }, undefined, { timeout: 5000 });
+      const focused = await page.evaluate(() => {
+        const element = document.activeElement;
+        const box = element.getBoundingClientRect();
+        const style = getComputedStyle(element);
+        return { id: element.id, disabled: element.disabled, visible: box.top >= 0 && box.bottom <= innerHeight && box.left >= 0 && box.right <= innerWidth,
+          keyboardFocus: element.matches(':focus-visible'), outlineStyle: style.outlineStyle, outlineWidth: parseFloat(style.outlineWidth) };
+      });
+      assert.equal(focused.id, 'brief-backup');
+      assert.equal(focused.disabled, false);
+      assert.equal(focused.visible, true);
+      assert.equal(focused.keyboardFocus, true);
+      assert.notEqual(focused.outlineStyle, 'none');
+      assert.ok(focused.outlineWidth > 0);
+      await page.keyboard.press('Tab');
+      assert.equal(await page.evaluate(() => document.activeElement.getAttribute('href')), '/research/standards');
+    });
+  }
 } finally {
   await browser.close();
 }
