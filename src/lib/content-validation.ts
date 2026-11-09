@@ -23,7 +23,7 @@ export function validateCatalog(catalog:Catalog):string[]{
   check(Number.isFinite(Date.parse(e.date))&&e.timezone,`${e.slug}: invalid event date or timezone`);
   try{new Intl.DateTimeFormat('en',{timeZone:e.timezone});}catch{errors.push(`${e.slug}: invalid IANA timezone`);}
   if(e.startsAt)check(/(Z|[+-]\d\d:\d\d)$/.test(e.startsAt)&&Number.isFinite(Date.parse(e.startsAt)),`${e.slug}: start needs timezone offset`);
-  if(e.endsAt)check(e.startsAt&&Date.parse(e.endsAt)>Date.parse(e.startsAt),`${e.slug}: end must follow start`);
+  if(e.endsAt){check(/(Z|[+-]\d\d:\d\d)$/.test(e.endsAt)&&Number.isFinite(Date.parse(e.endsAt)),`${e.slug}: end needs timezone offset`);check(e.startsAt&&Date.parse(e.endsAt)>Date.parse(e.startsAt),`${e.slug}: end must follow start`);}
   [e.registration,e.recording].forEach(url=>link(url,e.slug));e.resources?.forEach(r=>link(r.url,e.slug));
  }
  for(const p of catalog.people){link(p.publicProfile,p.slug);p.projects?.forEach(slug=>check(exists('projects',slug),`${p.slug}: unknown project`));}
