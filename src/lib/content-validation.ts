@@ -1,4 +1,5 @@
 import type { Chapter, Cohort, Episode, Lab, Person, Project, Publication, ResearchEvent } from '../content/models';
+import { isEventDate, parseEventInstant } from './event-time.ts';
 type Catalog={labs:Lab[];projects:Project[];cohorts:Cohort[];publications:Publication[];episodes:Episode[];events:ResearchEvent[];people:Person[];chapters:Chapter[]};
 export function validateCatalog(catalog:Catalog):string[]{
  const errors:string[]=[];
@@ -20,13 +21,16 @@ export function validateCatalog(catalog:Catalog):string[]{
  for(const p of catalog.publications){check(Number.isFinite(Date.parse(p.date)),`${p.slug}: invalid date`);if(p.lab)check(exists('labs',p.lab),`${p.slug}: unknown lab`);[p.pdf,p.code,p.data].forEach(url=>link(url,p.slug));check(p.limitations,`${p.slug}: missing limitations`);}
  for(const e of catalog.episodes){link(e.mediaUrl,e.slug);check(e.mediaUrl&&e.guest&&e.guestDescription,`${e.slug}: missing recording or guest attribution`);check(Number.isFinite(Date.parse(e.date)),`${e.slug}: invalid date`);e.relatedResearch.forEach(slug=>check(exists('projects',slug),`${e.slug}: unknown research`));if(e.guestSlug)check(exists('people',e.guestSlug),`${e.slug}: unknown guest`);}
  for(const e of catalog.events){
-  check(Number.isFinite(Date.parse(e.date))&&e.timezone,`${e.slug}: invalid event date or timezone`);
+  check(isEventDate(e.date)&&e.timezone,`${e.slug}: invalid event date or timezone`);
   try{new Intl.DateTimeFormat('en',{timeZone:e.timezone});}catch{errors.push(`${e.slug}: invalid IANA timezone`);}
-  if(e.startsAt)check(/(Z|[+-]\d\d:\d\d)$/.test(e.startsAt)&&Number.isFinite(Date.parse(e.startsAt)),`${e.slug}: start needs timezone offset`);
-  if(e.endsAt){check(/(Z|[+-]\d\d:\d\d)$/.test(e.endsAt)&&Number.isFinite(Date.parse(e.endsAt)),`${e.slug}: end needs timezone offset`);check(e.startsAt&&Date.parse(e.endsAt)>Date.parse(e.startsAt),`${e.slug}: end must follow start`);}
+  const start=e.startsAt?parseEventInstant(e.startsAt):null,end=e.endsAt?parseEventInstant(e.endsAt):null;
+  if(e.startsAt)check(start!==null,`${e.slug}: start needs timezone offset and valid calendar fields`);
+  // Calendar export uses whole UTC seconds; validation must preserve that ordering.
+  if(e.endsAt){check(end!==null,`${e.slug}: end needs timezone offset and valid calendar fields`);check(start!==null&&end!==null&&Math.floor(end/1000)>Math.floor(start/1000),`${e.slug}: end must follow start at calendar-second precision`);}
   [e.registration,e.recording].forEach(url=>link(url,e.slug));e.resources?.forEach(r=>link(r.url,e.slug));
  }
  for(const p of catalog.people){link(p.publicProfile,p.slug);p.projects?.forEach(slug=>check(exists('projects',slug),`${p.slug}: unknown project`));}
  for(const c of catalog.chapters){link(c.contact,c.slug);check(c.lead&&c.country,`${c.slug}: missing accountable lead or country`);c.eventSlugs?.forEach(slug=>check(exists('events',slug),`${c.slug}: unknown event`));c.projectSlugs?.forEach(slug=>check(exists('projects',slug),`${c.slug}: unknown project`));}
  return errors;
 }
+
