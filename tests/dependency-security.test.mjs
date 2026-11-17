@@ -16,6 +16,10 @@ test('postcss-selector-parser stays on the patched security release', async () =
 
   assert.equal(pkg.overrides?.['postcss-selector-parser'], PATCHED_SELECTOR_PARSER);
   const parsers = Object.entries(lock.packages).filter(([path]) => path.endsWith('node_modules/postcss-selector-parser'));
-  assert.ok(parsers.length > 0, 'selector parser must remain represented in the lockfile');
+  // Tailwind 4 no longer depends on this parser. Keep the override and reject
+  // vulnerable versions if another dependency brings it back into the graph.
+  const parserParents = Object.values(lock.packages).filter(pkg =>
+    pkg.dependencies?.['postcss-selector-parser'] || pkg.optionalDependencies?.['postcss-selector-parser']);
+  assert.ok(parsers.length > 0 || parserParents.length === 0, 'a referenced selector parser must be represented in the lockfile');
   for (const [path, pkg] of parsers) assert.equal(pkg.version, PATCHED_SELECTOR_PARSER, path);
 });
