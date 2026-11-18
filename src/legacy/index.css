@@ -52,6 +52,8 @@ button { font: inherit; }
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; transform: translateY(-200%); border-radius: 999px; background: var(--ink); color: var(--paper); padding: .75rem 1rem; font-weight: 800; }
 .skip-link:focus { transform: translateY(0); }
 :where(a, button):focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.program-stage:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.program-stage[hidden] { display: none; }
 #main-content:focus { outline: none; }
 
 .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(20px); }
