@@ -38,3 +38,7 @@ jobs:
         run: npm run release:check
       - name: Audit public landing runtime dependencies
         run: npm run audit:prod
+      - name: Install browser acceptance runtimes
+        run: npx playwright install --with-deps chromium firefox webkit
+      - name: Verify Finance for All browser acceptance
+        run: node scripts/verify-financeforall-browser.mjs
