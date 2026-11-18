@@ -20,13 +20,18 @@ env:
 jobs:
   release-check:
     runs-on: ubuntu-24.04
-    timeout-minutes: 20
+    # Playwright 1.65.1-noble: matching browser binaries and system dependencies.
+    container:
+      image: mcr.microsoft.com/playwright@sha256:1507cbfc550a63a6b7396791ca4f00df17beb56342d2447b3f106c306f525579
+    timeout-minutes: 30
     steps:
       - name: Checkout source
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           ref: ${{ env.SOURCE_SHA }}
           persist-credentials: false
+      - name: Trust this checkout inside the browser container
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - name: Select Node
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         with:
@@ -38,3 +43,9 @@ jobs:
         run: npm run release:check
       - name: Audit public landing runtime dependencies
         run: npm run audit:prod
+      - name: Prepare the isolated browser profile directory
+        # GitHub mounts this directory with a different owner than the container user.
+        run: chown "$(id -u):$(id -g)" /github/home
+      - name: Verify Finance for All browser acceptance
+        timeout-minutes: 5
+        run: node scripts/verify-financeforall-browser.mjs
