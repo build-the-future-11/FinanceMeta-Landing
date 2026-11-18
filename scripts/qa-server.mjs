@@ -1,14 +1,17 @@
 // Local-only browser diagnostics. Neither this server nor its scripts enter dist.
-import {createServer} from 'node:http';
+import {createServer as createHttpServer} from 'node:http';
+import {createServer as createHttpsServer} from 'node:https';
 import {readFileSync,existsSync,statSync,mkdirSync,writeFileSync} from 'node:fs';
 import {resolve,extname,sep} from 'node:path';
 import {createHash} from 'node:crypto';
 const root=resolve('dist');const port=Number(process.env.QA_PORT||4181);
-const origin=`http://127.0.0.1:${port}`;
+const tlsKey=process.env.QA_TLS_KEY;const tlsCert=process.env.QA_TLS_CERT;
+if(Boolean(tlsKey)!==Boolean(tlsCert))throw new Error('QA TLS requires both a key and certificate');
+const origin=`${tlsKey?'https':'http'}://127.0.0.1:${port}`;
 const evidence=resolve(process.env.QA_EVIDENCE_DIR||'evidence/browser-audits');
 const config=JSON.parse(readFileSync('vercel.json'));
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript','.css':'text/css','.json':'application/json','.svg':'image/svg+xml','.png':'image/png','.md':'text/markdown; charset=utf-8','.xml':'application/xml','.txt':'text/plain'};
-createServer(async(req,res)=>{
+const handler=async(req,res)=>{
  try {
   if(req.headers.host!==`127.0.0.1:${port}`){res.writeHead(403).end();return;}
   const url=new URL(req.url,origin);
@@ -37,4 +40,6 @@ createServer(async(req,res)=>{
   if(extname(file)==='.html'&&url.searchParams.has('__audit'))body=Buffer.from(body.toString().replace('</head>','<script src="/__qa/audit.js" defer></script></head>'));
   res.writeHead(status);res.end(req.method==='HEAD'?undefined:body);
  }catch(error){res.writeHead(500).end(String(error.message));}
-}).listen(port,'127.0.0.1',()=>console.log(`Local QA: ${origin}/?__audit=1`));
+};
+const server=tlsKey?createHttpsServer({key:readFileSync(tlsKey),cert:readFileSync(tlsCert)},handler):createHttpServer(handler);
+server.listen(port,'127.0.0.1',()=>console.log(`Local QA: ${origin}/?__audit=1`));

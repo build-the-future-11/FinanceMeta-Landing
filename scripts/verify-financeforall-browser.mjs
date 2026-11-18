@@ -1,26 +1,54 @@
 // Source-bound, local-page acceptance for the Finance for All landing.
 // This does not visit the live portal, submit forms, or change production state.
 import assert from 'node:assert/strict';
-import { spawn } from 'node:child_process';
+import { execFileSync, spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { mkdtempSync, readFileSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { get } from 'node:https';
 import { chromium, firefox, webkit, expect } from '@playwright/test';
 
-const origin = 'http://127.0.0.1:4181';
+const origin = 'https://127.0.0.1:4181';
 const evidence = mkdtempSync(join(tmpdir(), 'financemeta-browser-'));
+const tlsKey = join(evidence, 'localhost.key');
+const tlsCert = join(evidence, 'localhost.crt');
+// Keep production CSP intact: WebKit upgrades HTTP loopback subresources to HTTPS.
+execFileSync('openssl', ['req', '-x509', '-newkey', 'rsa:2048', '-nodes', '-keyout', tlsKey,
+  '-out', tlsCert, '-days', '1', '-subj', '/CN=127.0.0.1', '-addext', 'subjectAltName=IP:127.0.0.1'],
+{ stdio: 'ignore' });
+const certificate = readFileSync(tlsCert);
 const receipt = JSON.parse(readFileSync('dist/release-revision.json', 'utf8'));
 assert.match(receipt.revision, /^[0-9a-f]{40}$/);
 assert.equal(receipt.revision, process.env.SOURCE_SHA, 'Browser QA must use the exact certified source revision');
 const report = { revision: receipt.revision, startedAt: new Date().toISOString(), scenarios: [], failures: [] };
 const server = spawn(process.execPath, ['scripts/qa-server.mjs'], {
-  env: { ...process.env, QA_PORT: '4181', QA_EVIDENCE_DIR: evidence }, stdio: ['ignore', 'pipe', 'pipe'],
+  env: { ...process.env, QA_PORT: '4181', QA_EVIDENCE_DIR: evidence, QA_TLS_KEY: tlsKey, QA_TLS_CERT: tlsCert },
+  stdio: ['ignore', 'pipe', 'pipe'],
 });
 let serverLog = '';
 server.stdout.on('data', data => { serverLog += data; });
 server.stderr.on('data', data => { serverLog += data; });
 server.on('error', error => { serverLog += error.message; });
+
+function fetchRevision() {
+  return new Promise((resolve, reject) => {
+    const request = get(`${origin}/release-revision.json`, { ca: certificate }, response => {
+      if (response.statusCode !== 200) {
+        response.resume();
+        reject(new Error(`QA receipt returned ${response.statusCode}`));
+        return;
+      }
+      let body = '';
+      response.setEncoding('utf8');
+      response.on('data', chunk => { body += chunk; });
+      response.on('error', reject);
+      response.on('end', () => { try { resolve(JSON.parse(body)); } catch (error) { reject(error); } });
+    });
+    request.setTimeout(1000, () => request.destroy(new Error('QA receipt timed out')));
+    request.on('error', reject);
+  });
+}
 
 async function audit(page, label) {
   const violations = await page.evaluate(async () => {
@@ -53,21 +81,22 @@ async function assertSelection(page, id) {
 try {
   for (let attempt = 0; attempt < 100; attempt++) {
     if (server.exitCode !== null) throw new Error(`QA server exited: ${serverLog}`);
-    try {
-      const response = await fetch(`${origin}/release-revision.json`);
-      if (response.ok) {
-        assert.equal((await response.json()).revision, receipt.revision);
-        break;
-      }
-    } catch { /* Wait only for this child server to bind. */ }
-    if (attempt === 99) throw new Error(`QA server did not start: ${serverLog}`);
-    await new Promise(resolve => setTimeout(resolve, 100));
+    let remoteReceipt;
+    try { remoteReceipt = await fetchRevision(); }
+    catch {
+      if (attempt === 99) throw new Error(`QA server did not start: ${serverLog}`);
+      await new Promise(resolve => setTimeout(resolve, 100));
+      continue;
+    }
+    assert.equal(remoteReceipt.revision, receipt.revision);
+    break;
   }
   for (const [name, engine] of Object.entries({ chromium, firefox, webkit })) {
     const browser = await engine.launch({ headless: true });
     try {
       for (const width of [340, 390, 768, 1440]) {
-        const context = await browser.newContext({ viewport: { width, height: 1000 }, reducedMotion: 'reduce' });
+        // Trust the ephemeral QA certificate only in this isolated browser context.
+        const context = await browser.newContext({ viewport: { width, height: 1000 }, reducedMotion: 'reduce', ignoreHTTPSErrors: true });
         const page = await context.newPage();
         const errors = [];
         page.on('pageerror', error => errors.push(error.message));
@@ -83,7 +112,18 @@ try {
           const vertical = width > 820;
           await expect(tabs).toHaveAttribute('aria-orientation', vertical ? 'vertical' : 'horizontal');
           for (const theme of ['light', 'dark']) {
-            if (theme === 'dark') await page.getByRole('button', { name: 'Switch to dark theme', exact: true }).click();
+            if (theme === 'dark') {
+              await page.getByRole('button', { name: 'Switch to dark theme', exact: true }).click();
+              await expect(page.locator('html')).toHaveClass(/\bdark\b/);
+            }
+            const themePaint = await page.evaluate(async () => {
+              const shell = document.querySelector('.site-shell');
+              // Observe the completed transition, without altering page styles.
+              await Promise.all(shell.getAnimations().map(animation => animation.finished.catch(() => {})));
+              const color = selector => getComputedStyle(document.querySelector(selector)).color;
+              return { ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
+                shell: color('.site-shell'), brand: color('.brand-copy strong'), program: color('.row-main strong') };
+            });
             await page.locator('#program-tab-learn').focus();
             await page.keyboard.press('Home');
             await assertSelection(page, 'learn');
@@ -119,7 +159,7 @@ try {
             }
             const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
             assert.ok(overflow <= 1, `${name}/${width}/${theme}: document horizontal overflow ${overflow}`);
-            report.scenarios.push({ browser: name, width, theme, keyboard: 'PASS', accessibility: 'PASS', overflow });
+            report.scenarios.push({ browser: name, width, theme, themePaint, keyboard: 'PASS', accessibility: 'PASS', overflow });
             console.log(JSON.stringify(report.scenarios.at(-1)));
           }
           assert.deepEqual(errors, [], `${name}/${width}: runtime errors`);
