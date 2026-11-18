@@ -49,6 +49,10 @@ button { font: inherit; }
 ::selection { background: rgba(55, 231, 141, .35); }
 
 .site-shell { min-height: 100vh; overflow: clip; background: var(--paper); color: var(--ink); transition: background .35s ease, color .35s ease; }
+/* Primary type follows the theme explicitly, including nested content. */
+.section-heading h2, .program-intro h3, .meta-card:not(.meta-card-1) h3,
+.standard-inner h2, .standard-grid strong, .standard-inner .text-link,
+.intent-inner > p { color: var(--ink); }
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; transform: translateY(-200%); border-radius: 999px; background: var(--ink); color: var(--paper); padding: .75rem 1rem; font-weight: 800; }
 .skip-link:focus { transform: translateY(0); }
 :where(a, button):focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
