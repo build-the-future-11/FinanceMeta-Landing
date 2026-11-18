@@ -9,9 +9,21 @@ export function growth(principal:number,monthly:number,annualPercent:number,year
 export function amortize(principal:number,annualPercent:number,years:number,extra:number){
  bounded(principal,1,1e9,'Loan principal');bounded(annualPercent,0,100,'Annual nominal rate');bounded(years,1,50,'Term');bounded(extra,0,1e7,'Extra monthly payment');
  if(!Number.isInteger(years))throw new Error('Term must be whole years.');
- const rate=annualPercent/1200,n=years*12,payment=rate===0?principal/n:principal*rate/(1-Math.pow(1+rate,-n));
+ const rate=annualPercent/1200,n=years*12,logRate=Math.log1p(rate),discount=-Math.expm1(-n*logRate);
+ // log1p/expm1 preserve positive rates too small for 1 + rate to distinguish.
+ // Form ratios before scaling so subnormal rates do not round away principal.
+ const payment=rate===0?principal/n:principal*(rate/discount);
  let balance=principal,totalInterest=0;const rows:ScenarioRow[]=[];
- for(let month=1;month<=n&&balance>1e-7;month++){const interest=balance*rate,paid=Math.min(balance+interest,payment+extra);balance=Math.max(0,balance+interest-paid);totalInterest+=interest;rows.push({period:month,balance,contributed:principal-balance,interest:totalInterest});}
+ for(let month=1;month<=n&&balance>0;month++){
+  const interest=balance*rate;
+  // Value the remaining scheduled payments directly. Repeatedly subtracting
+  // payment from balance + interest loses principal at high rates/long terms.
+  const scheduled=rate===0?principal*(n-month)/n:principal*(-Math.expm1(-(n-month)*logRate)/discount);
+  const additional=rate===0?extra*month:extra*(Math.expm1(month*logRate)/rate);
+  balance=Math.max(0,scheduled-additional);
+  if(balance<1e-7)balance=0;
+  totalInterest+=interest;rows.push({period:month,balance,contributed:principal-balance,interest:totalInterest});
+ }
  return {payment,totalInterest,months:rows.length,rows};
 }
 export function purchasingPower(amount:number,inflation:number,years:number){bounded(amount,0,1e12,'Amount');bounded(inflation,-50,100,'Annual inflation');bounded(years,0,100,'Years');return amount/Math.pow(1+inflation/100,years);}

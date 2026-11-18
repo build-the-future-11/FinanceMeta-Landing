@@ -1,9 +1,10 @@
+import { Directory } from './directory';
 import { getApplicationSearch } from './analytics';
 import { useEffect, useState } from 'react';
 import { chapters, episodes, events, people, projects, publicationPath, publications } from './content/research';
 import type { Chapter, Episode, Person, ResearchEvent } from './content/models';
 import { curricula, engineeringCurriculum } from './content/curricula';
-import { Directory, LinkButton, PageHeader, Section, StatusBadge, Tags } from './components';
+import { LinkButton, PageHeader, Section, StatusBadge, Tags } from './components';
 import { getMemberHandoffUrl, hasConfiguredMemberHandoff } from './member-handoff';
 import { applicationUrl, type ApplicationRoute } from './lib/application-routes';
 import { eventCalendar } from './lib/citations';

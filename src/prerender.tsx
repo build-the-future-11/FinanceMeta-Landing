@@ -5,12 +5,13 @@ import { UnionPage } from './union-page';
 import { Join } from './join-page';
 import { Course, Courses } from './course-pages';
 import { ReadingListPage } from './reading-list-page';
+import { ChallengesDirectory, ChallengePreparation } from './challenge-pages';
 import { Glossary, LearningPractice } from './learning-practice';
 import { FinanceTools, ProgramComparison } from './feature-pages';
 import { portfolioPageFor } from './portfolio-pages';
 import type { ComponentType } from 'react';
 import { Page } from './route-content';
-const routePages: Record<string, ComponentType> = {'/open/courses': Courses, '/open/courses/financial-systems': Course, '/': InstitutionHome, '/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
+const routePages: Record<string, ComponentType> = {'/open/courses': Courses, '/open/courses/financial-systems': Course, '/': InstitutionHome, '/union': UnionPage, '/join': Join, '/reading-list': ReadingListPage, '/challenges': ChallengesDirectory, '/challenges/prepare': ChallengePreparation, '/learn/glossary': Glossary, '/learn/practice': LearningPractice, '/open/tools': FinanceTools, '/programs/compare': ProgramComparison};
 for (const path of ['/projects',...Array.from({length:48},(_,index)=>`/projects/f4a-${String(index+1).padStart(2,'0')}`)]) {
  const page=portfolioPageFor(path);if(page)routePages[path]=page;
 }

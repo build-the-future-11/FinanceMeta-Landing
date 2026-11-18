@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { projects, publications, publicationPath } from './content/research';
-import { parseReadingList, readingListKey, type SavedEntry } from './lib/reading-list';
+import { createReadingListStore, readingListKey, type SavedEntry } from './lib/reading-list';
 
 export const readingCatalog = [
   ...projects.map(p => ({ href: `/research/projects/${p.slug}`, title: p.name, description: p.question, type: 'Research record', detail: p.status })),
@@ -11,29 +11,33 @@ type ReadingState = { entries: SavedEntry[]; ready: boolean; message: string; up
 const ReadingContext = createContext<ReadingState>({ entries: [], ready: false, message: '', update: () => {} });
 
 export function ReadingProvider({ children }: { children: ReactNode }) {
+  const [store] = useState(() => createReadingListStore(allowed, () => localStorage));
   const [entries, setEntries] = useState<SavedEntry[]>([]);
   const [ready, setReady] = useState(false);
   const [message, setMessage] = useState('');
   useEffect(() => {
     const restore = () => {
-      try { setEntries(parseReadingList(localStorage.getItem(readingListKey), allowed)); }
-      catch { setMessage('Browser storage is unavailable. Changes will last only while this page is open.'); }
+      const state = store.restore();
+      setEntries(state.entries);
+      setMessage(!state.storageAvailable ? 'Browser storage is unavailable. Changes will last only while this page is open.'
+        : state.pending ? 'Could not save to this browser. Changes will last only while this page is open.' : '');
       setReady(true);
     };
     restore();
     const sync = (event: StorageEvent) => { if (event.key === readingListKey || event.key === null) restore(); };
     window.addEventListener('storage', sync);
     return () => window.removeEventListener('storage', sync);
-  }, []);
+  }, [store]);
   useEffect(() => {
     if (message !== 'Reading list updated on this browser.') return;
     const timer = setTimeout(() => setMessage(''), 5000);
     return () => clearTimeout(timer);
   }, [message]);
   function update(next: SavedEntry[]) {
-    setEntries(next);
-    try { localStorage.setItem(readingListKey, JSON.stringify(next)); setMessage('Reading list updated on this browser.'); }
-    catch { setMessage('Could not save to this browser. Changes will last only while this page is open.'); }
+    const state = store.update(entries, next);
+    setEntries(state.entries);
+    setMessage(state.storageAvailable && !state.pending ? 'Reading list updated on this browser.'
+      : 'Could not save to this browser. Changes will last only while this page is open.');
   }
   return <ReadingContext.Provider value={{ entries, ready, message, update }}>{children}</ReadingContext.Provider>;
 }

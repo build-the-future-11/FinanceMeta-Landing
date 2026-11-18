@@ -16,8 +16,8 @@ test('canonical origins reject local addresses, credentials and accidental paths
  for(const value of ['http://financemeta.org','https://localhost','https://127.0.0.1','https://[::1]','https://user:password@financemeta.org','https://financemeta.org/path','https://financemeta.org/?query=1','https://financemeta.org/#fragment'])assert.throws(()=>publicSiteOrigin(value));
 });
 
-test('all 202 public routes have unique paths and emitted files',()=>{
- assert.equal(routes.length,202);assert.equal(publicPaths.size,routes.length);
+test('all 203 public routes have unique paths and emitted files',()=>{
+ assert.equal(routes.length,203);assert.equal(publicPaths.size,routes.length);
  for(const route of routes)assert.ok(htmlFor(route.path).includes('<title>'),route.path);
 });
 test('all public pages contain one H1 and meaningful metadata before JavaScript runs',()=>{
