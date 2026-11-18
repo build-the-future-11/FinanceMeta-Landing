@@ -56,7 +56,11 @@ async function audit(page, label) {
       runOnly: { type: 'tag', values: ['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa', 'best-practice'] },
     });
     return result.violations.map(({ id, impact, help, nodes }) => ({ id, impact, help,
-      nodes: nodes.map(({ target, failureSummary }) => ({ target, failureSummary })) }));
+      nodes: nodes.map(({ target, failureSummary }) => {
+        const element = typeof target[0] === 'string' ? document.querySelector(target[0]) : null;
+        return { target, failureSummary, computedColor: element ? getComputedStyle(element).color : null,
+          parentColor: element?.parentElement ? getComputedStyle(element.parentElement).color : null };
+      }) }));
   });
   assert.deepEqual(violations, [], `${label}: automated accessibility violations`);
 }
@@ -120,6 +124,8 @@ try {
               const shell = document.querySelector('.site-shell');
               // Observe the completed transition, without altering page styles.
               await Promise.all(shell.getAnimations().map(animation => animation.finished.catch(() => {})));
+              // WebKit can finish an animation before inherited colors have painted.
+              await new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve)));
               const color = selector => getComputedStyle(document.querySelector(selector)).color;
               return { ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
                 shell: color('.site-shell'), brand: color('.brand-copy strong'), program: color('.row-main strong') };
