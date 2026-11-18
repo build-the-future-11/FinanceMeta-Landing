@@ -245,6 +245,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(3px, -3px); }
   .program-explorer { grid-template-columns: 1fr; gap: 2rem; margin-top: 4rem; }
   .program-tabs { flex-direction: row; overflow-x: auto; border-top: 0; border-bottom: 1px solid var(--line); }
   .program-tabs button { min-width: 120px; grid-template-columns: 26px 1fr; border-bottom: 0; }
+  .program-tabs button:focus-visible { outline-offset: -3px; }
   .program-intro { grid-template-columns: 1fr; min-height: auto; }
   .program-intro h3 { grid-row: 1; }
   .program-row { grid-template-columns: 36px 1fr 24px; gap: .8rem; padding: 1.2rem 0; }
