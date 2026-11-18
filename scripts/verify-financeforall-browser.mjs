@@ -124,6 +124,7 @@ try {
               return { ink: getComputedStyle(document.documentElement).getPropertyValue('--ink').trim(),
                 shell: color('.site-shell'), brand: color('.brand-copy strong'), program: color('.row-main strong') };
             });
+            console.log(JSON.stringify({ browser: name, width, theme, themePaint, checkpoint: 'theme-settled' }));
             await page.locator('#program-tab-learn').focus();
             await page.keyboard.press('Home');
             await assertSelection(page, 'learn');

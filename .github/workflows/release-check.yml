@@ -43,6 +43,9 @@ jobs:
         run: npm run release:check
       - name: Audit public landing runtime dependencies
         run: npm run audit:prod
+      - name: Prepare the isolated browser profile directory
+        # GitHub mounts this directory with a different owner than the container user.
+        run: chown "$(id -u):$(id -g)" /github/home
       - name: Verify Finance for All browser acceptance
         timeout-minutes: 5
         run: node scripts/verify-financeforall-browser.mjs
