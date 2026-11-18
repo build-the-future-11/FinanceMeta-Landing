@@ -10,7 +10,7 @@
 
 :root {
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #132019;
+  color: var(--ink);
   background: #f4f5ef;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -48,8 +48,7 @@ a { color: inherit; text-decoration: none; }
 button { font: inherit; }
 ::selection { background: rgba(55, 231, 141, .35); }
 
-/* Apply theme foreground and background together; inherited text must not lag. */
-.site-shell { min-height: 100vh; overflow: clip; background: var(--paper); color: var(--ink); }
+.site-shell { min-height: 100vh; overflow: clip; background: var(--paper); color: var(--ink); transition: background .35s ease, color .35s ease; }
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; transform: translateY(-200%); border-radius: 999px; background: var(--ink); color: var(--paper); padding: .75rem 1rem; font-weight: 800; }
 .skip-link:focus { transform: translateY(0); }
 :where(a, button):focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
