@@ -86,7 +86,7 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
 }
 
 function Arrow() {
-  return <span className="arrow" aria-hidden="true">↗</span>;
+  return <svg className="arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M7 7h10v10" /></svg>;
 }
 
 function SpotlightPanel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
