@@ -7,7 +7,7 @@ import { createServer } from "vite";
 function openingTags(html, tag, role) {
   return [...html.matchAll(new RegExp("<" + tag + "\\b[^>]*>", "g"))]
     .map(([markup]) => Object.fromEntries(
-      [...markup.matchAll(/([\\w-]+)(?:="([^"]*)")?/g)]
+      [...markup.matchAll(/([A-Za-z0-9_-]+)(?:="([^"]*)")?/g)]
         .map(([, name, value]) => [name, value ?? ""])
     ))
     .filter(attributes => attributes.role === role);
@@ -31,6 +31,8 @@ test("program tabs expose persistent named panels and responsive keyboard orient
       const storage = new Map();
       globalThis.window = {
         location: { search: "?fm_qa=1" },
+        addEventListener() {},
+        removeEventListener() {},
         localStorage: { getItem: () => "light" },
         sessionStorage: {
           getItem: key => storage.get(key) ?? null,
