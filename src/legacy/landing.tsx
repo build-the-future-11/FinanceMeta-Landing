@@ -105,9 +105,21 @@ export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(0);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const programTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
   const [programTabsVertical, setProgramTabsVertical] = useState(() => !(window.matchMedia?.("(max-width: 820px)").matches ?? false));
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(max-width: 1100px)");
+    if (!media) return;
+    const closeDesktopMenu = () => {
+      if (!media.matches) setMenuOpen(false);
+    };
+    closeDesktopMenu();
+    media.addEventListener("change", closeDesktopMenu);
+    return () => media.removeEventListener("change", closeDesktopMenu);
+  }, []);
 
   useEffect(() => {
     const media = window.matchMedia?.("(max-width: 820px)");
@@ -145,7 +157,13 @@ export function App() {
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <header className="site-header">
+      <header className="site-header" onKeyDown={(event) => {
+        if (menuOpen && event.key === "Escape") {
+          event.preventDefault();
+          setMenuOpen(false);
+          menuButton.current?.focus();
+        }
+      }}>
         <div className="header-inner">
           <a href="#top" aria-label="Finance for All home"><BrandMark /></a>
           <nav className="desktop-nav" aria-label="Primary navigation">
@@ -163,7 +181,7 @@ export function App() {
             ) : (
               <a className="header-portal" data-cta-id="header-get-involved" href="#join">Get involved <Arrow /></a>
             )}
-            <button className="menu-button" type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-controls="mobile-menu"><span /><span /></button>
+            <button ref={menuButton} className="menu-button" type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-controls="mobile-menu"><span /><span /></button>
           </div>
         </div>
         <AnimatePresence>
