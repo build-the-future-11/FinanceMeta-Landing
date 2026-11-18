@@ -107,7 +107,16 @@ export function App() {
   const [activeGroup, setActiveGroup] = useState(0);
   const programTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
-  const active = PROGRAM_GROUPS[activeGroup];
+  const [programTabsVertical, setProgramTabsVertical] = useState(() => !(window.matchMedia?.("(max-width: 820px)").matches ?? false));
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(max-width: 820px)");
+    if (!media) return;
+    const updateOrientation = () => setProgramTabsVertical(!media.matches);
+    updateOrientation();
+    media.addEventListener("change", updateOrientation);
+    return () => media.removeEventListener("change", updateOrientation);
+  }, []);
 
   const moveProgramTab = (key: string) => {
     const lastIndex = PROGRAM_GROUPS.length - 1;
@@ -115,9 +124,9 @@ export function App() {
       ? 0
       : key === "End"
         ? lastIndex
-        : key === "ArrowRight"
+        : key === "ArrowRight" || key === "ArrowDown"
           ? (activeGroup + 1) % PROGRAM_GROUPS.length
-          : key === "ArrowLeft"
+          : key === "ArrowLeft" || key === "ArrowUp"
             ? (activeGroup - 1 + PROGRAM_GROUPS.length) % PROGRAM_GROUPS.length
             : activeGroup;
     setActiveGroup(nextIndex);
@@ -214,18 +223,21 @@ export function App() {
           </div>
 
           <div className="program-explorer">
-            <div className="program-tabs" role="tablist" aria-label="Program pathways">
+            <div className="program-tabs" role="tablist" aria-label="Program pathways" aria-orientation={programTabsVertical ? "vertical" : "horizontal"}>
               {PROGRAM_GROUPS.map((group, index) => (
                 <button
                   key={group.id}
                   ref={(element) => { programTabs.current[index] = element; }}
                   type="button"
                   role="tab"
+                  id={`program-tab-${group.id}`}
+                  aria-controls={`program-panel-${group.id}`}
                   tabIndex={activeGroup === index ? 0 : -1}
                   aria-selected={activeGroup === index}
                   onClick={() => setActiveGroup(index)}
                   onKeyDown={(event) => {
-                    if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
+                    const directionKeys = programTabsVertical ? ["ArrowDown", "ArrowUp"] : ["ArrowRight", "ArrowLeft"];
+                    if ([...directionKeys, "Home", "End"].includes(event.key)) {
                       event.preventDefault();
                       moveProgramTab(event.key);
                     }
@@ -236,14 +248,22 @@ export function App() {
                 </button>
               ))}
             </div>
-            <div className="program-stage" role="tabpanel">
-              <AnimatePresence mode="wait">
-                <motion.div key={active.id} initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .28 }}>
-                  <div className="program-intro"><p>{active.copy}</p><h3>{active.title}</h3></div>
+            {PROGRAM_GROUPS.map((group, index) => (
+              <div
+                key={group.id}
+                className="program-stage"
+                id={`program-panel-${group.id}`}
+                role="tabpanel"
+                aria-labelledby={`program-tab-${group.id}`}
+                hidden={activeGroup !== index}
+                tabIndex={0}
+              >
+                <motion.div initial={false} animate={activeGroup === index ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 12 }} transition={{ duration: prefersReducedMotion ? 0 : .28 }}>
+                  <div className="program-intro"><p>{group.copy}</p><h3>{group.title}</h3></div>
                   <div className="program-list">
-                    {active.programs.map((program, index) => (
+                    {group.programs.map((program, programIndex) => (
                       <a key={program.title} href={getMemberPublicUrl(program.path, "#programs")} className="program-row">
-                        <span className="row-number">0{index + 1}</span>
+                        <span className="row-number">0{programIndex + 1}</span>
                         <span className="row-main"><strong>{program.title}</strong><small>{program.description}</small></span>
                         <span className={`status status-${program.status.toLowerCase().replace(" ", "-")}`}>{program.status}</span>
                         <Arrow />
@@ -251,8 +271,8 @@ export function App() {
                     ))}
                   </div>
                 </motion.div>
-              </AnimatePresence>
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 
