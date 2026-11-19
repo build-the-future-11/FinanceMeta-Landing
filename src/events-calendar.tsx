@@ -1,5 +1,6 @@
+import { Directory } from './directory';
 import { useEffect, useState } from 'react';
-import { Directory, EventCard, LinkButton, PageHeader, Section } from './components';
+import { EventCard, LinkButton, PageHeader, Section } from './components';
 import { events } from './content/research';
 export function EventsCalendar() {
   const [month, setMonth] = useState('');

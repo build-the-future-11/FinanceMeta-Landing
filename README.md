@@ -48,6 +48,15 @@ npm run release:check
 npm run audit:prod
 ```
 
+Tailwind 4 runs through `@tailwindcss/postcss`. Only `src/legacy/index.css`
+imports its theme, preflight and utilities. That entry explicitly loads
+`tailwind.config.js`, retaining its existing source list, brand colors and
+class-based dark mode. The research site's native CSS remains separate.
+Legacy border, placeholder and button defaults are retained explicitly in the
+legacy base layer. Autoprefixer is retained for the research site's native CSS
+entries, which do not pass through Tailwind's compiler. The stylesheet
+compilation contracts run in `npm test`.
+
 The current improvement checklist is in [docs/WEBSITE_STATE.md](docs/WEBSITE_STATE.md), with verification and remaining operational work in [the 16 October completion record](docs/WEBSITE_COMPLETION_2026-10-16.md). Historical release results are retained in [FINAL_RELEASE_REPORT.md](FINAL_RELEASE_REPORT.md). Each report describes its own source snapshot; local completion does not establish production deployment.
 
 Workspace-only database verification requires the portal sibling and `npm install --prefix .scratch/feature-db --no-save @electric-sql/pglite@0.5.8`, then `node scripts/test-feature-database.mjs`. It uses an isolated PostgreSQL engine with service fixtures; it does not certify hosted Supabase. Standalone portal CI runs its SQL authorization suites using Supabase PostgreSQL.

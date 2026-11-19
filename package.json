@@ -31,21 +31,23 @@
     "check:local": "npm run source:check && npm run accessibility:check && npm run funnel:check && npm run lint && npm run build:dev && npm test"
   },
   "dependencies": {
-    "framer-motion": "^14.4.0",
+    "framer-motion": "^14.13.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
   },
   "devDependencies": {
+    "@playwright/test": "1.65.1",
     "@resvg/resvg-js": "2.6.2",
-    "@types/node": "26.6.5",
+    "@tailwindcss/postcss": "4.3.5",
+    "@types/node": "26.6.6",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
-    "autoprefixer": "^10.6.1",
+    "autoprefixer": "^10.6.2",
     "axe-core": "4.14.0",
-    "postcss": "^8.5.31",
-    "tailwindcss": "^3.3.3",
+    "postcss": "^8.5.32",
+    "tailwindcss": "^4.3.5",
     "typescript": "^7.0.2",
-    "vite": "^8.3.4"
+    "vite": "^8.3.8"
   },
   "type": "module",
   "overrides": {

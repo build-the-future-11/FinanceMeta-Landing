@@ -1,10 +1,16 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss" source(none);
+@config "../../tailwind.config.js";
+
+/* Preserve the established form and border defaults across the v4 preflight. */
+@layer base {
+  *, ::before, ::after, ::backdrop, ::file-selector-button { border-color: #e5e7eb; }
+  input::placeholder, textarea::placeholder { color: #9ca3af; }
+  button, [role="button"] { cursor: pointer; }
+}
 
 :root {
   font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #132019;
+  color: var(--ink);
   background: #f4f5ef;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -43,9 +49,15 @@ button { font: inherit; }
 ::selection { background: rgba(55, 231, 141, .35); }
 
 .site-shell { min-height: 100vh; overflow: clip; background: var(--paper); color: var(--ink); transition: background .35s ease, color .35s ease; }
+/* Primary type follows the theme explicitly, including nested content. */
+.section-heading h2, .program-intro h3, .meta-card:not(.meta-card-1) h3,
+.standard-inner h2, .standard-grid strong, .standard-inner .text-link,
+.intent-inner > p { color: var(--ink); }
 .skip-link { position: fixed; top: 1rem; left: 1rem; z-index: 100; transform: translateY(-200%); border-radius: 999px; background: var(--ink); color: var(--paper); padding: .75rem 1rem; font-weight: 800; }
 .skip-link:focus { transform: translateY(0); }
 :where(a, button):focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.program-stage:focus-visible { outline: 3px solid var(--cobalt); outline-offset: 3px; }
+.program-stage[hidden] { display: none; }
 #main-content:focus { outline: none; }
 
 .site-header { position: sticky; top: 0; z-index: 50; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter: blur(20px); }
@@ -57,7 +69,7 @@ button { font: inherit; }
 .brand-symbol i:nth-child(2) { height: 15px; }
 .brand-symbol i:nth-child(3) { height: 21px; }
 .brand-copy { display: flex; flex-direction: column; line-height: 1; }
-.brand-copy strong { font-size: .96rem; letter-spacing: -.02em; }
+.brand-copy strong { color: var(--ink); font-size: .96rem; letter-spacing: -.02em; }
 .brand-copy small { margin-top: .35rem; color: var(--muted); font-size: .65rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
 .desktop-nav { display: flex; gap: 2rem; align-items: center; font-size: .83rem; font-weight: 700; }
 .desktop-nav a { position: relative; padding: .45rem 0; color: var(--muted); transition: color .2s ease; }
@@ -68,11 +80,12 @@ button { font: inherit; }
 .theme-button, .menu-button { display: grid; place-items: center; width: 42px; height: 42px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; transition: background .2s ease, transform .2s ease; }
 .theme-button:hover { background: var(--paper-deep); transform: rotate(9deg); }
 .header-portal { display: inline-flex; align-items: center; gap: .7rem; border-radius: 999px; background: var(--ink); color: var(--paper); padding: .75rem 1.05rem; font-size: .78rem; font-weight: 800; }
-.arrow { display: inline-block; font-size: 1.05em; transition: transform .25s ease; }
+.arrow { display: inline-block; width: 1em; height: 1em; flex-shrink: 0; font-size: 1.05em; transition: transform .25s ease; }
 a:hover .arrow, button:hover .arrow { transform: translate(3px, -3px); }
 .menu-button { display: none; padding: 0 11px; gap: 5px; align-content: center; }
 .menu-button span { display: block; width: 17px; height: 1px; background: currentColor; }
-.mobile-menu { display: none; overflow: hidden; }
+.mobile-menu { display: none; min-height: 0; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain; }
+.mobile-menu a:focus-visible { outline-offset: -4px; }
 
 .hero-section { position: relative; border-bottom: 1px solid var(--line); }
 .hero-grid { position: absolute; inset: 0; opacity: .36; background-image: linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px); background-size: 72px 72px; mask-image: radial-gradient(circle at 73% 40%, #000, transparent 55%); }
@@ -143,7 +156,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(3px, -3px); }
 .program-row:hover { padding: 0 1rem; background: var(--surface); }
 .row-number { color: var(--forest); font-size: .68rem; font-weight: 800; }
 .row-main { display: flex; flex-direction: column; gap: .4rem; }
-.row-main strong { font-size: 1.06rem; }
+.row-main strong { color: var(--ink); font-size: 1.06rem; }
 .row-main small { max-width: 650px; color: var(--muted); font-size: .84rem; line-height: 1.5; }
 .status { border: 1px solid var(--line); border-radius: 999px; padding: .38rem .65rem; color: var(--muted); font-size: .63rem; font-weight: 850; white-space: nowrap; }
 .status-open-resource { border-color: rgba(13,91,59,.25); background: rgba(55,231,141,.1); color: var(--forest); }
@@ -206,8 +219,10 @@ a:hover .arrow, button:hover .arrow { transform: translate(3px, -3px); }
 .footer-bottom { display: flex; justify-content: space-between; gap: 1rem; padding-top: 1.5rem; color: var(--muted); font-size: .68rem; }
 
 @media (max-width: 1100px) {
+  /* Keep every navigation link reachable in short or highly zoomed viewports. */
+  .site-header { display: flex; flex-direction: column; max-height: 100vh; max-height: 100dvh; }
   .desktop-nav { display: none; }
-  .header-inner { grid-template-columns: 1fr auto; }
+  .header-inner { grid-template-columns: 1fr auto; flex: none; }
   .menu-button { display: grid; }
   .mobile-menu { display: grid; width: min(100% - 48px, 1460px); margin: 0 auto; }
   .mobile-menu a { display: flex; justify-content: space-between; border-top: 1px solid var(--line); padding: 1rem 0; font-size: 1rem; font-weight: 800; }
@@ -234,6 +249,7 @@ a:hover .arrow, button:hover .arrow { transform: translate(3px, -3px); }
   .program-explorer { grid-template-columns: 1fr; gap: 2rem; margin-top: 4rem; }
   .program-tabs { flex-direction: row; overflow-x: auto; border-top: 0; border-bottom: 1px solid var(--line); }
   .program-tabs button { min-width: 120px; grid-template-columns: 26px 1fr; border-bottom: 0; }
+  .program-tabs button:focus-visible { outline-offset: -3px; }
   .program-intro { grid-template-columns: 1fr; min-height: auto; }
   .program-intro h3 { grid-row: 1; }
   .program-row { grid-template-columns: 36px 1fr 24px; gap: .8rem; padding: 1.2rem 0; }

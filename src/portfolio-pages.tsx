@@ -1,4 +1,5 @@
-import { Arrow, CTA, Directory, Section, StatusBadge } from './components';
+import { Directory } from './directory';
+import { Arrow, CTA, Section, StatusBadge } from './components';
 import { portfolioMetadata, portfolioProjects, portfolioSlug, portfolioStateLabel } from './content/portfolio';
 import type { PortfolioProject } from './content/portfolio';
 import type { DirectoryItem } from './lib/directory';

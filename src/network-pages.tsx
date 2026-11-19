@@ -1,4 +1,5 @@
-import { Arrow, Directory, LinkButton, PageHeader, Section, StatusBadge } from './components';
+import { Directory } from './directory';
+import { Arrow, LinkButton, PageHeader, Section, StatusBadge } from './components';
 import catalog from './content/network-catalog.json';
 import { EventsCalendar } from './events-calendar';
 import { cohorts } from './content/research';

@@ -86,7 +86,7 @@ function BrandMark({ compact = false }: { compact?: boolean }) {
 }
 
 function Arrow() {
-  return <span className="arrow" aria-hidden="true">↗</span>;
+  return <svg className="arrow" aria-hidden="true" focusable="false" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><path d="M7 17 17 7M7 7h10v10" /></svg>;
 }
 
 function SpotlightPanel({ children, className = "" }: { children: React.ReactNode; className?: string }) {
@@ -105,9 +105,30 @@ export function App() {
   const [darkMode, setDarkMode] = useState(initialDarkMode);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeGroup, setActiveGroup] = useState(0);
+  const menuButton = useRef<HTMLButtonElement>(null);
   const programTabs = useRef<(HTMLButtonElement | null)[]>([]);
   const prefersReducedMotion = useReducedMotion();
-  const active = PROGRAM_GROUPS[activeGroup];
+  const [programTabsVertical, setProgramTabsVertical] = useState(() => !(window.matchMedia?.("(max-width: 820px)").matches ?? false));
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(max-width: 1100px)");
+    if (!media) return;
+    const closeDesktopMenu = () => {
+      if (!media.matches) setMenuOpen(false);
+    };
+    closeDesktopMenu();
+    media.addEventListener("change", closeDesktopMenu);
+    return () => media.removeEventListener("change", closeDesktopMenu);
+  }, []);
+
+  useEffect(() => {
+    const media = window.matchMedia?.("(max-width: 820px)");
+    if (!media) return;
+    const updateOrientation = () => setProgramTabsVertical(!media.matches);
+    updateOrientation();
+    media.addEventListener("change", updateOrientation);
+    return () => media.removeEventListener("change", updateOrientation);
+  }, []);
 
   const moveProgramTab = (key: string) => {
     const lastIndex = PROGRAM_GROUPS.length - 1;
@@ -115,13 +136,15 @@ export function App() {
       ? 0
       : key === "End"
         ? lastIndex
-        : key === "ArrowRight"
+        : key === "ArrowRight" || key === "ArrowDown"
           ? (activeGroup + 1) % PROGRAM_GROUPS.length
-          : key === "ArrowLeft"
+          : key === "ArrowLeft" || key === "ArrowUp"
             ? (activeGroup - 1 + PROGRAM_GROUPS.length) % PROGRAM_GROUPS.length
             : activeGroup;
     setActiveGroup(nextIndex);
-    programTabs.current[nextIndex]?.focus();
+    const nextTab = programTabs.current[nextIndex];
+    nextTab?.focus();
+    nextTab?.scrollIntoView({ block: "nearest", inline: "nearest" });
   };
 
   useEffect(() => {
@@ -136,7 +159,13 @@ export function App() {
   return (
     <div className="site-shell">
       <a className="skip-link" href="#main-content">Skip to main content</a>
-      <header className="site-header">
+      <header className="site-header" onKeyDown={(event) => {
+        if (menuOpen && event.key === "Escape") {
+          event.preventDefault();
+          setMenuOpen(false);
+          menuButton.current?.focus();
+        }
+      }}>
         <div className="header-inner">
           <a href="#top" aria-label="Finance for All home"><BrandMark /></a>
           <nav className="desktop-nav" aria-label="Primary navigation">
@@ -154,7 +183,7 @@ export function App() {
             ) : (
               <a className="header-portal" data-cta-id="header-get-involved" href="#join">Get involved <Arrow /></a>
             )}
-            <button className="menu-button" type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-controls="mobile-menu"><span /><span /></button>
+            <button ref={menuButton} className="menu-button" type="button" aria-label={menuOpen ? "Close navigation" : "Open navigation"} onClick={() => setMenuOpen((value) => !value)} aria-expanded={menuOpen} aria-controls="mobile-menu"><span /><span /></button>
           </div>
         </div>
         <AnimatePresence>
@@ -214,18 +243,21 @@ export function App() {
           </div>
 
           <div className="program-explorer">
-            <div className="program-tabs" role="tablist" aria-label="Program pathways">
+            <div className="program-tabs" role="tablist" aria-label="Program pathways" aria-orientation={programTabsVertical ? "vertical" : "horizontal"}>
               {PROGRAM_GROUPS.map((group, index) => (
                 <button
                   key={group.id}
                   ref={(element) => { programTabs.current[index] = element; }}
                   type="button"
                   role="tab"
+                  id={`program-tab-${group.id}`}
+                  aria-controls={`program-panel-${group.id}`}
                   tabIndex={activeGroup === index ? 0 : -1}
                   aria-selected={activeGroup === index}
                   onClick={() => setActiveGroup(index)}
                   onKeyDown={(event) => {
-                    if (["ArrowRight", "ArrowLeft", "Home", "End"].includes(event.key)) {
+                    const directionKeys = programTabsVertical ? ["ArrowDown", "ArrowUp"] : ["ArrowRight", "ArrowLeft"];
+                    if ([...directionKeys, "Home", "End"].includes(event.key)) {
                       event.preventDefault();
                       moveProgramTab(event.key);
                     }
@@ -236,14 +268,22 @@ export function App() {
                 </button>
               ))}
             </div>
-            <div className="program-stage" role="tabpanel">
-              <AnimatePresence mode="wait">
-                <motion.div key={active.id} initial={prefersReducedMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -8 }} transition={{ duration: .28 }}>
-                  <div className="program-intro"><p>{active.copy}</p><h3>{active.title}</h3></div>
+            {PROGRAM_GROUPS.map((group, index) => (
+              <div
+                key={group.id}
+                className="program-stage"
+                id={`program-panel-${group.id}`}
+                role="tabpanel"
+                aria-labelledby={`program-tab-${group.id}`}
+                hidden={activeGroup !== index}
+                tabIndex={0}
+              >
+                <motion.div initial={false} animate={activeGroup === index ? { opacity: 1, y: 0 } : { opacity: 0, y: prefersReducedMotion ? 0 : 12 }} transition={{ duration: prefersReducedMotion ? 0 : .28 }}>
+                  <div className="program-intro"><p>{group.copy}</p><h3>{group.title}</h3></div>
                   <div className="program-list">
-                    {active.programs.map((program, index) => (
+                    {group.programs.map((program, programIndex) => (
                       <a key={program.title} href={getMemberPublicUrl(program.path, "#programs")} className="program-row">
-                        <span className="row-number">0{index + 1}</span>
+                        <span className="row-number">0{programIndex + 1}</span>
                         <span className="row-main"><strong>{program.title}</strong><small>{program.description}</small></span>
                         <span className={`status status-${program.status.toLowerCase().replace(" ", "-")}`}>{program.status}</span>
                         <Arrow />
@@ -251,8 +291,8 @@ export function App() {
                     ))}
                   </div>
                 </motion.div>
-              </AnimatePresence>
-            </div>
+              </div>
+            ))}
           </div>
         </section>
 

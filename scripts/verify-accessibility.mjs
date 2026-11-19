@@ -39,9 +39,11 @@ for (const marker of styleMarkers) {
 console.log("FinanceMeta accessibility check passed: keyboard, mobile navigation, theme, and reduced-motion contracts are present.");
 
 const newComponents=readFileSync('src/components.tsx','utf8');
+const directory=readFileSync('src/directory.tsx','utf8');
 const newSite=readFileSync('src/site.tsx','utf8');
 const newStyles=readFileSync('src/index.css','utf8');
-for(const marker of ['aria-expanded={mobile}',"e.key==='Escape'",'aria-label="Mobile navigation"','aria-pressed={dark}','htmlFor=','aria-live="polite"'])if(!newComponents.includes(marker))throw new Error(`Research accessibility contract missing ${marker}`);
+for(const marker of ['aria-expanded={mobile}',"e.key==='Escape'",'aria-label="Mobile navigation"','aria-pressed={dark}'])if(!newComponents.includes(marker))throw new Error(`Research accessibility contract missing ${marker}`);
+for(const marker of ['htmlFor=','aria-live="polite"'])if(!directory.includes(marker))throw new Error(`Directory accessibility contract missing ${marker}`);
 for(const marker of ['href="#main-content"','tabIndex={-1}'])if(!newSite.includes(marker))throw new Error(`Research landmark contract missing ${marker}`);
 for(const marker of [':focus-visible','prefers-reduced-motion','scroll-behavior:auto!important'])if(!newStyles.includes(marker))throw new Error(`Research style contract missing ${marker}`);
 console.log('Research navigation, forms, live result counts, focus, and reduced-motion source contracts passed.');
