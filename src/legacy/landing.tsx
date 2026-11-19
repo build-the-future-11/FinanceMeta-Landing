@@ -142,7 +142,9 @@ export function App() {
             ? (activeGroup - 1 + PROGRAM_GROUPS.length) % PROGRAM_GROUPS.length
             : activeGroup;
     setActiveGroup(nextIndex);
-    programTabs.current[nextIndex]?.focus();
+    const nextTab = programTabs.current[nextIndex];
+    nextTab?.focus();
+    nextTab?.scrollIntoView({ block: "nearest", inline: "nearest" });
   };
 
   useEffect(() => {
